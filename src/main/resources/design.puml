@@ -1,0 +1,84 @@
+@startuml
+abstract class Component {
+    - name : String
+    - ID : String
+    # components : Component
+    + {abstract} getTotalTime() : Time
+    + getName()
+    + getID() : String
+}
+
+class Project {
+    + getTotalTime() : Time
+}
+
+class Task {
+    + getTotalTime() : Time
+    + startTime()
+    + stopTime()
+}
+
+class Timer {
+    - innerTimer : java.util.Timertask
+    - days: int
+    - minutes : int
+    - seconds : int
+    - passedTime : long
+    + Timer(innerTimer : long )
+    + startCounting()
+    + stopCounting()
+    + parseToHumanReading()
+}
+
+class JsonParser {
+    - jsonFileName : String
+    + JsonParser(fileName : String)
+    + getJsonFileName() : String
+    + setJsonFileName() : Sting
+    + getProjectsFromJson() : Project
+    + storeProjectsIntoJson()
+    + storeProjectsIntoJson(fileName : String)
+}
+
+class Main {
+    - readFromFile : boolean
+    - fileName : String
+    + {static} main()
+    - parseArgs(args : List args)
+}
+
+class Menu {
+    - loadFromFile : boolean
+    - fileName : String
+    - currentProjects : Component
+    - currentTask : Task
+    + Menu(loadFromFile : boolean,fileName : String)
+    + createNewProject() : Project
+    + createTask()
+    + changeProject()
+    + returnToMenu()
+    + addProjectToCurrentOne()
+    + saveToJson(fileName : String)
+    + loadFromJson(fileName : String))
+}
+
+note left of Project {
+    getTotalTime must call to each "getTotalTime" method of Task
+}
+
+note left of Task {
+    getTotalTime should call to "parseToHumanReading" Timer's method
+}
+Project --|> Component
+Task --|> Component
+JsonParser "version: 20210307" --> org.json.json
+Timer --> java.util.Timertask
+Timer --> java.util.Timer
+Main --> Menu
+Menu --> JsonParser
+JsonParser --> Project
+Project "1..n" --> Task
+Timer --> Task
+
+Project "1..n" --> Project
+@enduml
