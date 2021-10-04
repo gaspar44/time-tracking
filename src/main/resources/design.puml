@@ -13,6 +13,7 @@ class Project {
 }
 
 class Task {
+    - timer : Timer
     + getTotalTime() : Time
     + startTime()
     + stopTime()
@@ -56,6 +57,7 @@ class Menu {
     + createNewProject() : Project
     + createTask()
     + changeProject()
+    + getTaskTime()
     + returnToMenu()
     + addProjectToCurrentOne()
     + saveToJson(fileName : String)
@@ -76,9 +78,8 @@ Timer --> java.util.Timertask
 Timer --> java.util.Timer
 Main --> Menu
 Menu --> JsonParser
-JsonParser --> Project
+JsonParser *--> Component
 Project "1..n" --> Task
 Timer --> Task
-
-Project "1..n" --> Project
+Menu --> Component
 @enduml
