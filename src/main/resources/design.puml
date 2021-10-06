@@ -79,7 +79,7 @@ Timer --> java.util.Timer
 Main --> Menu
 Menu --> JsonParser
 JsonParser *--> Component
-Project "1..n" --> Task
+Project "0..n" o--> Component
 Timer --> Task
 Menu --> Component
 @enduml
