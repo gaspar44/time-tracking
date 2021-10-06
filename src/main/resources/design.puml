@@ -8,6 +8,22 @@ abstract class Component {
     + getID() : String
 }
 
+abstract class Observable{
+
++ addObserver(ob : Observer)
++ deleterObserver(ob : Observer)
++ setChanged()
++ notifyObservers(arg0: Observable, arg1: Object)
+
+}
+
+interface Observer {
+
++ update(arg0: Observable, arg1: Object)
+
+}
+
+
 class Project {
     + getTotalTime() : Time
 }
@@ -74,12 +90,18 @@ note left of Task {
 Project --|> Component
 Task --|> Component
 JsonParser "version: 20210307" --> org.json.json
-Timer --> java.util.Timertask
-Timer --> java.util.Timer
+java.util.Timertask ..|> Observer
+java.util.Timer ..|> Observer
 Main --> Menu
 Menu --> JsonParser
 JsonParser *--> Component
 Project "0..n" o--> Component
 Timer --> Task
 Menu --> Component
+Observable "1..n "*--> Observer
+Timer --|> Observable
+
+
+
+
 @enduml
