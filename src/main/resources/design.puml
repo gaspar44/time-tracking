@@ -6,6 +6,17 @@ abstract class Component {
     + {abstract} getTotalTime() : Time
     + getName()
     + getID() : String
+    + accept(visitor : JsonParer)
+}
+
+class TimeInterval  implements java.util.Observer {
+    - startTime : Time
+    - endTime : Time
+    + getTime() : Long
+    + getStartTime() : Time
+    + getEndTime() : Time
+    + startTime()
+    + stopTime()
 }
 
 abstract class java.util.Observable{
@@ -25,10 +36,12 @@ interface java.util.Observer {
 
 
 class Project extends Component{
-    + getTotalTime() : Time
+    + getTotalTime() : TimeInterval
 }
 
-class Task extends Component implements java.util.Observer{
+class Task extends Component {
+    - timeIntervals : List<TimeInterval>
+    - timer : Timer
     + getTotalTime() : Time
     + startTime()
     + stopTime()
@@ -36,10 +49,12 @@ class Task extends Component implements java.util.Observer{
 
 class Timer {
     - innerTimer : java.util.Timertask
+    - timeInterval : TimeInterval
     - days: int
     - minutes : int
     - seconds : int
     - passedTime : long
+    + getInstance() : Timer
     + Timer(innerTimer : long )
     + startCounting()
     + stopCounting()
@@ -54,6 +69,7 @@ class JsonParser {
     + getProjectsFromJson() : Project
     + storeProjectsIntoJson()
     + storeProjectsIntoJson(fileName : String)
+    + VisitComponent(component : Component)
 }
 
 class Main {
@@ -72,6 +88,8 @@ interface MenuInterface {
     + addProjectToCurrentOne()
     + saveToJson(fileName : String)
     + loadFromJson(fileName : String))
+    + start()
+    + exit()
 }
 
 class Menu implements MenuInterface {
@@ -92,6 +110,7 @@ Menu --> JsonParser
 JsonParser *--> Component
 Project "0..n" o--> Component
 MenuInterface --> Component
+TimeInterval o--> "n..1" Task
 java.util.Observable "1..n " o--> java.util.Observer
 Timer --|> java.util.Observable
 @enduml
