@@ -104,6 +104,10 @@ note top of Task {
     getTotalTime should call to "parseToHumanReading" Timer's method
 }
 
+note top of Timer {
+    must be a singleton
+}
+
 JsonParser --> "version: 20210307" org.json.json
 Main --> MenuInterface
 ConsoleMenu --> JsonParser
