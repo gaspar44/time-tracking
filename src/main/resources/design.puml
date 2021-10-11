@@ -83,17 +83,17 @@ interface MenuInterface {
     + createNewProject() : Project
     + createTask()
     + changeProject()
-    + getTaskTime()
+    + getTaskTime() : long
     + returnToMenu()
     + addProjectToCurrentOne()
-    + saveToJson(fileName : String)
+    + saveToJson(fileName : String) : boolean
     + loadFromJson(fileName : String))
     + start()
     + exit()
 }
 
-class Menu implements MenuInterface {
-    + Menu(loadFromFile : boolean,fileName : String)
+class ConsoleMenu implements MenuInterface {
+    + ConsoleMenu(loadFromFile : boolean,fileName : String)
     - loadFromFile : boolean
     - fileName : String
     - currentProjects : Component
@@ -106,7 +106,7 @@ note top of Task {
 
 JsonParser --> "version: 20210307" org.json.json
 Main --> MenuInterface
-Menu --> JsonParser
+ConsoleMenu --> JsonParser
 JsonParser *--> Component
 Project "0..n" o--> Component
 MenuInterface --> Component
