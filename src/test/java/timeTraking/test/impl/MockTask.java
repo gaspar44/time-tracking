@@ -33,7 +33,6 @@ public class MockTask extends Component {
 
   public void stopTime() {
     timeInterval.stopTime();
-    getTotalDuration();
     timeInterval = null;
   }
 
