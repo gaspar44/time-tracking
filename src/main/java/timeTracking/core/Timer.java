@@ -7,7 +7,7 @@ public class Timer extends Observable {
   private static java.util.Timer timer;
   private static TimerTask timerTask;
   private static List<Observer> timeIntervals;
-  private static long passedTime = 0;
+  private static final int TIMER_MILISENCONDS_PERIOD = 1000;
 
   public static Timer getInstance() {
     if (instance == null) {
@@ -22,34 +22,38 @@ public class Timer extends Observable {
     timerTask = new TimerTask() {
       @Override
       public void run() {
-        synchronized(this) {
-          passedTime++;
-        }
+        System.out.println("notifing observers...");
+        notifyObservers();
       }
     };
-
+    timer.scheduleAtFixedRate(timerTask,0,TIMER_MILISENCONDS_PERIOD);
   }
 
-  public synchronized void addObserver(Observer ob) {
+
+  @Override
+  public void notifyObservers() {
+    for (Observer ob: timeIntervals) {
+      ob.update(this,null);
+    }
+  }
+
+  public void addObserver(Observer ob) {
     if (ob == null) {
       return;
     }
     timeIntervals.add(ob);
   }
 
-  public synchronized void deleteObserver(Observer ob) {
+  public void deleteObserver(Observer ob) {
     timeIntervals.remove(ob);
-  }
-
-  public void startCounting() {
-    timer.scheduleAtFixedRate(timerTask,0,1000);
   }
 
   public void stopCounting() {
     timer.cancel();
   }
 
-  public long getPassedTime() {
-    return passedTime;
+  public List<Observer> getObservers() {
+    return this.timeIntervals;
   }
+
 }
