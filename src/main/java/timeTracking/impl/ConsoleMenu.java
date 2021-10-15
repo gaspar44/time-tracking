@@ -1,6 +1,6 @@
 package timeTracking.impl;
 
-import timeTracking.Project;
+import timeTracking.core.Project;
 import timeTracking.api.MenuInterface;
 
 public class ConsoleMenu implements MenuInterface {

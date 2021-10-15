@@ -1,4 +1,4 @@
-package timeTraking.test.impl;
+package timeTraking.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

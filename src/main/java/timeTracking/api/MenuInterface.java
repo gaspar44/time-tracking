@@ -1,6 +1,6 @@
 package timeTracking.api;
 
-import timeTracking.Project;
+import timeTracking.core.Project;
 
 public interface MenuInterface {
   Project createNewProject();

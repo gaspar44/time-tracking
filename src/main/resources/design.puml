@@ -12,9 +12,13 @@ abstract class Component {
 class TimeInterval  implements java.util.Observer {
     - startTime : Time
     - endTime : Time
+    - duration : long
     + getTime() : Long
+    + TimeInterval()
+    + update(ob : Observable, obj : Object )
     + getStartTime() : Time
     + getEndTime() : Time
+    + getCurrentDuration() : long
     + startTime()
     + stopTime()
 }
@@ -34,6 +38,10 @@ interface java.util.Observer {
 
 }
 
+interface Visitor {
+    visitComponent(component : Component)
+}
+
 
 class Project extends Component{
     + getTotalTime() : TimeInterval
@@ -50,18 +58,17 @@ class Task extends Component {
 class Timer {
     - innerTimer : java.util.Timertask
     - timeInterval : TimeInterval
-    - days: int
-    - minutes : int
-    - seconds : int
-    - passedTime : long
     + getInstance() : Timer
-    + Timer(innerTimer : long )
-    + startCounting()
-    + stopCounting()
+    + Timer()
     + parseToHumanReading()
+    + notifyObservers()
+    + addObserver(obj : Observer)
+    + deleteObserver (obj : Observer)
+    + stopCounting()
+    + getObserver() : List<Observer>
 }
 
-class JsonParser {
+class JsonParser implements Visitor{
     - jsonFileName : String
     + JsonParser(fileName : String)
     + getJsonFileName() : String
@@ -69,7 +76,7 @@ class JsonParser {
     + getProjectsFromJson() : Project
     + storeProjectsIntoJson()
     + storeProjectsIntoJson(fileName : String)
-    + VisitComponent(component : Component)
+    + visitComponent(component : Component)
 }
 
 class Main {

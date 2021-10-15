@@ -5,7 +5,7 @@ import java.util.*;
 public class Timer extends Observable {
   private static Timer instance;
   private static java.util.Timer timer;
-  private static TimerTask timerTask;
+  private static TimerTask innerTimer;
   private static List<Observer> timeIntervals;
   private static final int TIMER_MILISENCONDS_PERIOD = 1000;
 
@@ -19,14 +19,14 @@ public class Timer extends Observable {
   public Timer() {
     timeIntervals = new ArrayList<>();
     timer = new java.util.Timer();
-    timerTask = new TimerTask() {
+    innerTimer = new TimerTask() {
       @Override
       public void run() {
         System.out.println("notifing observers...");
         notifyObservers();
       }
     };
-    timer.scheduleAtFixedRate(timerTask,0,TIMER_MILISENCONDS_PERIOD);
+    timer.scheduleAtFixedRate(innerTimer,0,TIMER_MILISENCONDS_PERIOD);
   }
 
 
