@@ -2,11 +2,14 @@ package timeTracking.core;
 
 import timeTracking.api.Visitor;
 
-import java.util.List;
-
 public abstract class Component {
-  private String name;
-  protected List<Component> components;
+  protected String name;
+  protected Component father;
+
+  protected Component(String name, Component father){
+    this.father = father;
+    this.name = name;
+  }
 
   protected long getTotalTime() {
     return 0;
@@ -15,5 +18,4 @@ public abstract class Component {
   private void acceptVisitor(Visitor visitor) {
 
   }
-
 }
