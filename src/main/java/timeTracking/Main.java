@@ -9,6 +9,7 @@ public class Main {
 
     if (len % 2 != 0) {
       System.out.println("insuficient arguments");
+      System.out.println("usage: \n --save-to-json: Stores the tree at specified json.\n--read-from-json: Reads from specified file if not found a new one will be created");
       System.exit(1);
     }
 
