@@ -48,7 +48,20 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public long getTaskTime() {
-    return 0;
+    long time = actualTask.getTotalTime();
+    System.out.println("The time is: " + String.valueOf(time) + " seconds");
+    System.out.println("started time: " + actualTask.getStartedTime().toString());
+    Date actualTaskEndedTime = actualTask.getEndedTime();
+
+    if (actualTaskEndedTime == null) {
+      System.out.println("still working at it");
+    }
+
+    else {
+      System.out.println("ended time" + actualTask.getEndedTime().toString());
+    }
+
+    return time;
   }
 
   @Override
@@ -100,16 +113,8 @@ public class ConsoleMenu implements MenuInterface {
           System.out.println("to do...");
           break;
         case 5:
-          long time = actualTask.getTotalTime();
-          System.out.println("The time is: " + String.valueOf(time) + " seconds");
-          System.out.println("started time: " + actualTask.getStartedTime().toString());
-          Date actualTaskEndedTime = actualTask.getEndedTime();
-          if (actualTaskEndedTime == null) {
-            System.out.println("still working at it");
-          }
-          else {
-            System.out.println("ended time" + actualTask.getEndedTime().toString());
-          }
+            getTaskTime();
+            break;
         default:
           done = true;
           break;

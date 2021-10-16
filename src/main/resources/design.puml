@@ -2,7 +2,7 @@
 abstract class Component {
     - name : String
     - ID : String
-    # components : Component
+    # Component(name : String,father : Component)
     + {abstract} getTotalTime() : Time
     + getName()
     + getID() : String
@@ -44,6 +44,7 @@ interface Visitor {
 
 
 class Project extends Component{
+    - components : Component
     + getTotalTime() : TimeInterval
 }
 
@@ -87,8 +88,8 @@ class Main {
 }
 
 interface MenuInterface {
-    + createNewProject() : Project
-    + createTask()
+    + createNewProject(name: String) : Project
+    + createTask(name : String)
     + changeProject()
     + getTaskTime() : long
     + returnToMenu()
@@ -99,8 +100,15 @@ interface MenuInterface {
     + exit()
 }
 
+
 class ConsoleMenu implements MenuInterface {
-    + ConsoleMenu(loadFromFile : boolean,fileName : String)
+    - componentList : List<Component> ;
+    - actualProject : Project;
+    - actualTask : Task;
+    - readFromJson: String;
+    - storeToJson : String;
+    + ConsoleMenu(readFromFile : String ,storeToJson : String)
+    + ConsoleMenu(readFromFile : String)
     - loadFromFile : boolean
     - fileName : String
     - currentProjects : Component
@@ -113,6 +121,11 @@ note top of Task {
 
 note top of Timer {
     must be a singleton
+}
+
+note right of ConsoleMenu {
+    ConsoleMenu(readFromFile : String) calls ConsoleMenu(readFromFile,storeToJson)
+    using the same file to input or output
 }
 
 JsonParser --> "version: 20210307" org.json.json
