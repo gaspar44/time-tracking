@@ -3,12 +3,9 @@ package timeTraking.test.impl;
 import timeTracking.core.Component;
 import timeTracking.core.TimeInterval;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MockTask extends Component {
   private List<TimeInterval> timeIntervalList;
@@ -48,12 +45,14 @@ public class MockTask extends Component {
     return totalDuration;
   }
 
-  public Date parseTimeToHumanReading() throws ParseException {
-    SimpleDateFormat formarter = new SimpleDateFormat("dd-MM-yyyy");
-    TimeInterval firstTime = timeIntervalList.get(0);
-    Date startedTime = firstTime.getStartTime();
-    Instant start = Instant.parse(startedTime.toString());
-
-    return formarter.parse(String.valueOf(3));
+  public String parseTimeToHumanReading() throws Exception {
+    totalDuration = 0;
+    getTotalDuration();
+    long days = TimeUnit.SECONDS.toDays(totalDuration);
+    long hours = TimeUnit.SECONDS.toHours(totalDuration) - TimeUnit.DAYS.toHours(TimeUnit.SECONDS.toDays(totalDuration));
+    long minutes = TimeUnit.SECONDS.toMinutes(totalDuration) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(totalDuration));
+    long sec = TimeUnit.SECONDS.toSeconds(totalDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(totalDuration));
+    humanReadbleTimeDuration = (String.format("%d Days %d Hours %d Minutes %d Seconds", days, hours, minutes, sec));
+    return humanReadbleTimeDuration;
   }
 }

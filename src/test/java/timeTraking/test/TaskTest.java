@@ -2,7 +2,6 @@ package timeTraking.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import timeTraking.test.impl.MockTask;
 
@@ -49,10 +48,9 @@ public class TaskTest {
   }
 
   @Test
-  @Disabled("unstable")
   public void getTotalHumanTimeTest() throws Exception {
     createTasks(5);
-    System.out.println(task.parseTimeToHumanReading().toString());
+    task.parseTimeToHumanReading();
   }
 
   private void createTasks(int timesToCreate) throws Exception {
