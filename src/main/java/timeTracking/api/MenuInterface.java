@@ -3,9 +3,9 @@ package timeTracking.api;
 import timeTracking.core.Project;
 
 public interface MenuInterface {
-  Project createNewProject();
+  Project createNewProject(String name);
 
-  void createTask();
+  void createTask(String name);
 
   void changeProject();
 
@@ -19,7 +19,7 @@ public interface MenuInterface {
 
   void loadFromJson(String fileName);
 
-  void start();
+  void start() throws Exception;
 
   void exit();
 }
