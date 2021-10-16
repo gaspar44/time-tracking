@@ -11,6 +11,10 @@ public class Project extends Component{
     components = new ArrayList<>();
   }
 
+  public List<Component> getComponents() {
+    return components;
+  }
+
   public void add(Component componentToAdd) {
     components.add(componentToAdd);
   }

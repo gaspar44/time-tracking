@@ -89,7 +89,8 @@ class Main {
 
 interface MenuInterface {
     + createNewProject(name: String) : Project
-    + createTask(name : String)
+    + createTask(name : String) : Task
+    + getComponents() : List<Component>
     + changeProject()
     + getTaskTime() : long
     + returnToMenu()

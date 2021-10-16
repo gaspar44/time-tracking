@@ -15,6 +15,7 @@ public class MockTask extends Component {
   private String humanReadbleTimeDuration;
 
   public MockTask() {
+    super(null,null);
     totalDuration = 0;
     timeIntervalList = new ArrayList<>();
   }

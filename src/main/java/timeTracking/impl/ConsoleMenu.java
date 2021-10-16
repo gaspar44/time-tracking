@@ -6,6 +6,7 @@ import timeTracking.core.Project;
 import timeTracking.core.Task;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -20,10 +21,16 @@ public class ConsoleMenu implements MenuInterface {
   public ConsoleMenu(String readFromJson, String storeToJson) {
     this.readFromJson = readFromJson;
     this.storeToJson = storeToJson;
+    componentList = new ArrayList<>();
   }
 
   public ConsoleMenu(String readFromJson) {
     new ConsoleMenu(readFromJson,readFromJson);
+  }
+
+  @Override
+  public List<Component> getComponentList() {
+    return componentList;
   }
 
   @Override
@@ -35,10 +42,11 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
-  public void createTask(String name) {
+  public Task createTask(String name) {
     System.out.println("creating new task with name: " + name + " and appending to the project");
     actualTask = new Task(name, actualProject);
     actualProject.add(actualTask);
+    return actualTask;
   }
 
   @Override
