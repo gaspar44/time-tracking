@@ -1,5 +1,8 @@
 package timeTracking;
 
+import timeTracking.api.MenuInterface;
+import timeTracking.impl.ConsoleMenu;
+
 public class Main {
   private static String readFromJson;
   private static String saveToJson;
@@ -28,11 +31,12 @@ public class Main {
         System.exit(1);
       }
     }
-
     saveToJson = saveToJson == null ? readFromJson : saveToJson;
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     parseFlags(args);
+    MenuInterface menu = new ConsoleMenu(readFromJson,saveToJson);
+    menu.start();
   }
 }
