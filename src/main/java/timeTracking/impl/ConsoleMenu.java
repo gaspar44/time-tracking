@@ -15,11 +15,13 @@ public class ConsoleMenu implements MenuInterface {
   private Task actualTask;
   private String readFromJson;
   private String storeToJson;
+  private static JsonParser jsonParser;
 
   public ConsoleMenu(String readFromJson, String storeToJson) {
     this.readFromJson = readFromJson;
     this.storeToJson = storeToJson;
     componentList = new ArrayList<>();
+    jsonParser = JsonParser.getInstance();
   }
 
   public ConsoleMenu(String readFromJson) {
@@ -32,15 +34,9 @@ public class ConsoleMenu implements MenuInterface {
     return componentList;
   }
 
- /* @Override
-  public void changeProject(Project newProject) {
-
-  }*/
-
-
   @Override
   public Project createNewProject(String name) {
-    System.out.println("Creating new project and swiching to add");
+    System.out.println("Creating new project and switching to add");
     actualProject = new Project(name,actualProject);
     componentList.add(actualProject);
     return actualProject;
@@ -54,9 +50,10 @@ public class ConsoleMenu implements MenuInterface {
     return actualTask;
   }
 
+  @Override
   public void changeProject(String filename) {
-
-    int i = 0;
+    // NO IDEA OF WHAT IS THIS DOING
+/*    int i = 0;
 
     do {
       if (filename == componentList[i].getName()) {
@@ -65,36 +62,35 @@ public class ConsoleMenu implements MenuInterface {
         i++;
       }
 
-    }while (i < componentList.length());
+    }while (i < componentList.length());*/
   }
 
   @Override
   public boolean saveToJson() {
-    boolean correcte = false;
     try
     {
-      JsonParser saveJson = new JsonParser(todo viene del component);
-      saveJson.storeProjectsIntoJson(storeToJson);
-      correcte = true;
+      return jsonParser.storeProjectsIntoJson(storeToJson);
     }
     catch(Exception e)
     {
-      System.out.println("No s'ha pogut guardar l'arxiu JSON");
+      System.out.println("ERROR saving at json");
+      return false;
     }
-    return correcte;
   }
 
   @Override
-  public void loadFromJson(String fileName) {
+  public boolean loadFromJson(String fileName) {
     try
     {
-      JsonParser loadJson = new JsonParser(todo viene del component);
-      loadJson.getProjectsFromJson(fileName);
+      jsonParser.getProjectsFromJson(fileName);
     }
     catch(Exception e)
     {
-      System.out.println("No s'ha pogut carregar l'arxiu JSON");
+      System.out.println("ERROR loading from json. Creating new empty project");
+      createNewProject("default");
+      return false;
     }
+    return true;
   }
 
   @Override
@@ -115,6 +111,7 @@ public class ConsoleMenu implements MenuInterface {
     return time;
   }
 
+  @Override
   public void returnToMenu() {
 
   }
@@ -126,11 +123,6 @@ public class ConsoleMenu implements MenuInterface {
 
   }
 
-
-  public static boolean quit() {
-    return true;
-  }
-
   @Override
   public void start() throws Exception{
     System.out.println("starting");
@@ -138,40 +130,34 @@ public class ConsoleMenu implements MenuInterface {
     boolean exists = checkForJson();
 
     if (!exists) {
-      System.out.println("creating new empty project");
-      Project actualProject = new Project("root", null);
+      System.out.println("creating new root project");
+      actualProject = new Project("root", null);
     }
 
+    else {
+      System.out.println("File found..\tloading");
+      loadFromJson(readFromJson);
+    }
+
+    printMenuOptions();
+
     Scanner sn = new Scanner(System.in);
-    boolean salir = false;
+    boolean done = false;
 
-    while (!salir) {
-
-      System.out.println("1. Create new project.");
-      System.out.println("2. Create new task");
-      System.out.println("3. Change project");
-      System.out.println("4. Get task time");
-      System.out.println("5. Save project to JSON");
-      System.out.println("6. Load project from JSON");
-      System.out.println("7. Exit"); //Done
-
-
+    while (!done) {
       try {
-
         System.out.println("Choose an option:");
-        int opcion = sn.nextInt();
+        int option = sn.nextInt();
 
-        switch (opcion) {
+        switch (option) {
           case 1:
             System.out.println("You have selected option: 1");
             System.out.println("Type the project name: ");
-
-            // createNewProject(String projectName)
             createNewProject(sn.nextLine());
             break;
 
           case 2:
-            System.out.println("Has seleccionado la opcion 2");
+            System.out.println("You have selected option 2");
             System.out.println("Type the project name where you want to create a task: ");
 
             // createTask(String projectName)
@@ -179,40 +165,41 @@ public class ConsoleMenu implements MenuInterface {
             break;
 
           case 3:
-            System.out.println("Has seleccionado la opcion 3");
+            System.out.println("You have selected option 3");
 
             // changeProject(String filename)
             break;
 
           case 4:
-            System.out.println("Has seleccionado la opcion 4");
+            System.out.println("You have selected option 4");
             System.out.println("Getting the time of the task: ");
             // getTaskTime()
             break;
 
 
           case 5:
-            System.out.println("Has seleccionado la opcion 5");
+            System.out.println("You have selected option 5");
 
             // saveToJson()
             break;
 
 
           case 6:
-            System.out.println("Has seleccionado la opcion 6");
+            System.out.println("You have selected option 6");
 
             //loadFromJson(String fileName)
             break;
 
           case 7:
-
-            System.out.println("Has seleccionado la opcion 7");
-            salir = quit();
+            System.out.println("You have selected option 7");
+            saveToJson();
+            done = true;
             break;
 
           default:
             System.out.println("Numbers between 1-8");
         }
+
       } catch (InputMismatchException e) {
         System.out.println("Insert a number");
         sn.next();
@@ -220,12 +207,16 @@ public class ConsoleMenu implements MenuInterface {
     }
   }
 
-  @Override
-  public void exit() {
-
+  private void printMenuOptions() {
+    System.out.println("choose option");
+    System.out.println("1. Create Project");
+    System.out.println("2. Create task");
+    System.out.println("3. Store at json");
+    System.out.println("4. Load from another json");
+    System.out.println("5. Print current task time");
+    System.out.println("6. Print current project time");
+    System.out.println("7. Exit");
   }
-
-
 
 
   private boolean checkForJson() throws Exception {

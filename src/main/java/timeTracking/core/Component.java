@@ -18,4 +18,8 @@ public abstract class Component {
   private void acceptVisitor(Visitor visitor) {
 
   }
+
+  public String getName() {
+    return name;
+  }
 }

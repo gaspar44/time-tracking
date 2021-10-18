@@ -23,9 +23,7 @@ public interface MenuInterface {
 
   boolean saveToJson();
 
-  void loadFromJson(String fileName);
+  boolean loadFromJson(String fileName);
 
   void start() throws Exception;
-
-  void exit();
 }
