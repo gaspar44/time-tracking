@@ -4,12 +4,10 @@ import timeTracking.api.MenuInterface;
 import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
+import timeTracking.core.JsonParser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ConsoleMenu implements MenuInterface {
   private List<Component> componentList;
@@ -28,10 +26,17 @@ public class ConsoleMenu implements MenuInterface {
     new ConsoleMenu(readFromJson,readFromJson);
   }
 
+
   @Override
   public List<Component> getComponentList() {
     return componentList;
   }
+
+ /* @Override
+  public void changeProject(Project newProject) {
+
+  }*/
+
 
   @Override
   public Project createNewProject(String name) {
@@ -49,9 +54,47 @@ public class ConsoleMenu implements MenuInterface {
     return actualTask;
   }
 
-  @Override
-  public void changeProject() {
+  public void changeProject(String filename) {
 
+    int i = 0;
+
+    do {
+      if (filename == componentList[i].getName()) {
+        actualProject = componentList[i];
+      }else {
+        i++;
+      }
+
+    }while (i < componentList.length());
+  }
+
+  @Override
+  public boolean saveToJson() {
+    boolean correcte = false;
+    try
+    {
+      JsonParser saveJson = new JsonParser(todo viene del component);
+      saveJson.storeProjectsIntoJson(storeToJson);
+      correcte = true;
+    }
+    catch(Exception e)
+    {
+      System.out.println("No s'ha pogut guardar l'arxiu JSON");
+    }
+    return correcte;
+  }
+
+  @Override
+  public void loadFromJson(String fileName) {
+    try
+    {
+      JsonParser loadJson = new JsonParser(todo viene del component);
+      loadJson.getProjectsFromJson(fileName);
+    }
+    catch(Exception e)
+    {
+      System.out.println("No s'ha pogut carregar l'arxiu JSON");
+    }
   }
 
   @Override
@@ -72,24 +115,20 @@ public class ConsoleMenu implements MenuInterface {
     return time;
   }
 
-  @Override
   public void returnToMenu() {
 
   }
 
   @Override
   public void addProjectToCurrentOne() {
+    Component subproject = new Project(readFromJson, actualProject);
+    actualProject.add(subproject);
 
   }
 
-  @Override
-  public boolean saveToJson() {
-    return false;
-  }
 
-  @Override
-  public void loadFromJson(String fileName) {
-
+  public static boolean quit() {
+    return true;
   }
 
   @Override
@@ -100,45 +139,94 @@ public class ConsoleMenu implements MenuInterface {
 
     if (!exists) {
       System.out.println("creating new empty project");
-      actualProject = new Project("root", null);
+      Project actualProject = new Project("root", null);
     }
 
-    printMenuOptions();
-    Scanner reader = new Scanner(System.in);
-    boolean done = false;
-    while (!done){
-      switch (reader.nextInt()) {
-        case 1:
-          System.out.println("type the project name: ");
-          createNewProject(reader.nextLine());
-          break;
-        case 2:
-          System.out.println("type the project name: ");
-          createTask(reader.nextLine());
-          break;
-        case 3:
-        case 4:
-          System.out.println("to do...");
-          break;
-        case 5:
-            getTaskTime();
+    Scanner sn = new Scanner(System.in);
+    boolean salir = false;
+
+    while (!salir) {
+
+      System.out.println("1. Create new project.");
+      System.out.println("2. Create new task");
+      System.out.println("3. Change project");
+      System.out.println("4. Get task time");
+      System.out.println("5. Save project to JSON");
+      System.out.println("6. Load project from JSON");
+      System.out.println("7. Exit"); //Done
+
+
+      try {
+
+        System.out.println("Choose an option:");
+        int opcion = sn.nextInt();
+
+        switch (opcion) {
+          case 1:
+            System.out.println("You have selected option: 1");
+            System.out.println("Type the project name: ");
+
+            // createNewProject(String projectName)
+            createNewProject(sn.nextLine());
             break;
-        default:
-          done = true;
-          break;
+
+          case 2:
+            System.out.println("Has seleccionado la opcion 2");
+            System.out.println("Type the project name where you want to create a task: ");
+
+            // createTask(String projectName)
+            createTask(sn.nextLine());
+            break;
+
+          case 3:
+            System.out.println("Has seleccionado la opcion 3");
+
+            // changeProject(String filename)
+            break;
+
+          case 4:
+            System.out.println("Has seleccionado la opcion 4");
+            System.out.println("Getting the time of the task: ");
+            // getTaskTime()
+            break;
+
+
+          case 5:
+            System.out.println("Has seleccionado la opcion 5");
+
+            // saveToJson()
+            break;
+
+
+          case 6:
+            System.out.println("Has seleccionado la opcion 6");
+
+            //loadFromJson(String fileName)
+            break;
+
+          case 7:
+
+            System.out.println("Has seleccionado la opcion 7");
+            salir = quit();
+            break;
+
+          default:
+            System.out.println("Numbers between 1-8");
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("Insert a number");
+        sn.next();
       }
     }
   }
 
-  private void printMenuOptions() {
-    System.out.println("choose option");
-    System.out.println("1. Create Project");
-    System.out.println("2. Create task");
-    System.out.println("3. Store at json");
-    System.out.println("4. Load from another json");
-    System.out.println("5. Print current task time");
-    System.out.println("6. Print current project time");
+  @Override
+  public void exit() {
+
   }
+
+
+
 
   private boolean checkForJson() throws Exception {
     File jsonToReadFrom = new File(readFromJson);
@@ -148,10 +236,5 @@ public class ConsoleMenu implements MenuInterface {
       return false;
     }
     return true;
-  }
-
-  @Override
-  public void exit() {
-
   }
 }

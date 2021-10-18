@@ -13,7 +13,7 @@ public interface MenuInterface {
 
   List<Component> getComponentList();
 
-  void changeProject();
+  void changeProject(String filename);
 
   long getTaskTime();
 
