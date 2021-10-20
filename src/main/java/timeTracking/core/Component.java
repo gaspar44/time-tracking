@@ -6,38 +6,16 @@ import java.sql.Time;
 import org.json.*;
 import java.util.List;
 
-//Cada clase que dependa de Component deberá ser: public class Name implements Component{}
-//https://www.baeldung.com/java-composite-pattern
-
 public abstract class Component {
-  private String name;
-  private String ID;
-  Component Components;
 
-  protected List<Component> components;
+  public abstract void getTotalTime();
 
-  protected long getTotalTime() {
+  public abstract String getName();
 
-    return 0;
-  }
+  public abstract String getID();
 
-  public String getName()
-  {
-    return name;
-  }
+  public abstract void accept(JsonParser visitor);
 
-  public String getID(){
-    return ID;
-  }
-
-  public void accept(JsonParser visitor) {
-
-
-  }
-
-  private void acceptVisitor(Visitor visitor) {
-
-  }
 
 
 }
