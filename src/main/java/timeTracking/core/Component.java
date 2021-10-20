@@ -1,25 +1,24 @@
 package timeTracking.core;
 
 import timeTracking.api.Visitor;
+import java.awt.*;
+import java.sql.Time;
+import org.json.*;
+import java.util.List;
+import java.util.Date;
 
 public abstract class Component {
-  protected String name;
-  protected Component father;
 
-  protected Component(String name, Component father){
-    this.father = father;
-    this.name = name;
-  }
+  public abstract long getTotalTime();
 
-  protected long getTotalTime() {
-    return 0;
-  }
+  public abstract String getName();
 
-  private void acceptVisitor(Visitor visitor) {
+  public abstract String getID();
 
-  }
 
-  public String getName() {
-    return name;
-  }
+
+  public abstract void accept(JsonParser visitor);
+
+
+
 }

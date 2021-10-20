@@ -6,12 +6,16 @@ import java.util.List;
 public class Task extends Component{
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
-  private String name;
+  private String nametask;
   private long totalDuration;
   private String humanReadbleTimeDuration;
+  private String TaskID;
 
-  public Task(String name, Project father) {
-    super(name,father);
+  public Task(String name, Project father, String IDTask) {
+    this.nametask=name;
+    this.TaskID = IDTask;
+
+
     totalDuration = 0;
   }
 
@@ -28,7 +32,17 @@ public class Task extends Component{
   }
 
   public String getName() {
-    return name;
+    return nametask;
+  }
+
+  @Override
+  public String getID() {
+    return TaskID;
+  }
+
+  @Override
+  public void accept(JsonParser visitor) {
+
   }
 
   public long getTotalDuration() {
