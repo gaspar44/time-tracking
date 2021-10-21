@@ -9,16 +9,23 @@ import java.util.Date;
 
 public abstract class Component {
 
+
+  public String c_name;
+
+  public Component(String name)
+  {
+    this.c_name = name;
+  }
+
+  public String getName() //Not abstract class.
+
+  {
+    return c_name;
+  }
+
+  
   public abstract long getTotalTime();
-
-  public abstract String getName();
-
-  public abstract String getID();
-
-
-
   public abstract void accept(JsonParser visitor);
-
 
 
 }
