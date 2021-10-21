@@ -2,15 +2,16 @@ package timeTracking.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 public class Project extends Component{
   private List<Component> components;
-  private String ProjectName;
-  private String ProjectID;
 
-  public Project(String root, Component father) {
+  public Project(String root, Project father) {
     super(root,father);
     components = new ArrayList<>();
+
+    if (father != null) {
+      father.add(this);
+    }
   }
 
   public List<Component> getComponents() {
@@ -23,17 +24,15 @@ public class Project extends Component{
 
   @Override
   public long getTotalTime() {
-      return 0;
-  }
+    for (Component component: components) {
+      component.getTotalTime();
+    }
 
-  @Override
-  public String getName() {
-    return ProjectName;
-  }
+    if (father != null) {
+      father.addTimeDuration(totalTime);
+    }
 
-  @Override
-  public String getID() {
-    return ProjectID;
+    return totalTime;
   }
 
   @Override

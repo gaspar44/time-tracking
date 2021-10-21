@@ -49,6 +49,5 @@ public class TimerTest {
     Assertions.assertTrue(Timer.getInstance().getObservers().size() == 0);
     Assertions.assertNotNull(timerInterval.getEndTime());
     Assertions.assertTrue(timerInterval.getStartTime() != timerInterval.getEndTime());
-    Assertions.assertTrue(timerInterval.getStartTime().getTime() == timerInterval.getEndTime().getTime() - sleepTime);
   }
 }

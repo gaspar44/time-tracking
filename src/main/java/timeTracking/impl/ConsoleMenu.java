@@ -7,6 +7,7 @@ import timeTracking.core.Task;
 import timeTracking.core.JsonParser;
 
 import java.io.File;
+import java.time.LocalTime;
 import java.util.*;
 
 public class ConsoleMenu implements MenuInterface {
@@ -98,7 +99,7 @@ public class ConsoleMenu implements MenuInterface {
     long time = actualTask.getTotalTime();
     System.out.println("The time is: " + String.valueOf(time) + " seconds");
     System.out.println("started time: " + actualTask.getStartedTime().toString());
-    Date actualTaskEndedTime = actualTask.getEndedTime();
+    LocalTime actualTaskEndedTime = actualTask.getEndedTime();
 
     if (actualTaskEndedTime == null) {
       System.out.println("still working at it");

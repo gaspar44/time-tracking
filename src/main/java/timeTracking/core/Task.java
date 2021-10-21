@@ -1,43 +1,50 @@
 package timeTracking.core;
 
-import java.util.Date;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Task extends Component{
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
-  private String nametask;
-  private long totalDuration;
-  private String humanReadbleTimeDuration;
-  private String TaskID;
+  private int countedTimeIntervalsDuration;
 
-  public Task(String name, Project father, String IDTask) {
-    this.nametask=name;
-    this.TaskID = IDTask;
+  public Task(String name, Project father) {
+    super(name,father);
+    timeIntervalList = new ArrayList<>();
+    father.add(this);
+  }
 
-
-    totalDuration = 0;
+  public List<TimeInterval> getTimeIntervalList(){
+    return timeIntervalList;
   }
 
   public TimeInterval getTimeInterval() {
     return timeInterval;
   }
 
-  public Date getStartedTime() {
-   return timeInterval.getStartTime();
+  public TimeInterval startNewInterval() {
+    timeInterval = new TimeInterval();
+    timeIntervalList.add(timeInterval);
+    timeInterval.startTime();
+    return timeInterval;
   }
 
-  public Date getEndedTime() {
-    return timeInterval.getEndTime();
+  public TimeInterval stopActualInterval() {
+    TimeInterval ret = timeInterval;
+    timeInterval.stopTime();
+    getTotalTime();
+
+    timeInterval = null;
+    return ret;
   }
 
-  public String getName() {
-    return nametask;
+  public LocalTime getStartedTime() {
+    return timeInterval == null ? timeIntervalList.get(timeIntervalList.size() - 1 ).getStartTime() : timeInterval.getStartTime();
   }
 
-  @Override
-  public String getID() {
-    return TaskID;
+  public LocalTime getEndedTime() {
+    return timeInterval == null ? timeIntervalList.get(timeIntervalList.size() - 1 ).getEndTime() : timeInterval.getEndTime();
   }
 
   @Override
@@ -45,16 +52,20 @@ public class Task extends Component{
 
   }
 
-  public long getTotalDuration() {
-    return totalDuration;
-  }
 
-  public String getHumanReadbleTimeDuration() {
-    return humanReadbleTimeDuration;
-  }
 
   @Override
   public long getTotalTime() {
-    return 0;
+    long differentTimeToAdd = 0;
+
+    for (int i = countedTimeIntervalsDuration; i < timeIntervalList.size() ; i++) {
+      differentTimeToAdd = differentTimeToAdd + timeIntervalList.get(i).getCurrentDuration();
+    }
+
+    countedTimeIntervalsDuration = timeIntervalList.size();
+
+    addTimeDuration(differentTimeToAdd);
+    father.addTimeDuration(differentTimeToAdd);
+    return totalTime;
   }
 }
