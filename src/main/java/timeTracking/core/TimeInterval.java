@@ -1,25 +1,29 @@
 package timeTracking.core;
 
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.Observable;
 import java.util.Observer;
 
 public class TimeInterval implements Observer {
-  private Date startTime;
-  private Date endTime;
+  private LocalTime startTime;
+  private LocalTime endTime;
   private long duration;
+  private Task fatherTask;
 
   @Override
-  public void update(Observable observable, Object o) {
+  public void update(Observable observable, Object obj) {
       duration = duration + 1 ;
+      endTime = (LocalTime) obj;
+      fatherTask.addTimeDuration(1);
   }
 
-  public TimeInterval() {
-    startTime = new Date();
+  public TimeInterval(Task task) {
+    fatherTask = task;
     duration = 0;
   }
 
   public void startTime() {
+    startTime = LocalTime.now();
     System.out.println("Adding observer");
     Timer.getInstance().addObserver(this);
   }
@@ -27,19 +31,13 @@ public class TimeInterval implements Observer {
   public void stopTime() {
     System.out.println("Deleting Observer");
     Timer.getInstance().deleteObserver(this);
-    calculateEndTime();
   }
 
-  private void calculateEndTime() {
-    // duration is at sec and getTime() is a mSec
-    endTime = new Date(startTime.getTime() + duration * 1000);
-  }
-
-  public Date getEndTime(){
+  public LocalTime getEndTime(){
     return endTime;
   }
 
-  public Date getStartTime() {
+  public LocalTime getStartTime() {
     return startTime;
   }
 

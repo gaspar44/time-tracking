@@ -1,13 +1,19 @@
 package timeTracking.api;
 
+import timeTracking.core.Component;
 import timeTracking.core.Project;
+import timeTracking.core.Task;
+
+import java.util.List;
 
 public interface MenuInterface {
-  Project createNewProject();
+  Project createNewProject(String name);
 
-  void createTask();
+  Task createTask(String name);
 
-  void changeProject();
+  List<Component> getComponentList();
+
+  void changeProject(String filename);
 
   long getTaskTime();
 
@@ -17,9 +23,7 @@ public interface MenuInterface {
 
   boolean saveToJson();
 
-  void loadFromJson(String fileName);
+  boolean loadFromJson(String fileName);
 
-  void start();
-
-  void exit();
+  void start() throws Exception;
 }

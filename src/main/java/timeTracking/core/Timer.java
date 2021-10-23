@@ -1,13 +1,15 @@
 package timeTracking.core;
 
+import java.time.LocalTime;
 import java.util.*;
 
 public class Timer extends Observable {
   private static Timer instance;
+  private static LocalTime date;
   private static java.util.Timer timer;
   private static TimerTask innerTimer;
   private static List<Observer> timeIntervals;
-  private static final int TIMER_MILISENCONDS_PERIOD = 1000;
+  private static final int TIMER_MILLISECONDS_PERIOD = 1000;
 
   public static Timer getInstance() {
     if (instance == null) {
@@ -16,25 +18,30 @@ public class Timer extends Observable {
     return instance;
   }
 
-  public Timer() {
+  private Timer() {
     timeIntervals = new ArrayList<>();
     timer = new java.util.Timer();
     innerTimer = new TimerTask() {
       @Override
       public void run() {
-        System.out.println("notifing observers...");
+        date = LocalTime.now();
+        System.out.println(date);
         notifyObservers();
       }
     };
-    timer.scheduleAtFixedRate(innerTimer,0,TIMER_MILISENCONDS_PERIOD);
+    timer.scheduleAtFixedRate(innerTimer,0, TIMER_MILLISECONDS_PERIOD);
   }
 
 
   @Override
   public void notifyObservers() {
     for (Observer ob: timeIntervals) {
-      ob.update(this,null);
+      ob.update(this,date);
     }
+  }
+
+  public LocalTime getDate() {
+    return date;
   }
 
   public void addObserver(Observer ob) {
