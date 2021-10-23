@@ -28,10 +28,6 @@ public class JsonParser implements Visitor {
     return true;
   }
 
-  public boolean storeProjectsIntoJson() {
-    return storeProjectsIntoJson(fileName);
-  }
-
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
