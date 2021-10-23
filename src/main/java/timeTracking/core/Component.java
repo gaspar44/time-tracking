@@ -37,7 +37,7 @@ public abstract class Component {
     return totalTime;
   }
 
-  public abstract void accept(Visitor visitor);
+  public abstract void acceptVisitor(Visitor visitor);
 
   protected void addTimeDuration(long moreDuration) {
     totalTime = totalTime + moreDuration;

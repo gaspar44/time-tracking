@@ -26,7 +26,7 @@ public class Project extends Component{
 
 
   @Override
-  public void accept(Visitor visitor) {
+  public void acceptVisitor(Visitor visitor) {
 
   }
 }
