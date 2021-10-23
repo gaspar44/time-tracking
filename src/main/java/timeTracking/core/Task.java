@@ -24,7 +24,7 @@ public class Task extends Component{
   }
 
   public TimeInterval startNewInterval() {
-    timeInterval = new TimeInterval();
+    timeInterval = new TimeInterval(this);
     timeIntervalList.add(timeInterval);
     timeInterval.startTime();
     return timeInterval;
@@ -50,22 +50,5 @@ public class Task extends Component{
   @Override
   public void accept(JsonParser visitor) {
 
-  }
-
-
-
-  @Override
-  public long getTotalTime() {
-    long differentTimeToAdd = 0;
-
-    for (int i = countedTimeIntervalsDuration; i < timeIntervalList.size() ; i++) {
-      differentTimeToAdd = differentTimeToAdd + timeIntervalList.get(i).getCurrentDuration();
-    }
-
-    countedTimeIntervalsDuration = timeIntervalList.size();
-
-    addTimeDuration(differentTimeToAdd);
-    father.addTimeDuration(differentTimeToAdd);
-    return totalTime;
   }
 }

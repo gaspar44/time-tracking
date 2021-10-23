@@ -8,14 +8,17 @@ public class TimeInterval implements Observer {
   private LocalTime startTime;
   private LocalTime endTime;
   private long duration;
+  private Task fatherTask;
 
   @Override
   public void update(Observable observable, Object obj) {
       duration = duration + 1 ;
       endTime = (LocalTime) obj;
+      fatherTask.addTimeDuration(1);
   }
 
-  public TimeInterval() {
+  public TimeInterval(Task task) {
+    fatherTask = task;
     duration = 0;
   }
 

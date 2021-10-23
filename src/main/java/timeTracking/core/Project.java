@@ -22,18 +22,6 @@ public class Project extends Component{
     components.add(componentToAdd);
   }
 
-  @Override
-  public long getTotalTime() {
-    for (Component component: components) {
-      component.getTotalTime();
-    }
-
-    if (father != null) {
-      father.addTimeDuration(totalTime);
-    }
-
-    return totalTime;
-  }
 
   @Override
   public void accept(JsonParser visitor) {

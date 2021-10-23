@@ -39,6 +39,8 @@ public abstract class Component {
 
   protected void addTimeDuration(long moreDuration) {
     totalTime = totalTime + moreDuration;
+    if (father != null) {
+      father.addTimeDuration(moreDuration);
+    }
   }
-
 }

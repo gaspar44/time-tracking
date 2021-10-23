@@ -4,15 +4,21 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import timeTracking.core.Project;
+import timeTracking.core.Task;
 import timeTracking.core.TimeInterval;
 import timeTracking.core.Timer;
 
 public class TimerTest {
   private static Timer timer;
+  private static Task task;
+  private static Project project;
 
   @BeforeAll
   public static void setup() throws Exception {
     timer = Timer.getInstance();
+    project = new Project("root",null);
+    task = new Task("task",project);
   }
 
   @AfterAll
@@ -23,7 +29,7 @@ public class TimerTest {
   @Test
   public void timerTaskStartTimeTest() throws Exception {
       Assertions.assertTrue(Timer.getInstance().getObservers().size() == 0);
-      TimeInterval timerInterval = new TimeInterval();
+      TimeInterval timerInterval = new TimeInterval(task);
 
       timerInterval.startTime();
       Assertions.assertTrue(Timer.getInstance().getObservers().size() == 1);
@@ -38,7 +44,7 @@ public class TimerTest {
   @Test
   public void timerTaskStopTimeTest() throws Exception {
     Assertions.assertTrue(Timer.getInstance().getObservers().size() == 0);
-    TimeInterval timerInterval = new TimeInterval();
+    TimeInterval timerInterval = new TimeInterval(task);
     timerInterval.startTime();
     Assertions.assertTrue(Timer.getInstance().getObservers().size() == 1);
 
