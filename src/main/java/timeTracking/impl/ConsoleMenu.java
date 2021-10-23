@@ -47,7 +47,6 @@ public class ConsoleMenu implements MenuInterface {
   public Task createTask(String name) {
     System.out.println("creating new task with name: " + name + " and appending to the project");
     actualTask = new Task(name, actualProject);
-    actualProject.add(actualTask);
     return actualTask;
   }
 
