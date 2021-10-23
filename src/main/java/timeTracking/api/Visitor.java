@@ -1,8 +1,11 @@
 package timeTracking.api;
 
-import timeTracking.core.Component;
+import timeTracking.core.Project;
+import timeTracking.core.Task;
 
 public interface Visitor {
 
-  void visitComponent(Component component);
+  void visitTask(Task task);
+
+  void visitProject(Project project);
 }

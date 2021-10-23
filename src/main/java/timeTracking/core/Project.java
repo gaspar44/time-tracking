@@ -1,5 +1,7 @@
 package timeTracking.core;
 
+import timeTracking.api.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 public class Project extends Component{
@@ -24,7 +26,7 @@ public class Project extends Component{
 
 
   @Override
-  public void accept(JsonParser visitor) {
+  public void accept(Visitor visitor) {
 
   }
 }

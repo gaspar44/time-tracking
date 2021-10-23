@@ -1,6 +1,11 @@
-package timeTracking.core;
+package timeTracking.impl;
 
-public class JsonParser {
+import timeTracking.api.Visitor;
+import timeTracking.core.Component;
+import timeTracking.core.Project;
+import timeTracking.core.Task;
+
+public class JsonParser implements Visitor {
   private static JsonParser instance;
   private String fileName;
 
@@ -29,5 +34,15 @@ public class JsonParser {
 
   public void setFileName(String fileName) {
     this.fileName = fileName;
+  }
+
+  @Override
+  public void visitTask(Task task) {
+
+  }
+
+  @Override
+  public void visitProject(Project project) {
+
   }
 }

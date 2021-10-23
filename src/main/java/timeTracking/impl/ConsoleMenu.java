@@ -4,7 +4,6 @@ import timeTracking.api.MenuInterface;
 import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
-import timeTracking.core.JsonParser;
 
 import java.io.File;
 import java.time.LocalTime;

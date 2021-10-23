@@ -1,5 +1,7 @@
 package timeTracking.core;
 
+import timeTracking.api.Visitor;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,7 @@ public class Task extends Component{
   }
 
   @Override
-  public void accept(JsonParser visitor) {
+  public void accept(Visitor visitor) {
 
   }
 }

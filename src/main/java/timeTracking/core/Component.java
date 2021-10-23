@@ -1,5 +1,7 @@
 package timeTracking.core;
 
+import timeTracking.api.Visitor;
+
 import java.util.concurrent.TimeUnit;
 
 public abstract class Component {
@@ -35,7 +37,7 @@ public abstract class Component {
     return totalTime;
   }
 
-  public abstract void accept(JsonParser visitor);
+  public abstract void accept(Visitor visitor);
 
   protected void addTimeDuration(long moreDuration) {
     totalTime = totalTime + moreDuration;
