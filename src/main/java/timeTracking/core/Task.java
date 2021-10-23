@@ -50,6 +50,6 @@ public class Task extends Component{
 
   @Override
   public void acceptVisitor(Visitor visitor) {
-
+    visitor.visitTask(this);
   }
 }

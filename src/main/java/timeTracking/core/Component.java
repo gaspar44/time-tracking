@@ -32,6 +32,10 @@ public abstract class Component {
     return getHumanReadableTimeDuration(totalTime);
   }
 
+  public Component getFather() {
+    return father;
+  }
+
 
   public long getTotalTime() {
     return totalTime;
