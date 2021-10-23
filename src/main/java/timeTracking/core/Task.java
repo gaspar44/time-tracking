@@ -35,7 +35,6 @@ public class Task extends Component{
   public TimeInterval stopActualInterval() {
     TimeInterval ret = timeInterval;
     timeInterval.stopTime();
-    getTotalTime();
 
     timeInterval = null;
     return ret;
