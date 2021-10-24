@@ -36,6 +36,17 @@ public abstract class Component {
     return father;
   }
 
+  public void setFather(Component father) {
+    this.father = father;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setTotalTime(long totalTime) {
+    this.totalTime = totalTime;
+  }
 
   public long getTotalTime() {
     return totalTime;

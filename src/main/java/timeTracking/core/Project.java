@@ -21,6 +21,10 @@ public class Project extends Component{
     return components;
   }
 
+  public void setComponents(List<Component> components) {
+    this.components = components;
+  }
+
   public void add(Component componentToAdd) {
     components.add(componentToAdd);
   }

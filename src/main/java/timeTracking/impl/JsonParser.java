@@ -2,6 +2,7 @@ package timeTracking.impl;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import timeTracking.api.Visitor;
 import timeTracking.core.Component;
 import timeTracking.core.Project;
@@ -9,6 +10,10 @@ import timeTracking.core.Task;
 import timeTracking.core.TimeInterval;
 
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonParser implements Visitor {
@@ -16,6 +21,19 @@ public class JsonParser implements Visitor {
   private String fileName;
   private JSONArray projectTree;
   private JSONObject actualJsonObject;
+
+  private static final String TIME_INTERVAL_KEY = "time_intervals";
+  private static final String CURRENT_TIME_INTERVAL_DURATION = "current_duration";
+  private static final String DURATION_KEY = "duration";
+  private static final String NAME_KEY = "name";
+  private static final String TYPE_KEY = "type";
+  private static final String COMPONENT_KEY = "components";
+  private static final String START_TIME_KEY = "start_time";
+  private static final String END_TIME_KEY = "end_time";
+  private static final String FATHER_NAME = "father_name";
+
+  private static final String PROJECT_TYPE = "Project";
+  private static final String TASK_TYPE = "Task";
 
   public static JsonParser getInstance() {
     if (instance == null){
@@ -28,11 +46,88 @@ public class JsonParser implements Visitor {
     projectTree = new JSONArray();
   }
 
-  public List<Component> getProjectsFromJson(String fileName) {
+  public List<Component> getProjectsFromJson(String fileName) throws Exception{
+    List<Component> componentsToRet = new ArrayList<>();
+    String stringProjectTree = Files.readString(Paths.get(fileName));
+    JSONTokener tokener = new JSONTokener(stringProjectTree);
+    JSONArray jsonArrayProjectTree = new JSONArray(tokener);
+
+    for (int i = 0; i < jsonArrayProjectTree.length(); i++) {
+      Component component = getProjectOrComponent(jsonArrayProjectTree,null);
+      componentsToRet.add(component);
+    }
+
+    return componentsToRet;
+  }
+
+  private Component getProjectOrComponent(JSONArray jsonArrayProjectTree,Component father) {
+    for (int i = 0; i < jsonArrayProjectTree.length(); i++ ){
+      JSONObject unparsedObject = (JSONObject) jsonArrayProjectTree.get(i);
+
+      if (unparsedObject.get(TYPE_KEY).equals(PROJECT_TYPE)) {
+        return parseProject(unparsedObject,father);
+      }
+
+      else if (unparsedObject.get(TYPE_KEY).equals(TASK_TYPE)) {
+        return parseTask(unparsedObject,father);
+      }
+
+    }
     return null;
   }
 
-  public List<Component> getProjectsFromJson() {
+  private Task parseTask(JSONObject unparsedObject, Component father) {
+    Task task;
+    String taskName = unparsedObject.getString(NAME_KEY);
+    task = new Task(taskName, (Project) father);
+    task.setTotalTime(unparsedObject.getLong(DURATION_KEY));
+    JSONArray jsonArrayTimeIntervalList;
+
+    try {
+      jsonArrayTimeIntervalList = unparsedObject.getJSONArray(TIME_INTERVAL_KEY);
+    }
+
+    catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+
+    List<TimeInterval> timeIntervalList = new ArrayList<>();
+    for (int i = 0; i < jsonArrayTimeIntervalList.length(); i ++) {
+
+      JSONObject jsonTimeInterval = (JSONObject) jsonArrayTimeIntervalList.get(i);
+      String startTime =  jsonTimeInterval.getString(START_TIME_KEY);
+      String endTime = jsonTimeInterval.getString(END_TIME_KEY);
+      long currentDuration = jsonTimeInterval.getLong(CURRENT_TIME_INTERVAL_DURATION);
+
+      TimeInterval timeInterval = new TimeInterval(task);
+
+      timeInterval.setDuration(currentDuration);
+      timeInterval.setStartTime(LocalTime.parse(startTime) );
+      timeInterval.setEndTime(LocalTime.parse(endTime) );
+      timeIntervalList.add(timeInterval);
+    }
+
+    task.setTimeIntervalList(timeIntervalList);
+    return task;
+  }
+
+  private Project parseProject(JSONObject unparsedObject,Component father) {
+    Project project;
+    String projectName = unparsedObject.getString(NAME_KEY);
+    project = new Project(projectName, (Project) father);
+
+    project.setTotalTime(unparsedObject.getLong(DURATION_KEY));
+
+    JSONArray components = (JSONArray) unparsedObject.get(COMPONENT_KEY);
+
+    getProjectOrComponent(components,project);
+
+    return project;
+
+  }
+
+  public List<Component> getProjectsFromJson() throws Exception {
     return getProjectsFromJson(fileName);
   }
 
@@ -60,25 +155,25 @@ public class JsonParser implements Visitor {
   public void visitTask(Task task) {
 
     JSONObject jsonObject = new JSONObject();
-    jsonObject.put("name",task.getName());
-    jsonObject.put("father_name",task.getFather().getName());
-    jsonObject.put("type","Task");
-    jsonObject.put("duration",task.getTotalTime());
+    jsonObject.put(NAME_KEY,task.getName());
+    jsonObject.put(FATHER_NAME,task.getFather().getName());
+    jsonObject.put(TYPE_KEY,"Task");
+    jsonObject.put(DURATION_KEY,task.getTotalTime());
     JSONArray timeIntervals = new JSONArray();
 
     List<TimeInterval> timeIntervalList = task.getTimeIntervalList();
 
     for (TimeInterval timeInterval: timeIntervalList) {
       JSONObject jsonTimeInterval = new JSONObject();
-      jsonTimeInterval.put("start_time",timeInterval.getStartTime());
-      jsonTimeInterval.put("end_time",timeInterval.getEndTime());
-      jsonTimeInterval.put("current_duration",timeInterval.getCurrentDuration());
+      jsonTimeInterval.put(START_TIME_KEY,timeInterval.getStartTime());
+      jsonTimeInterval.put(END_TIME_KEY,timeInterval.getEndTime());
+      jsonTimeInterval.put(CURRENT_TIME_INTERVAL_DURATION,timeInterval.getCurrentDuration());
       timeIntervals.put(jsonTimeInterval);
     }
 
-    jsonObject.put("time_intervals",timeIntervals);
+    jsonObject.put(TIME_INTERVAL_KEY,timeIntervals);
 
-    JSONArray components = (JSONArray) actualJsonObject.get("components");
+    JSONArray components = (JSONArray) actualJsonObject.get(COMPONENT_KEY);
     components.put(jsonObject);
   }
 
@@ -89,13 +184,13 @@ public class JsonParser implements Visitor {
     actualJsonObject = new JSONObject();
 
     if (project.getFather() != null ){
-      actualJsonObject.put("father_name",project.getFather().getName());
+      actualJsonObject.put(FATHER_NAME,project.getFather().getName());
     }
 
-    actualJsonObject.put("name",project.getName());
-    actualJsonObject.put("type","Project");
-    actualJsonObject.put("duration",project.getTotalTime());
-    actualJsonObject.put("components",jsonArray);
+    actualJsonObject.put(NAME_KEY,project.getName());
+    actualJsonObject.put(TYPE_KEY,PROJECT_TYPE);
+    actualJsonObject.put(DURATION_KEY,project.getTotalTime());
+    actualJsonObject.put(COMPONENT_KEY,jsonArray);
     projectTree.put(actualJsonObject);
 
     for (Component component: components) {

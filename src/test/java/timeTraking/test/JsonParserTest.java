@@ -81,6 +81,7 @@ public class JsonParserTest {
     Assertions.assertTrue(checkForJson(jsonName));
     String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
     Assertions.assertTrue(isJSONValid(readedJson));
+    jsonParser.getProjectsFromJson(jsonName);
 
   }
 

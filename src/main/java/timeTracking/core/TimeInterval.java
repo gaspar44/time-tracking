@@ -44,4 +44,16 @@ public class TimeInterval implements Observer {
   public long getCurrentDuration() {
     return duration;
   }
+
+  public void setDuration(long duration) {
+    this.duration = duration;
+  }
+
+  public void setStartTime(LocalTime startTime) {
+    this.startTime = startTime;
+  }
+
+  public void setEndTime(LocalTime endTime) {
+    this.endTime = endTime;
+  }
 }
