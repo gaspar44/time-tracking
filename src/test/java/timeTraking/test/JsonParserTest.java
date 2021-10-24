@@ -26,11 +26,6 @@ public class JsonParserTest {
     jsonParser = JsonParser.getInstance();
   }
 
-/*  @AfterEach
-  public static void teardown() throws Exception {
-
-  }*/
-
   @BeforeEach
   public void setup() throws Exception {
     project = new Project("root",null);
@@ -65,7 +60,7 @@ public class JsonParserTest {
     Assertions.assertTrue(isJSONValid(readedJson));
 
 
-    Project project = (Project) JsonParser.getInstance().getProjectsFromJson(jsonName).get(0);
+    Project project = JsonParser.getInstance().getProjectsFromJson(jsonName);
     Assertions.assertEquals(1,project.getComponents().size());
     Assertions.assertEquals(project.getName(),demoProject.getName());
     Assertions.assertNull(project.getFather());
@@ -95,27 +90,54 @@ public class JsonParserTest {
     Assertions.assertTrue(checkForJson(jsonName));
     String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
     Assertions.assertTrue(isJSONValid(readedJson));
+    Project loadedProject = JsonParser.getInstance().getProjectsFromJson(jsonName);
+    Assertions.assertEquals(1,loadedProject.getComponents().size());
+    Task taskOfLoadedProject = (Task) loadedProject.getComponents().get(0);
 
+    Assertions.assertEquals(task.getName(),taskOfLoadedProject.getName());
+    Assertions.assertEquals(task.getTimeIntervalList().size(),taskOfLoadedProject.getTimeIntervalList().size());
+    Assertions.assertEquals(task.getStartedTime(),taskOfLoadedProject.getStartedTime());
+    Assertions.assertEquals(task.getEndedTime(),taskOfLoadedProject.getEndedTime());
+    Assertions.assertEquals(task.getTotalTime(),taskOfLoadedProject.getTotalTime());
   }
 
   @Test
   public void acceptSimpleProjectWithMultipleTimeIntervalTaskVisitorTest() throws Exception {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
+    Task task2 = new Task("task2",project);
     task.startNewInterval();
+
     Thread.sleep(2000);
+    task2.startNewInterval();
     task.stopActualInterval();
 
     task.startNewInterval();
     Thread.sleep(2000);
+    task2.stopActualInterval();
     task.stopActualInterval();
 
     project.acceptVisitor(jsonParser);
 
     Assertions.assertTrue(checkForJson(jsonName));
     String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
+
     Assertions.assertTrue(isJSONValid(readedJson));
-    jsonParser.getProjectsFromJson(jsonName);
+    Project loadedProject = jsonParser.getProjectsFromJson(jsonName);
+
+    Assertions.assertEquals(2,loadedProject.getComponents().size());
+    Assertions.assertNull(loadedProject.getFather());
+    Assertions.assertEquals(project.getName(),loadedProject.getName());
+
+    Task taskOfLoadedProjectWithTwoTimeIntervals = (Task) loadedProject.getComponents().get(0);
+
+    Assertions.assertEquals(2,taskOfLoadedProjectWithTwoTimeIntervals.getTimeIntervalList().size());
+    Assertions.assertEquals(task.getTotalTime(),taskOfLoadedProjectWithTwoTimeIntervals.getTotalTime());
+
+    Task taskOfLoadedProjectWithOneTimeIntervals = (Task) loadedProject.getComponents().get(1);
+
+    Assertions.assertEquals(1,taskOfLoadedProjectWithOneTimeIntervals.getTimeIntervalList().size());
+    Assertions.assertEquals(task2.getTotalTime(),taskOfLoadedProjectWithOneTimeIntervals.getTotalTime());
 
   }
 

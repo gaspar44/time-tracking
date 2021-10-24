@@ -1,44 +1,35 @@
 package timeTracking.impl;
 
 import timeTracking.api.MenuInterface;
-import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 
 import java.io.File;
-import java.time.LocalTime;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class ConsoleMenu implements MenuInterface {
-  private List<Component> componentList;
+  private Project rootProject;
   private Project actualProject;
   private Task actualTask;
-  private String readFromJson;
-  private String storeToJson;
   private static JsonParser jsonParser;
 
-  public ConsoleMenu(String readFromJson, String storeToJson) {
-    this.readFromJson = readFromJson;
-    this.storeToJson = storeToJson;
-    componentList = new ArrayList<>();
+  public ConsoleMenu() {
     jsonParser = JsonParser.getInstance();
+    System.out.println("creating new root project");
+    rootProject = new Project("root", null);
+    actualProject = null;
   }
-
-  public ConsoleMenu(String readFromJson) {
-    new ConsoleMenu(readFromJson,readFromJson);
-  }
-
 
   @Override
-  public List<Component> getComponentList() {
-    return componentList;
+  public Project getRootProject() {
+    return rootProject;
   }
 
   @Override
   public Project createNewProject(String name) {
     System.out.println("Creating new project and switching to add");
-    actualProject = new Project(name,actualProject);
-    componentList.add(actualProject);
+    actualProject = actualProject == null ? new Project(name,rootProject) : new Project(name,actualProject);
     return actualProject;
   }
 
@@ -65,10 +56,10 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
-  public boolean saveToJson() {
+  public boolean saveToJson(String fileName) {
     try
     {
-      return jsonParser.storeProjectsIntoJson(storeToJson);
+      return jsonParser.storeProjectsIntoJson(fileName);
     }
     catch(Exception e)
     {
@@ -94,20 +85,8 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public long getTaskTime() {
-    long time = actualTask.getTotalTime();
-    System.out.println("The time is: " + String.valueOf(time) + " seconds");
-    System.out.println("started time: " + actualTask.getStartedTime().toString());
-    LocalTime actualTaskEndedTime = actualTask.getEndedTime();
-
-    if (actualTaskEndedTime == null) {
-      System.out.println("still working at it");
-    }
-
-    else {
-      System.out.println("ended time" + actualTask.getEndedTime().toString());
-    }
-
-    return time;
+    System.out.println(actualTask.getHumanReadableTimeDuration());
+    return actualTask.getTotalTime();
   }
 
   @Override
@@ -117,26 +96,19 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public void addProjectToCurrentOne() {
-    Component subproject = new Project(readFromJson, actualProject);
-    actualProject.add(subproject);
 
   }
 
   @Override
   public void start() throws Exception{
     System.out.println("starting");
-    System.out.println("checking for json: " + readFromJson);
-    boolean exists = checkForJson();
+    // Needs to be updated:
+/*    boolean exists = checkForJson();
 
-    if (!exists) {
-      System.out.println("creating new root project");
-      actualProject = new Project("root", null);
-    }
-
-    else {
+    if (exists) {
       System.out.println("File found..\tloading");
-      loadFromJson(readFromJson);
-    }
+      loadFromJson();
+    }*/
 
     printMenuOptions();
 
@@ -159,7 +131,6 @@ public class ConsoleMenu implements MenuInterface {
             System.out.println("You have selected option 2");
             System.out.println("Type the project name where you want to create a task: ");
 
-            // createTask(String projectName)
             createTask(sn.nextLine());
             break;
 
@@ -172,16 +143,18 @@ public class ConsoleMenu implements MenuInterface {
           case 4:
             System.out.println("You have selected option 4");
             System.out.println("Getting the time of the task: ");
-            // getTaskTime()
+            getTaskTime();
             break;
 
 
           case 5:
             System.out.println("You have selected option 5");
+            sn.nextLine();
+            String option2 = sn.nextLine();
+            System.out.println(option2);
 
-            // saveToJson()
+            saveToJson(sn.nextLine());
             break;
-
 
           case 6:
             System.out.println("You have selected option 6");
@@ -191,7 +164,7 @@ public class ConsoleMenu implements MenuInterface {
 
           case 7:
             System.out.println("You have selected option 7");
-            saveToJson();
+            saveToJson(sn.nextLine());
             done = true;
             break;
 
@@ -218,7 +191,7 @@ public class ConsoleMenu implements MenuInterface {
   }
 
 
-  private boolean checkForJson() throws Exception {
+  private boolean checkForJson(String readFromJson) throws Exception {
     File jsonToReadFrom = new File(readFromJson);
     if (!jsonToReadFrom.exists()) {
       System.out.println("Json does not exists, a new one with name: " + readFromJson + " will be created");

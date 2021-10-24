@@ -21,6 +21,7 @@ public class JsonParser implements Visitor {
   private String fileName;
   private JSONArray projectTree;
   private JSONObject rootJsonProject;
+  private Project parsedTreeFromFile;
 
   private static final String TIME_INTERVAL_KEY = "time_intervals";
   private static final String CURRENT_TIME_INTERVAL_DURATION = "current_duration";
@@ -47,37 +48,33 @@ public class JsonParser implements Visitor {
     rootJsonProject = new JSONObject();
   }
 
-  public List<Component> getProjectsFromJson(String fileName) throws Exception{
-    List<Component> componentsToRet = new ArrayList<>();
+  public Project getProjectsFromJson(String fileName) throws Exception{
     String stringProjectTree = Files.readString(Paths.get(fileName));
     JSONTokener tokener = new JSONTokener(stringProjectTree);
     JSONArray jsonArrayProjectTree = new JSONArray(tokener);
 
     for (int i = 0; i < jsonArrayProjectTree.length(); i++) {
-      Component component = getProjectOrComponent(jsonArrayProjectTree,null);
-      componentsToRet.add(component);
+      getProjectOrComponent(jsonArrayProjectTree,null);
     }
 
-    return componentsToRet;
+    return parsedTreeFromFile;
   }
 
-  private Component getProjectOrComponent(JSONArray jsonArrayProjectTree,Component father) {
+  private void getProjectOrComponent(JSONArray jsonArrayProjectTree,Component father) {
     for (int i = 0; i < jsonArrayProjectTree.length(); i++ ){
       JSONObject unparsedObject = (JSONObject) jsonArrayProjectTree.get(i);
 
       if (unparsedObject.get(TYPE_KEY).equals(PROJECT_TYPE)) {
-        return parseProject(unparsedObject,father);
+        parseProject(unparsedObject,father);
       }
 
       else if (unparsedObject.get(TYPE_KEY).equals(TASK_TYPE)) {
-        return parseTask(unparsedObject,father);
+        parseTask(unparsedObject,father);
       }
-
     }
-    return null;
   }
 
-  private Task parseTask(JSONObject unparsedObject, Component father) {
+  private void parseTask(JSONObject unparsedObject, Component father) {
     Task task;
     String taskName = unparsedObject.getString(NAME_KEY);
     task = new Task(taskName, (Project) father);
@@ -89,8 +86,7 @@ public class JsonParser implements Visitor {
     }
 
     catch (Exception e) {
-      e.printStackTrace();
-      return null;
+      return;
     }
 
     List<TimeInterval> timeIntervalList = new ArrayList<>();
@@ -110,10 +106,9 @@ public class JsonParser implements Visitor {
     }
 
     task.setTimeIntervalList(timeIntervalList);
-    return task;
   }
 
-  private Project parseProject(JSONObject unparsedObject,Component father) {
+  private void parseProject(JSONObject unparsedObject,Component father) {
     Project project;
     String projectName = unparsedObject.getString(NAME_KEY);
     project = new Project(projectName, (Project) father);
@@ -125,18 +120,15 @@ public class JsonParser implements Visitor {
       components = (JSONArray) unparsedObject.get(COMPONENT_KEY);
     }
     catch (Exception e) {
-      return project;
+      return;
     }
 
+    if (father == null ){
+      parsedTreeFromFile = project;
+    }
 
     getProjectOrComponent(components,project);
 
-    return project;
-
-  }
-
-  public List<Component> getProjectsFromJson() throws Exception {
-    return getProjectsFromJson(fileName);
   }
 
   public boolean storeProjectsIntoJson(String storeToJson) {
