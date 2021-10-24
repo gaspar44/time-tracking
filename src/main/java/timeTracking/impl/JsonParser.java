@@ -20,7 +20,7 @@ public class JsonParser implements Visitor {
   private static JsonParser instance;
   private String fileName;
   private JSONArray projectTree;
-  private JSONObject actualJsonObject;
+  private JSONObject rootJsonProject;
 
   private static final String TIME_INTERVAL_KEY = "time_intervals";
   private static final String CURRENT_TIME_INTERVAL_DURATION = "current_duration";
@@ -44,6 +44,7 @@ public class JsonParser implements Visitor {
 
   private JsonParser() {
     projectTree = new JSONArray();
+    rootJsonProject = new JSONObject();
   }
 
   public List<Component> getProjectsFromJson(String fileName) throws Exception{
@@ -118,8 +119,15 @@ public class JsonParser implements Visitor {
     project = new Project(projectName, (Project) father);
 
     project.setTotalTime(unparsedObject.getLong(DURATION_KEY));
+    JSONArray components;
 
-    JSONArray components = (JSONArray) unparsedObject.get(COMPONENT_KEY);
+    try {
+      components = (JSONArray) unparsedObject.get(COMPONENT_KEY);
+    }
+    catch (Exception e) {
+      return project;
+    }
+
 
     getProjectOrComponent(components,project);
 
@@ -173,25 +181,42 @@ public class JsonParser implements Visitor {
 
     jsonObject.put(TIME_INTERVAL_KEY,timeIntervals);
 
-    JSONArray components = (JSONArray) actualJsonObject.get(COMPONENT_KEY);
+    JSONArray components = rootJsonProject.getJSONArray(COMPONENT_KEY);
     components.put(jsonObject);
   }
 
   @Override
   public void visitProject(Project project) {
     List<Component> components = project.getComponents();
-    JSONArray jsonArray = new JSONArray();
-    actualJsonObject = new JSONObject();
+    JSONArray jsonArray;
+    JSONObject jsonObject = new JSONObject();
 
     if (project.getFather() != null ){
-      actualJsonObject.put(FATHER_NAME,project.getFather().getName());
+      jsonObject.put(FATHER_NAME,project.getFather().getName());
+      jsonObject.put(NAME_KEY,project.getName());
+      jsonObject.put(TYPE_KEY,PROJECT_TYPE);
+      jsonObject.put(DURATION_KEY,project.getTotalTime());
+
+      if (components.size() != 0) {
+        jsonArray = new JSONArray();
+        jsonObject.put(COMPONENT_KEY,jsonArray);
+      }
+
+      JSONArray fatherJsonArray = rootJsonProject.getJSONArray(COMPONENT_KEY);
+      fatherJsonArray.put(jsonObject);
     }
 
-    actualJsonObject.put(NAME_KEY,project.getName());
-    actualJsonObject.put(TYPE_KEY,PROJECT_TYPE);
-    actualJsonObject.put(DURATION_KEY,project.getTotalTime());
-    actualJsonObject.put(COMPONENT_KEY,jsonArray);
-    projectTree.put(actualJsonObject);
+    else {
+      jsonObject.put(NAME_KEY,project.getName());
+      jsonObject.put(TYPE_KEY,PROJECT_TYPE);
+      jsonObject.put(DURATION_KEY,project.getTotalTime());
+
+      jsonArray = new JSONArray();
+      jsonObject.put(COMPONENT_KEY,jsonArray);
+      projectTree.put(jsonObject);
+    }
+
+    rootJsonProject = jsonObject;
 
     for (Component component: components) {
       component.acceptVisitor(this);
