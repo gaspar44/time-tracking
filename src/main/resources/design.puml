@@ -1,83 +1,144 @@
 @startuml
 abstract class Component {
     - name : String
-    - ID : String
-    # Component(name : String,father : Component)
-    + {abstract} getTotalTime() : Time
-    + getName()
-    + getID() : String
-    + accept(visitor : JsonParer)
+    # father : Component
+    # totalTime : long
+
+    + Component(componentName : String, father : Component)
+    + getName() : String
+    - getHumanReadableTimeDuration(totalDuration : long) : String
+    + getHumanReadableTimeDuration() : String
+    + getFather() : Component
+    + setTotalTime(totalTime : long)
+    + getTotalTime() : Time
+    + {abstract} acceptVisitor(Visitor : visitor)
+    # addTimeDuration(moreDuration : long)
 }
 
-class TimeInterval  implements java.util.Observer {
-    - startTime : Time
-    - endTime : Time
+class TimeInterval implements java.util.Observer {
+
+    - startTime : LocalTime
+    - endTime : LocalTime
     - duration : long
-    + getTime() : Long
-    + TimeInterval()
-    + update(ob : Observable, obj : Object )
-    + getStartTime() : Time
-    + getEndTime() : Time
-    + getCurrentDuration() : long
+    - fatherTask: Task
+    + TimeInterval(task : Task)
     + startTime()
     + stopTime()
+    + getEndTime() : LocalTime
+    + getStartTime() : LocalTime
+    + getCurrentDuration() : long
+    + setDuration(duration : long)
+    + setStartTime(startTime : LocalTime)
+    + setEndTime(endTime : LocalTime)
 }
 
 abstract class java.util.Observable{
 
-+ addObserver(ob : Observer)
-+ deleterObserver(ob : Observer)
-+ setChanged()
-+ notifyObservers(arg0: Observable, arg1: Object)
+    + addObserver(ob : Observer)
+    + deleterObserver(ob : Observer)
+    + setChanged()
+    + notifyObservers(arg0: Observable, arg1: Object)
 
 }
 
 interface java.util.Observer {
 
-+ update(arg0: Observable, arg1: Object)
+    + update(arg0: Observable, arg1: Object)
 
 }
 
 interface Visitor {
-    visitComponent(component : Component)
+    + visitTask(task : Task)
+    + visitProject(project : Project)
 }
 
 
 class Project extends Component{
-    - components : Component
-    + getTotalTime() : TimeInterval
+
+    - components : List<Component>
+    + Project(root : String, father : Project)
+    + getComponents() : List<Component>
+    + setComponents(components : List<Component>)
+    + add(componentToAdd : Component)
+    + acceptVisitor(visitor : Visitor)
+
+
 }
 
-class Task extends Component {
-    - timeIntervals : List<TimeInterval>
-    - timer : Timer
-    + getTotalTime() : Time
-    + startTime()
-    + stopTime()
+class Task {
+
+    - timeIntervalList : List<TimeInterval>
+    - timeInterval : TimeInterval
+    + Task(name : String, father : Project)
+    + getTimeIntervalList() : List<TimeInterval>
+    + getTimeInterval : TimeInterval
+    + startNewInterval : TimeInterval
+    + stopActualInterval: TimeInterval
+    + setTimeInterval
+    + setTimeIntervalList
+    + getStartedTime : LocalTime
+    + getEndedTime : LocalTime
+    + acceptVisitor(visitor : Visitor)
+
 }
+
+
 
 class Timer {
-    - innerTimer : java.util.Timertask
-    - timeInterval : TimeInterval
+
+    - {static} instance :Timer
+    - {static} date : LocalTime
+    - {static} innerTimer : java.util.Timertask
+    - {static} TimerTask : innerTimer
+    - timeInterval : List<Observer>
+    - {static final} TIMER_MILLISECONDS_PERIOD
+
     + getInstance() : Timer
-    + Timer()
-    + parseToHumanReading()
+    - Timer()
     + notifyObservers()
-    + addObserver(obj : Observer)
-    + deleteObserver (obj : Observer)
+    + getDate() : LocalTime
+    + addObserver(ob : Observer)
+    + deleteObserver (ob : Observer)
     + stopCounting()
     + getObserver() : List<Observer>
+
 }
 
 class JsonParser implements Visitor{
-    - jsonFileName : String
-    + JsonParser(fileName : String)
-    + getJsonFileName() : String
-    + setJsonFileName() : Sting
-    + getProjectsFromJson() : Project
-    + storeProjectsIntoJson()
-    + storeProjectsIntoJson(fileName : String)
-    + visitComponent(component : Component)
+    - instance : JsonParser
+    - fileName : String
+    - projectTree : JSONArray
+    - rootJsonProject : JSONObject
+    - parsedTreeFromFile : Project
+    - {static} TIME_INTERVAL_KEY : String
+    - {static} CURRENT_TIME_INTERVAL_DURATION : String
+    - {static} DURATION_KEY : String
+    - {static} NAME_KEY : String
+    - {static} TYPE_KEY : String
+    - {static} COMPONENT_KEY : String
+    - {static} START_TIME_KEY : String
+    - {static} END_TIME_KEY : String
+    - {static} FATHER_NAME : String
+    - {static} PROJECT_TYPE : String
+    - {static} TASK_TYPE : String
+    - JsonParser()
+    + {static} getInstance() : JsonParser
+    + getProjectsFromJson(fileName : String) : Project
+    - getProjectOrComponent(jsonArrayProjectTree : JSONArray, father : Component)
+    - parseTask(unparsedObject : JSONObject, father : Component)
+    - parseProject(unparsedObject : JSONObject, father : Component)
+    + storeProjectsIntoJson(storeToJson : String) : boolean
+    + setFileName(fileName : String)
+    + visitTask(task : Task)
+    + visitProject(project : Project)
+}
+
+class TreePrinter implements Visitor{
+    - fileName : String
+    - projectTree : JSONArray
+    - rootJsonProject : JSONObject
+    + visitTask(task : Task)
+    + visitProject(project : Project)
 }
 
 class Main {
@@ -88,32 +149,40 @@ class Main {
 }
 
 interface MenuInterface {
-    + createNewProject(name: String) : Project
+    + createNewProject(name : String) : Project
     + createTask(name : String) : Task
-    + getComponents() : List<Component>
-    + changeProject()
+    + getRootProject() : Project
+    + changeProject(fileName : String)
     + getTaskTime() : long
     + returnToMenu()
     + addProjectToCurrentOne()
     + saveToJson(fileName : String) : boolean
-    + loadFromJson(fileName : String))
+    + loadFromJson(fileName : String)) : boolean
     + start()
-    + exit()
 }
 
 
 class ConsoleMenu implements MenuInterface {
-    - componentList : List<Component> ;
-    - actualProject : Project;
-    - actualTask : Task;
-    - readFromJson: String;
-    - storeToJson : String;
-    + ConsoleMenu(readFromFile : String ,storeToJson : String)
-    + ConsoleMenu(readFromFile : String)
-    - loadFromFile : boolean
-    - fileName : String
-    - currentProjects : Component
-    - currentTask : Task
+    - componentList : List<Component>
+    - actualProject : Project
+    - actualTask : Task
+    - readFromJson : String
+    - storeToJson : String
+    - {static} jsonParser : JsonParser
+
+    + ConsoleMenu(readFromJson : String)
+    + getComponentList() : List<Component>
+    + createNewProject(name : String) : Project
+    + createTask(name : String) : Task
+    + changeProject(filename : String)
+    + saveToJson() : boolean
+    + loadFromJson(fileName : String) : boolean
+    + getTaskTime() : long
+    + returnToMenu()
+    + addProjectToCurrentOne()
+    + start()
+    - printMenuOptions()
+    - checkForJson() : boolean
 }
 
 note top of Task {
@@ -129,13 +198,15 @@ note right of ConsoleMenu {
     using the same file to input or output
 }
 
-JsonParser --> "version: 20210307" org.json.json
 Main --> MenuInterface
 ConsoleMenu --> JsonParser
+JsonParser --> "version: 20210307" org.json.json
 JsonParser *--> Component
 Project "0..n" o--> Component
 MenuInterface --> Component
 Task o--> "0..n" TimeInterval
+Task "0..n" --|> Component
 java.util.Observable "1..n " o--> java.util.Observer
 Timer --|> java.util.Observable
+
 @enduml
