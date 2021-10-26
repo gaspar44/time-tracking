@@ -4,6 +4,7 @@ import timeTracking.api.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class Project extends Component{
   private List<Component> components;
 
@@ -20,6 +21,10 @@ public class Project extends Component{
     return components;
   }
 
+  public void setComponents(List<Component> components) {
+    this.components = components;
+  }
+
   public void add(Component componentToAdd) {
     components.add(componentToAdd);
   }
@@ -27,6 +32,6 @@ public class Project extends Component{
 
   @Override
   public void acceptVisitor(Visitor visitor) {
-
+    visitor.visitProject(this);
   }
 }

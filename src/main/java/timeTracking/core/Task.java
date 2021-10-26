@@ -9,7 +9,6 @@ import java.util.List;
 public class Task extends Component{
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
-  private int countedTimeIntervalsDuration;
 
   public Task(String name, Project father) {
     super(name,father);
@@ -40,6 +39,15 @@ public class Task extends Component{
     return ret;
   }
 
+  public void setTimeInterval(TimeInterval timeInterval) {
+    this.timeInterval = timeInterval;
+  }
+
+  public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
+    this.timeIntervalList = timeIntervalList;
+  }
+
+
   public LocalTime getStartedTime() {
     return timeInterval == null ? timeIntervalList.get(timeIntervalList.size() - 1 ).getStartTime() : timeInterval.getStartTime();
   }
@@ -50,6 +58,6 @@ public class Task extends Component{
 
   @Override
   public void acceptVisitor(Visitor visitor) {
-
+    visitor.visitTask(this);
   }
 }
