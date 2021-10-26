@@ -1,6 +1,7 @@
 package timeTracking.impl;
 
 import timeTracking.api.MenuInterface;
+import timeTracking.api.Visitor;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 
@@ -61,6 +62,25 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
+  public boolean printTree(String fileName)
+  {
+    try{
+
+      TreePrinter tree = new TreePrinter();
+
+      System.out.println("Printando arbol: "+  fileName);
+      tree.setFileName(fileName);
+      rootProject.acceptVisitor(tree);
+      return true;
+    }catch(Exception e)
+    {
+      System.out.println("Error printing tree");
+      return false;
+    }
+  }
+
+
+  @Override
   public boolean loadFromJson(String fileName) {
     try
     {
@@ -118,7 +138,7 @@ public class ConsoleMenu implements MenuInterface {
             System.out.print("Type the project name where you want to create a task: ");
             sn.nextLine();
             String option2 = sn.nextLine();
-            createTask(option2);;
+            createTask(option2);
             break;
 
           case 3:
@@ -137,7 +157,6 @@ public class ConsoleMenu implements MenuInterface {
 
           case 4:
             System.out.println("You have selected option 4");
-            System.out.println("Getting the time of the task: ");
             System.out.print("Please, insert the name of the JSON file: ");
             sn.nextLine();
             String option4 = sn.nextLine();
@@ -151,7 +170,7 @@ public class ConsoleMenu implements MenuInterface {
             boolean readed = loadFromJson(option4);
 
             if (readed) {
-              System.out.println("You have saved the jSON file with the name " + option4);
+              System.out.println("You have loaded the jSON file with the name " + option4);
             }
 
             break;
@@ -189,9 +208,15 @@ public class ConsoleMenu implements MenuInterface {
             break;
 
           case 9:
+
             System.out.println("You have selected option 9");
-            System.out.println("Printing Project Tree");
-              break;
+            System.out.print("Please, insert the name of the JSON  to print the Tree: ");
+            sn.nextLine();
+            String optione = sn.nextLine();
+            printTree(optione);
+            System.out.println("Printing Project Tree \n ");
+
+            break;
 
 
           case 10:

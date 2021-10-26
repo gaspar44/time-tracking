@@ -8,6 +8,7 @@ import java.util.List;
 public class Project extends Component{
   private List<Component> components;
 
+
   public Project(String root, Project father) {
     super(root,father);
     components = new ArrayList<>();
@@ -16,6 +17,8 @@ public class Project extends Component{
       father.add(this);
     }
   }
+
+
 
   public List<Component> getComponents() {
     return components;
@@ -34,4 +37,6 @@ public class Project extends Component{
   public void acceptVisitor(Visitor visitor) {
     visitor.visitProject(this);
   }
+
+
 }
