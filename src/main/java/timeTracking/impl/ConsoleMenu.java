@@ -178,13 +178,17 @@ public class ConsoleMenu implements MenuInterface {
             break;
 
           case 8:
-            System.out.println("You have selected option 9");
+            System.out.println("You have selected option 8");
             if (actualTask == null) {
               System.out.println("to stop a task, a task must be created");
               break;
             }
 
+            System.out.println("Task: " + actualTask.getName() + " has been stopped. ");
             actualTask.stopActualInterval();
+            System.out.println("Actual time: " + actualTask.getHumanReadableTimeDuration());
+            break;
+
 
           case 9:
             System.out.println("You have selected option 9");
@@ -196,14 +200,14 @@ public class ConsoleMenu implements MenuInterface {
         }
 
       } catch (InputMismatchException e) {
-        System.out.println("Insert a number");
+        System.out.println("Insert a number: ");
         sn.next();
       }
     }
   }
 
   private void printMenuOptions() {
-    System.out.println("choose option");
+    System.out.println("Choose option");
     System.out.println("1. Create Project");
     System.out.println("2. Create task");
     System.out.println("3. Store at json");
@@ -212,7 +216,7 @@ public class ConsoleMenu implements MenuInterface {
     System.out.println("6. Print current project time");
     System.out.println("7. Start task time");
     System.out.println("8. Stop task time");
-    System.out.println("9. Exit");
+    System.out.println("9. Exit \n");
   }
 
   private boolean checkForJson(String readFromJson) throws Exception {
