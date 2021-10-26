@@ -123,15 +123,20 @@ public class ConsoleMenu implements MenuInterface {
         switch (option) {
           case 1:
             System.out.println("You have selected option: 1");
-            System.out.println("Type the project name: ");
-            createNewProject(sn.nextLine());
+            System.out.print("Type the project name: ");
+            sn.nextLine();
+            String option1 = sn.nextLine();
+            createNewProject(option1);
+
+
             break;
 
           case 2:
             System.out.println("You have selected option 2");
-            System.out.println("Type the project name where you want to create a task: ");
-
-            createTask(sn.nextLine());
+            System.out.print("Type the project name where you want to create a task: ");
+            sn.nextLine();
+            String option2 = sn.nextLine();
+            createTask(option2);;
             break;
 
           case 3:
@@ -149,21 +154,34 @@ public class ConsoleMenu implements MenuInterface {
 
           case 5:
             System.out.println("You have selected option 5");
+            System.out.print("Please, insert the name of the JSON file: ");
             sn.nextLine();
-            String option2 = sn.nextLine();
-            System.out.println(option2);
+            String option5 = sn.nextLine();
+            saveToJson(option5);
+            System.out.println("You have saved the jSON file with the name " + option5);
 
-            saveToJson(sn.nextLine());
             break;
 
           case 6:
             System.out.println("You have selected option 6");
-
+            System.out.println("Insert the name of the JSON file you want to load: ");
+            sn.nextLine();
+            String option5r = sn.nextLine();
+            saveToJson(option5r);
+            sn.nextLine();
+            String option6 = sn.nextLine();
+            if(option6 == option5r)
+            {
+                loadFromJson(option5r);
+            }
+            else
+              System.out.println("Error: This JSON file doesn't exist, please try again");
             //loadFromJson(String fileName)
             break;
 
           case 7:
             System.out.println("You have selected option 7");
+
             saveToJson(sn.nextLine());
             done = true;
             break;
