@@ -25,7 +25,6 @@ public class Timer extends Observable {
       @Override
       public void run() {
         date = LocalTime.now();
-        System.out.println(date);
         notifyObservers();
       }
     };

@@ -42,24 +42,16 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public void changeProject(String filename) {
-    // NO IDEA OF WHAT IS THIS DOING
-/*    int i = 0;
-
-    do {
-      if (filename == componentList[i].getName()) {
-        actualProject = componentList[i];
-      }else {
-        i++;
-      }
-
-    }while (i < componentList.length());*/
+    System.out.println("in fita 2");
   }
 
   @Override
   public boolean saveToJson(String fileName) {
     try
     {
-      return jsonParser.storeProjectsIntoJson(fileName);
+      jsonParser.setFileName(fileName);
+      rootProject.acceptVisitor(jsonParser);
+      return true;
     }
     catch(Exception e)
     {
@@ -72,7 +64,7 @@ public class ConsoleMenu implements MenuInterface {
   public boolean loadFromJson(String fileName) {
     try
     {
-      jsonParser.getProjectsFromJson(fileName);
+      rootProject = jsonParser.getProjectsFromJson(fileName);
     }
     catch(Exception e)
     {
@@ -102,14 +94,6 @@ public class ConsoleMenu implements MenuInterface {
   @Override
   public void start() throws Exception{
     System.out.println("starting");
-    // Needs to be updated:
-/*    boolean exists = checkForJson();
-
-    if (exists) {
-      System.out.println("File found..\tloading");
-      loadFromJson();
-    }*/
-
     printMenuOptions();
 
     Scanner sn = new Scanner(System.in);
@@ -117,59 +101,98 @@ public class ConsoleMenu implements MenuInterface {
 
     while (!done) {
       try {
+        printMenuOptions();
         System.out.println("Choose an option:");
         int option = sn.nextInt();
 
         switch (option) {
           case 1:
             System.out.println("You have selected option: 1");
-            System.out.println("Type the project name: ");
-            createNewProject(sn.nextLine());
+            System.out.print("Type the project name: ");
+            sn.nextLine();
+            String option1 = sn.nextLine();
+            createNewProject(option1);
             break;
 
           case 2:
             System.out.println("You have selected option 2");
-            System.out.println("Type the project name where you want to create a task: ");
-
-            createTask(sn.nextLine());
+            System.out.print("Type the project name where you want to create a task: ");
+            sn.nextLine();
+            String option2 = sn.nextLine();
+            createTask(option2);;
             break;
 
           case 3:
             System.out.println("You have selected option 3");
+            System.out.print("Please, insert the name of the JSON file: ");
+            sn.nextLine();
+            String option5 = sn.nextLine();
+            actualTask.stopActualInterval();
+            boolean success = saveToJson(option5);
 
-            // changeProject(String filename)
+            if (success) {
+              System.out.println("You have saved the jSON file with the name " + option5);
+            }
+
             break;
 
           case 4:
             System.out.println("You have selected option 4");
             System.out.println("Getting the time of the task: ");
-            getTaskTime();
-            break;
-
-
-          case 5:
-            System.out.println("You have selected option 5");
+            System.out.print("Please, insert the name of the JSON file: ");
             sn.nextLine();
-            String option2 = sn.nextLine();
-            System.out.println(option2);
+            String option4 = sn.nextLine();
+            boolean exists = checkForJson(option4);
 
-            saveToJson(sn.nextLine());
+            if (!exists) {
+              System.out.print("JSON not found");
+              break;
+            }
+
+            boolean readed = loadFromJson(option4);
+
+            if (readed) {
+              System.out.println("You have saved the jSON file with the name " + option4);
+            }
+
+            break;
+            
+          case 5:
+            System.out.println("task: " + actualTask.getName() + " time: " + getTaskTime());
             break;
 
           case 6:
             System.out.println("You have selected option 6");
-
-            //loadFromJson(String fileName)
+            System.out.println("Project: " + actualProject.getName() + " time: " + actualProject.getHumanReadableTimeDuration());
             break;
 
-          case 7:
+            case 7:
             System.out.println("You have selected option 7");
-            saveToJson(sn.nextLine());
+            if (actualTask == null ) {
+              System.out.println("To time of a task, a task must be created");
+              break;
+            }
+
+            System.out.println("Starting " + actualTask.getName());
+            actualTask.startNewInterval();
+            break;
+
+          case 8:
+            System.out.println("You have selected option 9");
+            if (actualTask == null) {
+              System.out.println("to stop a task, a task must be created");
+              break;
+            }
+
+            actualTask.stopActualInterval();
+
+          case 9:
+            System.out.println("You have selected option 9");
             done = true;
             break;
 
           default:
-            System.out.println("Numbers between 1-8");
+            System.out.println("Numbers between 1-9");
         }
 
       } catch (InputMismatchException e) {
@@ -187,9 +210,10 @@ public class ConsoleMenu implements MenuInterface {
     System.out.println("4. Load from another json");
     System.out.println("5. Print current task time");
     System.out.println("6. Print current project time");
-    System.out.println("7. Exit");
+    System.out.println("7. Start task time");
+    System.out.println("8. Stop task time");
+    System.out.println("9. Exit");
   }
-
 
   private boolean checkForJson(String readFromJson) throws Exception {
     File jsonToReadFrom = new File(readFromJson);
