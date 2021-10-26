@@ -94,7 +94,6 @@ public class ConsoleMenu implements MenuInterface {
   @Override
   public void start() throws Exception{
     System.out.println("starting");
-    printMenuOptions();
 
     Scanner sn = new Scanner(System.in);
     boolean done = false;
@@ -189,9 +188,14 @@ public class ConsoleMenu implements MenuInterface {
             System.out.println("Actual time: " + actualTask.getHumanReadableTimeDuration());
             break;
 
-
           case 9:
             System.out.println("You have selected option 9");
+            System.out.println("Printing Project Tree");
+              break;
+
+
+          case 10:
+            System.out.println("You have selected option 10");
             done = true;
             break;
 
@@ -216,7 +220,8 @@ public class ConsoleMenu implements MenuInterface {
     System.out.println("6. Print current project time");
     System.out.println("7. Start task time");
     System.out.println("8. Stop task time");
-    System.out.println("9. Exit \n");
+    System.out.println("9. Print Project Tree");
+    System.out.println("10. Exit \n");
   }
 
   private boolean checkForJson(String readFromJson) throws Exception {
