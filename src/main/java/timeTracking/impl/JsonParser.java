@@ -133,17 +133,23 @@ public class JsonParser implements Visitor {
 
   public boolean storeProjectsIntoJson(String storeToJson) {
     try {
-      FileWriter writer = new FileWriter(storeToJson);
-      writer.write(projectTree.toString(4));
+      if (!projectTree.isEmpty()) {
+        FileWriter writer = new FileWriter(storeToJson,false);
+        writer.write(projectTree.toString(4));
 
-      writer.flush();
-      writer.close();
+        writer.flush();
+        writer.close();
+      }
     }
 
     catch (Exception e) {
       e.printStackTrace();
       return false;
     }
+
+    rootJsonProject = new JSONObject();
+    projectTree = new JSONArray();
+
     return true;
   }
 

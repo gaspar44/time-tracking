@@ -170,6 +170,12 @@ public class ConsoleMenu implements MenuInterface {
             
           case 5:
             System.out.println("task: " + actualTask.getName() + " time: " + getTaskTime());
+
+            if (actualTask.getTimeIntervalList().size() != 0) {
+              System.out.println("started at: " + actualTask.getStartedTime().toString());
+              System.out.println("ended at: " + actualTask.getEndedTime().toString());
+            }
+
             break;
 
           case 6:
