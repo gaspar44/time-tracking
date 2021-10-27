@@ -10,6 +10,8 @@ public class TreePrinter implements Visitor {
 
   //private TreePrinter sourceTree;
   private String fileName;
+  private String maxTab = "+";
+  private String tab = "+";
 
   TreePrinter(){
       this.fileName = "";
@@ -28,20 +30,25 @@ public class TreePrinter implements Visitor {
 
   @Override
   public void visitProject(Project project) {
-    System.out.println("Entra en visitProject");
 
     Component father = project.getFather();
+    List<Component> components = project.getComponents();
 
-    if (father == null)
+    if(father == null)
     {
-      List<Component> components = project.getComponents();
-      System.out.println(components);
-      for (Component component : components) {
-        System.out.println(project.getName());
-        component.acceptVisitor(this);
-      }
-    }else {
-      father.acceptVisitor(this);
+      System.out.println(project.getName());
+    }else
+    {
+      maxTab+=tab;
     }
-  }
+
+    for ( Component component : components)
+    {
+      System.out.println(maxTab + component.getName());
+      component.acceptVisitor(this);
+    }
+
+
+    }
+
 }

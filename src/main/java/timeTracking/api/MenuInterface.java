@@ -24,6 +24,6 @@ public interface MenuInterface {
 
   void start() throws Exception;
 
-  boolean printTree(String fileName);
+  boolean printTree();
 
 }

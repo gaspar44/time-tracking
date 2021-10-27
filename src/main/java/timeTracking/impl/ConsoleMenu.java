@@ -36,7 +36,8 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public Task createTask(String name) {
-    System.out.println("creating new task with name: " + name + " and appending to the project");
+    System.out.println("Creating new task with name: " + name + " and appending "
+          + "to the actual project");
     actualTask = new Task(name, actualProject);
     return actualTask;
   }
@@ -62,14 +63,11 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
-  public boolean printTree(String fileName)
+  public boolean printTree()
   {
     try{
 
       TreePrinter tree = new TreePrinter();
-
-      System.out.println("Printando arbol: "+  fileName);
-      tree.setFileName(fileName);
       rootProject.acceptVisitor(tree);
       return true;
     }catch(Exception e)
@@ -127,7 +125,7 @@ public class ConsoleMenu implements MenuInterface {
         switch (option) {
           case 1:
             System.out.println("You have selected option: 1");
-            System.out.print("Type the project name: ");
+            System.out.print("Type the new Project name: ");
             sn.nextLine();
             String option1 = sn.nextLine();
             createNewProject(option1);
@@ -135,7 +133,7 @@ public class ConsoleMenu implements MenuInterface {
 
           case 2:
             System.out.println("You have selected option 2");
-            System.out.print("Type the project name where you want to create a task: ");
+            System.out.print("Type the new Task name:");
             sn.nextLine();
             String option2 = sn.nextLine();
             createTask(option2);
@@ -150,7 +148,7 @@ public class ConsoleMenu implements MenuInterface {
             boolean success = saveToJson(option5);
 
             if (success) {
-              System.out.println("You have saved the jSON file with the name " + option5);
+              System.out.println("You have saved the jSON file with the name: " + option5);
             }
 
             break;
@@ -163,14 +161,14 @@ public class ConsoleMenu implements MenuInterface {
             boolean exists = checkForJson(option4);
 
             if (!exists) {
-              System.out.print("JSON not found");
+              System.out.print("JSON not found. ");
               break;
             }
 
             boolean readed = loadFromJson(option4);
 
             if (readed) {
-              System.out.println("You have loaded the jSON file with the name " + option4);
+              System.out.println("You have loaded the jSON file with the name: " + option4);
             }
 
             break;
@@ -210,12 +208,9 @@ public class ConsoleMenu implements MenuInterface {
           case 9:
 
             System.out.println("You have selected option 9");
-            System.out.print("Please, insert the name of the JSON  to print the Tree: ");
-            sn.nextLine();
-            String optione = sn.nextLine();
-            printTree(optione);
             System.out.println("Printing Project Tree \n ");
 
+            printTree();
             break;
 
 
