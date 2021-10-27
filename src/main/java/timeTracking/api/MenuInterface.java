@@ -23,4 +23,7 @@ public interface MenuInterface {
   boolean loadFromJson(String fileName);
 
   void start() throws Exception;
+
+  boolean printTree();
+
 }
