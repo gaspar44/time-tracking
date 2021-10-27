@@ -8,7 +8,6 @@ import java.util.List;
 
 public class TreePrinter implements Visitor {
 
-  //private TreePrinter sourceTree;
   private String fileName;
   private String maxTab = "+";
   private String tab = "+";
