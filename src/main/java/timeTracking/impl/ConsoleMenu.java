@@ -17,7 +17,7 @@ public class ConsoleMenu implements MenuInterface {
 
   public ConsoleMenu() {
     jsonParser = JsonParser.getInstance();
-    System.out.println("creating new root project");
+    System.out.println("Creating new root project");
     rootProject = new Project("root", null);
     actualProject = null;
   }
@@ -44,7 +44,7 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public void changeProject(String filename) {
-    System.out.println("in fita 2");
+    System.out.println("Next session.");
   }
 
   @Override
@@ -66,7 +66,6 @@ public class ConsoleMenu implements MenuInterface {
   public boolean printTree()
   {
     try{
-
       TreePrinter tree = new TreePrinter();
       rootProject.acceptVisitor(tree);
       return true;
@@ -100,14 +99,10 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
-  public void returnToMenu() {
-
-  }
+  public void returnToMenu() {   }
 
   @Override
-  public void addProjectToCurrentOne() {
-
-  }
+  public void addProjectToCurrentOne() {   }
 
   @Override
   public void start() throws Exception{
@@ -119,7 +114,7 @@ public class ConsoleMenu implements MenuInterface {
     while (!done) {
       try {
         printMenuOptions();
-        System.out.println("Choose an option:");
+        System.out.println("Choose an option: ");
         int option = sn.nextInt();
 
         switch (option) {
@@ -161,7 +156,7 @@ public class ConsoleMenu implements MenuInterface {
             boolean exists = checkForJson(option4);
 
             if (!exists) {
-              System.out.print("JSON not found. ");
+              System.out.print("JSON not found.");
               break;
             }
 
@@ -231,7 +226,7 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   private void printMenuOptions() {
-    System.out.println("Choose option");
+    System.out.println("Choose an option: ");
     System.out.println("1. Create Project");
     System.out.println("2. Create task");
     System.out.println("3. Store at json");

@@ -9,11 +9,15 @@ import java.util.List;
 public class TreePrinter implements Visitor {
 
   private String fileName;
-  private String maxTab = "+";
-  private String tab = "+";
+  private String Tabulator = "+";
+  private String maxTabulator = "+";
+
 
   TreePrinter(){
       this.fileName = "";
+  }
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
   }
 
   @Override
@@ -22,9 +26,6 @@ public class TreePrinter implements Visitor {
   }
 
 
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
 
 
   @Override
@@ -38,12 +39,12 @@ public class TreePrinter implements Visitor {
       System.out.println(project.getName());
     }else
     {
-      maxTab+=tab;
+      maxTabulator+= Tabulator;
     }
 
     for ( Component component : components)
     {
-      System.out.println(maxTab + component.getName());
+      System.out.println(maxTabulator + component.getName());
       component.acceptVisitor(this);
     }
 

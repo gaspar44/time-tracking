@@ -134,8 +134,9 @@ class JsonParser implements Visitor{
 
 class TreePrinter implements Visitor{
     - fileName : String
-    - projectTree : JSONArray
-    - rootJsonProject : JSONObject
+    - Tabulator : String
+    - maxTabulator : String
+    + TreePrinter()
     + visitTask(task : Task)
     + visitProject(project : Project)
 }
@@ -180,6 +181,7 @@ class ConsoleMenu implements MenuInterface {
     + returnToMenu()
     + addProjectToCurrentOne()
     + start()
+    + printTree()
     - printMenuOptions()
     - checkForJson() : boolean
 }
