@@ -26,7 +26,7 @@ public class TaskTest {
     Assertions.assertTrue(task.getTimeIntervalList().size() == 1);
     Assertions.assertNotNull(task.getTimeInterval());
     Assertions.assertNotNull(task.getTimeInterval().getStartTime());
-    Assertions.assertNotNull(task.getTimeInterval().getEndTime());
+    Assertions.assertNull(task.getTimeInterval().getEndTime());
     long initialDuration = 4;
 
     Thread.sleep(initialDuration * 1000);
@@ -52,6 +52,37 @@ public class TaskTest {
   }
 
   @Test
+  public void createProjectTest() throws Exception {
+
+    // Creation of clock with period of 2 s
+
+
+    // make a small tree of projects and tasks
+    Project root = new Project("root", null);
+    Project p1 = new Project("P1", root);
+    Project p2 = new Project("P2", root);
+    Task t1 = new Task("T1", root);
+    Task t2 = new Task("T2", p1);
+    Task t3 = new Task("T3", p2);
+
+    t1.startNewInterval();
+    Thread.sleep(2000);
+    t1.stopActualInterval();
+
+    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+    System.out.println(" " + t1.getName() + "   " + t1.getStartedTime() + "    " + t1.getEndedTime() + "    " + t1.getHumanReadableTimeDuration());
+
+    Thread.sleep(2000);
+    t2.startNewInterval();
+    Thread.sleep(5000);
+
+    t2.stopActualInterval();
+    System.out.println(" Name "+"   Initial date " + "          Final date " + "                  Duration ");
+    System.out.println(" " + t2.getName() + "   " + t2.getStartedTime() + "    " + t2.getEndedTime() + "    " + t2.getHumanReadableTimeDuration());
+  }
+
+
+  @Test
   public void getTotalHumanTimeTest() throws Exception {
     createTasks(5);
     task.getHumanReadableTimeDuration();
@@ -70,6 +101,7 @@ public class TaskTest {
     Assertions.assertTrue(currentTimeDuration >= timesToCreate);
     Assertions.assertTrue(currentTimeDuration == task.getTotalTime());
   }
+
 
 
   @Test
