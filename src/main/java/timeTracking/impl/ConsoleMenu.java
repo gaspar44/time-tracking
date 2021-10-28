@@ -212,6 +212,7 @@ public class ConsoleMenu implements MenuInterface {
             System.out.println("Printing Project Tree \n ");
 
             printTree();
+            System.out.println("\n");
             break;
 
 
