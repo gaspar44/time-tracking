@@ -26,7 +26,7 @@ public class TaskTest {
     Assertions.assertTrue(task.getTimeIntervalList().size() == 1);
     Assertions.assertNotNull(task.getTimeInterval());
     Assertions.assertNotNull(task.getTimeInterval().getStartTime());
-    Assertions.assertNull(task.getTimeInterval().getEndTime());
+    Assertions.assertNotNull(task.getTimeInterval().getEndTime());
     long initialDuration = 4;
 
     Thread.sleep(initialDuration * 1000);
