@@ -70,20 +70,78 @@ public class TaskTest {
     Task t2 = new Task("T2", p1);
     Task t3 = new Task("T3", p2);
 
+
+    // TASK 1
+    interval.start();
+    interval.sleep(1000);
+
     t1.startNewInterval();
-    Thread.sleep(2000);
+    interval.sleep(1000);
     t1.stopActualInterval();
 
     System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
     System.out.println(" " + t1.getName() + "   " + t1.getStartedTime() + "    " + t1.getEndedTime() + "    " + t1.getHumanReadableTimeDuration());
 
-    Thread.sleep(2000);
-    t2.startNewInterval();
-    Thread.sleep(5000);
 
+    for (int i = 0; i < 2; i++)
+    {
+      t1.startNewInterval();
+      interval.sleep(2000);
+      t1.stopActualInterval();
+
+      System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+      System.out.println(" " + t1.getName() + "   " + t1.getStartedTime() + "    " + t1.getEndedTime() + "    " + t1.getHumanReadableTimeDuration());
+    }
+
+    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+    System.out.println(" " + root.getName() + "   " + t1.getStartedTime() + "    " + t1.getEndedTime() + "    " + root.getHumanReadableTimeDuration());
+    interval.stop();
+
+    // TASK 2
+
+    interval.sleep(1000);
+    t2.startNewInterval();
+    interval.sleep(6000);
     t2.stopActualInterval();
+
     System.out.println(" Name "+"   Initial date " + "          Final date " + "                  Duration ");
     System.out.println(" " + t2.getName() + "   " + t2.getStartedTime() + "    " + t2.getEndedTime() + "    " + t2.getHumanReadableTimeDuration());
+
+
+    for (int i = 0; i < 2; i++)
+    {
+      t2.startNewInterval();
+      interval.sleep(2000);
+      t2.stopActualInterval();
+
+      System.out.println(" Name "+"   Initial date " + "          Final date " + "                  Duration ");
+      System.out.println(" " + t2.getName() + "   " + t2.getStartedTime() + "    " + t2.getEndedTime() + "    " + t2.getHumanReadableTimeDuration());
+    }
+    System.out.println("Name "+ "          Total time " + "                   Duration ");
+    System.out.println(" " + root.getName() + "   " + root.getTotalTime()+ "    " + root.getHumanReadableTimeDuration());
+
+    // TASK 3
+
+    interval.sleep(1000);
+    t3.startNewInterval();
+    interval.sleep(2000);
+    t3.stopActualInterval();
+
+    System.out.println(" Name "+"   Initial date " + "          Final date " + "                  Duration ");
+    System.out.println(" " + t3.getName() + "   " + t3.getStartedTime() + "    " + t3.getEndedTime() + "    " + t3.getHumanReadableTimeDuration());
+
+    for (int i = 0; i < 2; i++)
+    {
+      t3.startNewInterval();
+      interval.sleep(4000);
+      t3.stopActualInterval();
+
+      System.out.println(" Name "+"   Initial date " + "          Final date " + "                  Duration ");
+      System.out.println(" " + t3.getName() + "   " + t3.getStartedTime() + "    " + t3.getEndedTime() + "    " + t3.getHumanReadableTimeDuration());
+    }
+    System.out.println("Name "+ "          Total time " + "                   Duration ");
+    System.out.println(" " + root.getName() + "   " + root.getTotalTime()+ "    " + root.getHumanReadableTimeDuration());
+
   }
 
 
