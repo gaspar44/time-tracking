@@ -3,17 +3,19 @@ import timeTracking.api.Visitor;
 import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class TreePrinter implements Visitor {
 
   private String fileName;
-  private String Tabulator = "+";
-  private String maxTabulator = "+";
+  private List<String> tabulatorList = new ArrayList<String>();
 
 
-  TreePrinter(){
+  public TreePrinter(){
       this.fileName = "";
   }
   public void setFileName(String fileName) {
@@ -25,30 +27,28 @@ public class TreePrinter implements Visitor {
     this.fileName = "";
   }
 
-
-
-
   @Override
   public void visitProject(Project project) {
 
     Component father = project.getFather();
     List<Component> components = project.getComponents();
 
-    if(father == null)
-    {
+    if(father == null) {
       System.out.println(project.getName());
-    }else
-    {
-      maxTabulator+= Tabulator;
     }
 
     for ( Component component : components)
     {
-      System.out.println(maxTabulator + component.getName());
+      tabulatorList.add("+");
+
+      for (String plus : tabulatorList)
+      {
+        System.out.print(plus);
+      }
+
+      System.out.println(component.getName() + "       child of " + project.getName());
       component.acceptVisitor(this);
+      tabulatorList.remove(tabulatorList.size() - 1);
     }
-
-
-    }
-
+  }
 }
