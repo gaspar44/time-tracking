@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 import timeTracking.core.TimeInterval;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TaskTest {
   private Task task;
@@ -55,7 +58,9 @@ public class TaskTest {
   public void createProjectTest() throws Exception {
 
     // Creation of clock with period of 2 s
-
+    int time = 2000;
+    int totalTime;
+    Thread interval = new Thread();
 
     // make a small tree of projects and tasks
     Project root = new Project("root", null);
