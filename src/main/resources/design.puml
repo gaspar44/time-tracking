@@ -101,7 +101,7 @@ class Timer {
     - {static} timer : java.util.Timer
     - {static} innerTimer : TimerTask
     - {static} timeIntervals : List<Observer>
-    - {static final} TIMER_MILLISECONDS_PERIOD
+    - {static final} TIMER_MILLISECONDS_PERIOD : int
 
     + getTimerMillisecondsPeriod() : int
     + {static} getInstance() : Timer
