@@ -20,16 +20,15 @@ public class TimeInterval implements Observer {
       lock.lock();
       endTime = (LocalTime) obj;
       fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
-      lock.unlock();
-
       printTime();
+      lock.unlock();
   }
 
-  private synchronized void printTime() {
-    lock.lock();
-    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
-    System.out.println(" " + fatherTask.getName() + "  +   " + fatherTask.getStartedTime() + "  " + endTime + "    " + fatherTask.getTotalTime());
-    lock.unlock();
+  private void printTime() {
+    synchronized (System.out) {
+      System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+      System.out.println(" " + fatherTask.getName() + "  +   " + fatherTask.getStartedTime() + "  " + endTime + "    " + fatherTask.getTotalTime());
+    }
   }
 
   public TimeInterval(Task task) {
