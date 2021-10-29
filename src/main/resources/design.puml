@@ -153,6 +153,7 @@ class TreePrinter implements Visitor{
     + TreePrinter()
     + visitTask(task : Task)
     + visitProject(project : Project)
+    + setFileName(filename : String)
 }
 
 class Main {
