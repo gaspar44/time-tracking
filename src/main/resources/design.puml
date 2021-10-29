@@ -3,6 +3,7 @@ abstract class Component {
     - name : String
     # father : Component
     # totalTime : long
+    - {final} lock : ReentrantLock
 
     + Component(componentName : String, father : Component)
     + getName() : String
@@ -10,8 +11,8 @@ abstract class Component {
     + getHumanReadableTimeDuration() : String
     + getFather() : Component
     + setTotalTime(totalTime : long)
-    + getTotalTime() : Time
-    + {abstract} acceptVisitor(Visitor : visitor)
+    + getTotalTime() : long
+    + {abstract} acceptVisitor(visitor : Visitor)
     # addTimeDuration(moreDuration : long)
 }
 
@@ -21,8 +22,10 @@ class TimeInterval implements java.util.Observer {
     - endTime : LocalTime
     - duration : long
     - fatherTask: Task
+    -{final} lock : ReentrantLock
+
     + update(observable : Observable, obj : Object)
-    + printTime()
+    - printTime()
     + TimeInterval(task : Task)
     + startTime()
     + stopTime()
@@ -58,6 +61,7 @@ interface Visitor {
 class Project extends Component{
 
     - components : List<Component>
+
     + Project(root : String, father : Project)
     + getComponents() : List<Component>
     + setComponents(components : List<Component>)
@@ -71,15 +75,19 @@ class Task {
 
     - timeIntervalList : List<TimeInterval>
     - timeInterval : TimeInterval
+    - startTime : LocalTime
+    - endTime : LocalTime
+
     + Task(name : String, father : Project)
     + getTimeIntervalList() : List<TimeInterval>
-    + getTimeInterval : TimeInterval
-    + startNewInterval : TimeInterval
-    + stopActualInterval: TimeInterval
+    + getTimeInterval() : TimeInterval
+    + startNewInterval() : TimeInterval
+    + stopActualInterval(): TimeInterval
+    + setEndTime(endTime : LocalTime)
     + setTimeInterval(endTime : LocalTime)
     + setTimeIntervalList(timeIntervalList : List<TimeInterval>)
-    + getStartedTime : LocalTime
-    + getEndedTime : LocalTime
+    + getStartedTime() : LocalTime
+    + getEndedTime() : LocalTime
     + acceptVisitor(visitor : Visitor)
 
 }
@@ -88,13 +96,15 @@ class Task {
 
 class Timer {
 
-    - {static} instance :Timer
+    - {static} instance : Timer
     - {static} date : LocalTime
-    - {static} innerTimer : java.util.Timertask
-    - {static} TimerTask : innerTimer
-    - timeInterval : List<Observer>
+    - {static} timer : java.util.Timer
+    - {static} innerTimer : TimerTask
+    - {static} timeIntervals : List<Observer>
     - {static final} TIMER_MILLISECONDS_PERIOD
-    + getInstance() : Timer
+
+    + getTimerMillisecondsPeriod() : int
+    + {static} getInstance() : Timer
     - Timer()
     + notifyObservers()
     + getDate() : LocalTime
@@ -106,22 +116,24 @@ class Timer {
 }
 
 class JsonParser implements Visitor{
-    - instance : JsonParser
+    - {static} instance : JsonParser
     - fileName : String
     - projectTree : JSONArray
     - rootJsonProject : JSONObject
     - parsedTreeFromFile : Project
-    - {static} TIME_INTERVAL_KEY : String
-    - {static} CURRENT_TIME_INTERVAL_DURATION : String
-    - {static} DURATION_KEY : String
-    - {static} NAME_KEY : String
-    - {static} TYPE_KEY : String
-    - {static} COMPONENT_KEY : String
-    - {static} START_TIME_KEY : String
-    - {static} END_TIME_KEY : String
-    - {static} FATHER_NAME : String
-    - {static} PROJECT_TYPE : String
-    - {static} TASK_TYPE : String
+
+    - {static final} TIME_INTERVAL_KEY : String
+    - {static final} CURRENT_TIME_INTERVAL_DURATION : String
+    - {static final} DURATION_KEY : String
+    - {static final} NAME_KEY : String
+    - {static final} TYPE_KEY : String
+    - {static final} COMPONENT_KEY : String
+    - {static final} START_TIME_KEY : String
+    - {static final} END_TIME_KEY : String
+    - {static final} FATHER_NAME : String
+    - {static final} PROJECT_TYPE : String
+    - {static final} TASK_TYPE : String
+
     - JsonParser()
     + {static} getInstance() : JsonParser
     + getProjectsFromJson(fileName : String) : Project
@@ -136,16 +148,15 @@ class JsonParser implements Visitor{
 
 class TreePrinter implements Visitor{
     - fileName : String
-    - Tabulator : String
-    - maxTabulator : String
+    - tabulatorList : List<String>
+
     + TreePrinter()
-    + setFileName()
     + visitTask(task : Task)
     + visitProject(project : Project)
 }
 
 class Main {
-    + {static} main()
+    + {static} main(args : String[])
 }
 
 interface MenuInterface {
@@ -159,31 +170,31 @@ interface MenuInterface {
     + saveToJson(fileName : String) : boolean
     + loadFromJson(fileName : String)) : boolean
     + start()
+    printTree() : boolean
 }
 
 
 class ConsoleMenu implements MenuInterface {
-    - componentList : List<Component>
+
+    - rootProject : Project
     - actualProject : Project
     - actualTask : Task
-    - readFromJson : String
-    - storeToJson : String
     - {static} jsonParser : JsonParser
-    + ConsoleMenu(readFromJson : String)
+
+    + ConsoleMenu()
     + getRootProject() : Project
-    + getComponentList() : List<Component>
     + createNewProject(name : String) : Project
     + createTask(name : String) : Task
     + changeProject(filename : String)
-    + saveToJson() : boolean
+    + saveToJson(fileName : String) : boolean
     + loadFromJson(fileName : String) : boolean
     + getTaskTime() : long
     + returnToMenu()
     + addProjectToCurrentOne()
     + start()
-    + printTree()
+    + printTree() : boolean
     - printMenuOptions()
-    - checkForJson() : boolean
+    - checkForJson(readFromFile : String) : boolean
 }
 
 note top of Task {
