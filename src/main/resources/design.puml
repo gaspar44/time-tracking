@@ -142,10 +142,7 @@ class TreePrinter implements Visitor{
 }
 
 class Main {
-    - readFromFile : boolean
-    - fileName : String
     + {static} main()
-    - parseArgs(args : List args)
 }
 
 interface MenuInterface {

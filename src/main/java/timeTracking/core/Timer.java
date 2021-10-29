@@ -9,7 +9,11 @@ public class Timer extends Observable {
   private static java.util.Timer timer;
   private static TimerTask innerTimer;
   private static List<Observer> timeIntervals;
-  private static final int TIMER_MILLISECONDS_PERIOD = 1000;
+  private static final int TIMER_MILLISECONDS_PERIOD = 2000;
+
+  public int getTimerMillisecondsPeriod() {
+    return TIMER_MILLISECONDS_PERIOD;
+  }
 
   public static Timer getInstance() {
     if (instance == null) {

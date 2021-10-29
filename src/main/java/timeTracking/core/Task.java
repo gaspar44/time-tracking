@@ -9,6 +9,8 @@ import java.util.List;
 public class Task extends Component{
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
+  private LocalTime startTime;
+  private LocalTime endTime;
 
   public Task(String name, Project father) {
     super(name,father);
@@ -28,6 +30,7 @@ public class Task extends Component{
     timeInterval = new TimeInterval(this);
     timeIntervalList.add(timeInterval);
     timeInterval.startTime();
+    startTime = timeInterval.getStartTime();
     return timeInterval;
   }
 
@@ -38,13 +41,12 @@ public class Task extends Component{
       timeInterval.stopTime();
     }
 
-
     timeInterval = null;
     return ret;
   }
 
-  public void setTimeInterval(TimeInterval timeInterval) {
-    this.timeInterval = timeInterval;
+  public void setEndTime(LocalTime endTime) {
+    this.endTime = endTime;
   }
 
   public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
@@ -53,11 +55,11 @@ public class Task extends Component{
 
 
   public LocalTime getStartedTime() {
-    return timeInterval == null ? timeIntervalList.get(timeIntervalList.size() - 1 ).getStartTime() : timeInterval.getStartTime();
+    return startTime;
   }
 
   public LocalTime getEndedTime() {
-    return timeInterval == null ? timeIntervalList.get(timeIntervalList.size() - 1 ).getEndTime() : timeInterval.getEndTime();
+    return endTime;
   }
 
   @Override

@@ -1,20 +1,37 @@
 package timeTracking.core;
 
 import java.time.LocalTime;
+import java.util.ConcurrentModificationException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TimeInterval implements Observer {
   private LocalTime startTime;
   private LocalTime endTime;
   private long duration;
   private Task fatherTask;
+  private final ReentrantLock lock = new ReentrantLock();
 
   @Override
   public void update(Observable observable, Object obj) {
-      duration = duration + 1 ;
+      duration = duration + Timer.getInstance().getTimerMillisecondsPeriod() / 1000 ;
+
+      lock.lock();
       endTime = (LocalTime) obj;
-      fatherTask.addTimeDuration(1);
+      fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
+      lock.unlock();
+
+      printTime();
+  }
+
+  private synchronized void printTime() {
+    if (endTime != null && startTime != null ){
+      System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+      lock.lock();
+      System.out.println(" " + fatherTask.getName() + "  +   " + fatherTask.getStartedTime() + "  " + endTime + "    " + fatherTask.getTotalTime());
+      lock.unlock();
+    }
   }
 
   public TimeInterval(Task task) {

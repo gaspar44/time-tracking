@@ -79,12 +79,10 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public boolean loadFromJson(String fileName) {
-    try
-    {
+    try {
       rootProject = jsonParser.getProjectsFromJson(fileName);
     }
-    catch(Exception e)
-    {
+    catch(Exception e) {
       System.out.println("ERROR loading from json. Creating new empty project.");
       createNewProject("default");
       return false;
