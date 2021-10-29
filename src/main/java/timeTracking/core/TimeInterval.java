@@ -1,7 +1,6 @@
 package timeTracking.core;
 
 import java.time.LocalTime;
-import java.util.ConcurrentModificationException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,7 +19,7 @@ public class TimeInterval implements Observer {
       lock.lock();
       endTime = (LocalTime) obj;
       fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
-      printTime();
+      //printTime(); In order to the remaining functionality to still work
       lock.unlock();
   }
 
