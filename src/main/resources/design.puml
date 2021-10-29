@@ -21,6 +21,8 @@ class TimeInterval implements java.util.Observer {
     - endTime : LocalTime
     - duration : long
     - fatherTask: Task
+    + update(observable : Observable, obj : Object)
+    + printTime()
     + TimeInterval(task : Task)
     + startTime()
     + stopTime()
@@ -74,8 +76,8 @@ class Task {
     + getTimeInterval : TimeInterval
     + startNewInterval : TimeInterval
     + stopActualInterval: TimeInterval
-    + setTimeInterval
-    + setTimeIntervalList
+    + setTimeInterval(endTime : LocalTime)
+    + setTimeIntervalList(timeIntervalList : List<TimeInterval>)
     + getStartedTime : LocalTime
     + getEndedTime : LocalTime
     + acceptVisitor(visitor : Visitor)
@@ -137,6 +139,7 @@ class TreePrinter implements Visitor{
     - Tabulator : String
     - maxTabulator : String
     + TreePrinter()
+    + setFileName()
     + visitTask(task : Task)
     + visitProject(project : Project)
 }
@@ -166,8 +169,8 @@ class ConsoleMenu implements MenuInterface {
     - readFromJson : String
     - storeToJson : String
     - {static} jsonParser : JsonParser
-
     + ConsoleMenu(readFromJson : String)
+    + getRootProject() : Project
     + getComponentList() : List<Component>
     + createNewProject(name : String) : Project
     + createTask(name : String) : Task
