@@ -97,7 +97,6 @@ public class JsonParserTest {
     Assertions.assertEquals(task.getName(),taskOfLoadedProject.getName());
     Assertions.assertEquals(task.getTimeIntervalList().size(),taskOfLoadedProject.getTimeIntervalList().size());
     Assertions.assertEquals(task.getStartedTime(),taskOfLoadedProject.getStartedTime());
-    Assertions.assertEquals(task.getEndedTime(),taskOfLoadedProject.getEndedTime());
     Assertions.assertEquals(task.getTotalTime(),taskOfLoadedProject.getTotalTime());
   }
 

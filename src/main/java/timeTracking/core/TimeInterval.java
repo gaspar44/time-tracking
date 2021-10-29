@@ -26,12 +26,10 @@ public class TimeInterval implements Observer {
   }
 
   private synchronized void printTime() {
-    if (endTime != null && startTime != null ){
-      System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
-      lock.lock();
-      System.out.println(" " + fatherTask.getName() + "  +   " + fatherTask.getStartedTime() + "  " + endTime + "    " + fatherTask.getTotalTime());
-      lock.unlock();
-    }
+    lock.lock();
+    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+    System.out.println(" " + fatherTask.getName() + "  +   " + fatherTask.getStartedTime() + "  " + endTime + "    " + fatherTask.getTotalTime());
+    lock.unlock();
   }
 
   public TimeInterval(Task task) {
