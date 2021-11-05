@@ -6,13 +6,12 @@ import org.junit.jupiter.api.Test;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 import timeTracking.core.TimeInterval;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import timeTracking.core.Timer;
 
 public class TaskTest {
   private Task task;
   private Project emptyProject;
+  private final long  TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
 
   @BeforeEach
   public void setup() throws Exception {
@@ -32,12 +31,12 @@ public class TaskTest {
     Assertions.assertNull(task.getTimeInterval().getEndTime());
     long initialDuration = 4;
 
-    Thread.sleep(initialDuration * 1000);
+    Thread.sleep(initialDuration * TIMER_CLOCK);
 
     task.stopActualInterval();
     Assertions.assertTrue(task.getTimeIntervalList().size() == 1);
     Assertions.assertNull(task.getTimeInterval());
-    Assertions.assertTrue(task.getTotalTime() >= initialDuration);
+    Assertions.assertTrue(task.getTotalTime() == initialDuration *(TIMER_CLOCK / 1000));
   }
 
   @Test
@@ -51,7 +50,7 @@ public class TaskTest {
     Assertions.assertNull(task.getTimeInterval());
 
     long totalDuration = task.getTotalTime();
-    Assertions.assertTrue(totalDuration >= timesToCreate);
+    Assertions.assertTrue(totalDuration == timesToCreate * (TIMER_CLOCK) / 1000);
   }
 
   @Test
@@ -159,7 +158,7 @@ public class TaskTest {
     createTasks(timesToCreate);
     long currentTimeDuration = task.getTotalTime();
     Assertions.assertTrue(currentTimeDuration > 0);
-    Thread.sleep(3000);
+    Thread.sleep(TIMER_CLOCK);
 
     Assertions.assertTrue(currentTimeDuration >= timesToCreate);
     Assertions.assertTrue(currentTimeDuration == task.getTotalTime());
@@ -176,17 +175,17 @@ public class TaskTest {
 
     Assertions.assertNotNull(firstTimeInterval.getStartTime());
     Assertions.assertNull(firstTimeInterval.getEndTime());
-    Thread.sleep(1000);
+    Thread.sleep(TIMER_CLOCK);
 
     firstTimeInterval = task.getTimeInterval();
-    Thread.sleep(1000);
+    Thread.sleep(TIMER_CLOCK);
 
     TimeInterval stoppedFirstTimeInterval = task.stopActualInterval();
 
     Assertions.assertNotNull(stoppedFirstTimeInterval);
     Assertions.assertTrue(stoppedFirstTimeInterval.getCurrentDuration() == firstTimeInterval.getCurrentDuration());
 
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK * 2 );
 
     Assertions.assertTrue(stoppedFirstTimeInterval.getCurrentDuration() == firstTimeInterval.getCurrentDuration());
   }
@@ -194,9 +193,9 @@ public class TaskTest {
   private void createTasks(int timesToCreate) throws Exception {
     for (int i = 0; i < timesToCreate; i++) {
       task.startNewInterval();
-      Thread.sleep(1000);
+      Thread.sleep(TIMER_CLOCK);
       task.stopActualInterval();
-      Thread.sleep(1000);
+      Thread.sleep(TIMER_CLOCK);
     }
   }
 }

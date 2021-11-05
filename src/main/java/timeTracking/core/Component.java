@@ -3,13 +3,11 @@ package timeTracking.core;
 import timeTracking.api.Visitor;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class Component {
   private String name;
   protected Component father;
   protected long totalTime;
-  private final ReentrantLock lock = new ReentrantLock();
 
   public Component(String componentName,Component father)
   {
@@ -49,9 +47,7 @@ public abstract class Component {
   public abstract void acceptVisitor(Visitor visitor);
 
   protected void addTimeDuration(long moreDuration) {
-    lock.lock();
     totalTime = totalTime + moreDuration;
-    lock.unlock();
     if (father != null) {
       father.addTimeDuration(moreDuration);
     }
