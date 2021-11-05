@@ -75,13 +75,13 @@ public class ProjectTest {
 
     task1.startNewInterval();
     task2.startNewInterval();
-    Thread.sleep(1000);
+    Thread.sleep(TIMER_CLOCK);
     task2.stopActualInterval();
 
     long project1TotalTime = project1.getTotalTime();
     Assertions.assertTrue(task2.getTotalTime() == project1TotalTime);
 
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK * 2);
     task1.stopActualInterval();
 
     Assertions.assertTrue(task2.getTotalTime() == project1TotalTime);
