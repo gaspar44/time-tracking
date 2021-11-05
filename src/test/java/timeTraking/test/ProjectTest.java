@@ -5,9 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
+import timeTracking.core.Timer;
 
 public class ProjectTest {
   private Project project;
+  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
 
   @BeforeEach
   public void setup() throws Exception {
@@ -15,7 +17,7 @@ public class ProjectTest {
   }
 
   @Test
-  public void addTaskToProjectTest() throws Exception{
+  public void addTaskToProjectTest() {
     Assertions.assertTrue(project.getComponents().size() == 0);
     Assertions.assertTrue(project.getTotalTime() == 0);
 
@@ -29,13 +31,13 @@ public class ProjectTest {
     Assertions.assertTrue(project.getComponents().size() == 1);
     Assertions.assertTrue(project.getTotalTime() == 0);
     task.startNewInterval();
-    Thread.sleep(1000);
+    Thread.sleep(TIMER_CLOCK);
 
     Assertions.assertTrue(project.getTotalTime() > 0);
 
     task.stopActualInterval();
     long currentDuration = task.getTotalTime();
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK * 2);
     Assertions.assertEquals(currentDuration,project.getTotalTime());
   }
 
@@ -48,14 +50,14 @@ public class ProjectTest {
     Assertions.assertTrue(project.getTotalTime() == 0);
 
     task1.startNewInterval();
-    Thread.sleep(1000);
+    Thread.sleep(TIMER_CLOCK);
 
     task1.stopActualInterval();
     long task1CurrenTime = task1.getTotalTime();
     Assertions.assertTrue(task1CurrenTime == project.getTotalTime());
 
     task2.startNewInterval();
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK * 2);
     task2.stopActualInterval();
     long task2CurrentTime = task2.getTotalTime();
 
