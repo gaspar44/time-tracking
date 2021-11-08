@@ -57,8 +57,14 @@ public abstract class Component {
 
   public abstract void acceptVisitor(Visitor visitor);
 
+  private void printTime() {
+    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+    System.out.println(" " + this.name + "  +   " + this.startTime + "  " + this.endTime + "    " + this.totalTime);
+  }
+
   protected void addTimeDuration(long moreDuration) {
     totalTime = totalTime + moreDuration;
+    printTime();
     if (father != null) {
       father.addTimeDuration(moreDuration);
     }

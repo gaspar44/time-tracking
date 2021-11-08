@@ -1,11 +1,12 @@
 package timeTraking.test;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import timeTracking.api.MenuInterface;
 import timeTracking.api.Visitor;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
+import timeTracking.core.Timer;
 import timeTracking.impl.ConsoleMenu;
 import timeTracking.impl.TreePrinter;
 
@@ -13,6 +14,7 @@ public class CountingTimeTest {
     private static MenuInterface menu;
     private String projectName = "root";
     private String taskName = "task";
+    private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
 
     @BeforeEach
     public void setup() throws Exception {
@@ -40,25 +42,25 @@ public class CountingTimeTest {
         Task firstMilestone = new Task("firstMilestone",projectTimeTracke);
 
         transportation.startNewInterval();
-        Thread.sleep(4000);
+        Thread.sleep(TIMER_CLOCK * 2);
         transportation.stopActualInterval();
 
-        Thread.sleep(2000);
+        Thread.sleep(TIMER_CLOCK);
 
         firtslist.startNewInterval();
-        Thread.sleep(6000);
+        Thread.sleep(TIMER_CLOCK * 3);
 
         secondList.startNewInterval();
-        Thread.sleep(4000);
+        Thread.sleep(TIMER_CLOCK * 2);
         firtslist.stopActualInterval();
 
-        Thread.sleep(2000);
+        Thread.sleep(TIMER_CLOCK);
 
         secondList.stopActualInterval();
-        Thread.sleep(2000);
+        Thread.sleep(TIMER_CLOCK);
 
         transportation.startNewInterval();
-        Thread.sleep(4000);
+        Thread.sleep(TIMER_CLOCK * 2);
         transportation.stopActualInterval();
 
         System.out.println("Project total time: " + rootProject.getTotalTime());

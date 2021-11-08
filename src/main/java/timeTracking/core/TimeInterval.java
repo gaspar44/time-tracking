@@ -15,12 +15,7 @@ public class TimeInterval implements Observer {
       duration = duration + Timer.getInstance().getTimerMillisecondsPeriod() / 1000 ;
       endTime = (LocalTime) obj;
       fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
-      printTime();
-  }
 
-  private void printTime() {
-    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
-    System.out.println(" " + fatherTask.getName() + "  +   " + fatherTask.getStartedTime() + "  " + endTime + "    " + fatherTask.getTotalTime());
   }
 
   public TimeInterval(Task task) {
