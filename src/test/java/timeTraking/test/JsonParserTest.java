@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
+import timeTracking.core.Timer;
 import timeTracking.impl.JsonParser;
 
 import java.io.File;
@@ -19,6 +20,7 @@ public class JsonParserTest {
   private static JsonParser jsonParser;
   private Project project;
   private Task task;
+  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
 
 
   @BeforeAll
@@ -82,7 +84,7 @@ public class JsonParserTest {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     task.startNewInterval();
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK);
     task.stopActualInterval();
 
     project.acceptVisitor(jsonParser);
@@ -107,12 +109,12 @@ public class JsonParserTest {
     Task task2 = new Task("task2",project);
     task.startNewInterval();
 
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK);
     task2.startNewInterval();
     task.stopActualInterval();
 
     task.startNewInterval();
-    Thread.sleep(2000);
+    Thread.sleep(TIMER_CLOCK);
     task2.stopActualInterval();
     task.stopActualInterval();
 

@@ -106,6 +106,13 @@ public class JsonParser implements Visitor {
     }
 
     task.setTimeIntervalList(timeIntervalList);
+
+    LocalTime startTime = timeIntervalList.get(0).getStartTime();
+    task.setStartTime(startTime);
+
+    int timeIntervalListSize = timeIntervalList.size();
+    LocalTime endTime = timeIntervalList.get(timeIntervalListSize - 1).getEndTime();
+    task.setEndTime(endTime);
   }
 
   private void parseProject(JSONObject unparsedObject,Component father) {

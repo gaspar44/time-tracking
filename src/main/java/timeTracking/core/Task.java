@@ -49,6 +49,10 @@ public class Task extends Component{
     this.endTime = endTime;
   }
 
+  public void setStartTime(LocalTime startTime) {
+    this.startTime = startTime;
+  }
+
   public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
     this.timeIntervalList = timeIntervalList;
   }
