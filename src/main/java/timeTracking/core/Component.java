@@ -2,12 +2,15 @@ package timeTracking.core;
 
 import timeTracking.api.Visitor;
 
+import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Component {
   private String name;
   protected Component father;
   protected long totalTime;
+  protected LocalTime startTime;
+  protected LocalTime endTime;
 
   public Component(String componentName,Component father)
   {
@@ -42,6 +45,14 @@ public abstract class Component {
 
   public long getTotalTime() {
     return totalTime;
+  }
+
+  public LocalTime getStartedTime() {
+    return startTime;
+  }
+
+  public LocalTime getEndedTime() {
+    return endTime;
   }
 
   public abstract void acceptVisitor(Visitor visitor);

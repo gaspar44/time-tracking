@@ -2,15 +2,12 @@ package timeTracking.core;
 
 import timeTracking.api.Visitor;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Task extends Component{
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
-  private LocalTime startTime;
-  private LocalTime endTime;
 
   public Task(String name, Project father) {
     super(name,father);
@@ -49,15 +46,6 @@ public class Task extends Component{
     this.timeIntervalList = timeIntervalList;
     startTime = timeIntervalList.get(0).getStartTime();
     endTime = timeIntervalList.get(timeIntervalList.size() - 1).getEndTime();
-  }
-
-
-  public LocalTime getStartedTime() {
-    return startTime;
-  }
-
-  public LocalTime getEndedTime() {
-    return endTime;
   }
 
   @Override
