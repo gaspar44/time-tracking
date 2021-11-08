@@ -45,16 +45,10 @@ public class Task extends Component{
     return ret;
   }
 
-  public void setEndTime(LocalTime endTime) {
-    this.endTime = endTime;
-  }
-
-  public void setStartTime(LocalTime startTime) {
-    this.startTime = startTime;
-  }
-
   public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
     this.timeIntervalList = timeIntervalList;
+    startTime = timeIntervalList.get(0).getStartTime();
+    endTime = timeIntervalList.get(timeIntervalList.size() - 1).getEndTime();
   }
 
 
