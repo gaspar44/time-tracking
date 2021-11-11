@@ -8,7 +8,6 @@ import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 import timeTracking.core.TimeInterval;
-import org.junit.jupiter.api.Assertions;
 
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -52,41 +51,40 @@ public class JsonParser implements Visitor {
   public Project getProjectsFromJson(String fileName) throws Exception{
     String stringProjectTree = Files.readString(Paths.get(fileName));
 
-    Assertions.assertNull(Files.readString(Paths.get(fileName)));
-
+    // tokener let the array to transform the string into a JSONArrayObject.
     JSONTokener tokener = new JSONTokener(stringProjectTree);
     JSONArray jsonArrayProjectTree = new JSONArray(tokener);
 
     for (int i = 0; i < jsonArrayProjectTree.length(); i++) {
-      getProjectOrComponent(jsonArrayProjectTree,null);
+      transformJsonarrayIntoProject(jsonArrayProjectTree,null);
     }
 
     return parsedTreeFromFile;
   }
 
-  private void getProjectOrComponent(JSONArray jsonArrayProjectTree,Component father) {
+  private void transformJsonarrayIntoProject(JSONArray jsonArrayProjectTree, Component father) {
     for (int i = 0; i < jsonArrayProjectTree.length(); i++ ){
-      JSONObject unparsedObject = (JSONObject) jsonArrayProjectTree.get(i);
+      JSONObject unparsedJsonObject = (JSONObject) jsonArrayProjectTree.get(i);
 
-      if (unparsedObject.get(TYPE_KEY).equals(PROJECT_TYPE)) {
-        parseProject(unparsedObject,father);
+      if (unparsedJsonObject.get(TYPE_KEY).equals(PROJECT_TYPE)) {
+        parseJsonElementAsProject(unparsedJsonObject,father);
       }
 
-      else if (unparsedObject.get(TYPE_KEY).equals(TASK_TYPE)) {
-        parseTask(unparsedObject,father);
+      else if (unparsedJsonObject.get(TYPE_KEY).equals(TASK_TYPE)) {
+        parseJsonElementAsTask(unparsedJsonObject,father);
       }
     }
   }
 
-  private void parseTask(JSONObject unparsedObject, Component father) {
+  private void parseJsonElementAsTask(JSONObject unparsedJsonObject, Component father) {
     Task task;
-    String taskName = unparsedObject.getString(NAME_KEY);
+    String taskName = unparsedJsonObject.getString(NAME_KEY);
     task = new Task(taskName, (Project) father);
-    task.setTotalTime(unparsedObject.getLong(DURATION_KEY));
+    task.setTotalTime(unparsedJsonObject.getLong(DURATION_KEY));
     JSONArray jsonArrayTimeIntervalList;
 
     try {
-      jsonArrayTimeIntervalList = unparsedObject.getJSONArray(TIME_INTERVAL_KEY);
+      jsonArrayTimeIntervalList = unparsedJsonObject.getJSONArray(TIME_INTERVAL_KEY);
     }
 
     catch (Exception e) {
@@ -112,7 +110,7 @@ public class JsonParser implements Visitor {
     task.setTimeIntervalList(timeIntervalList);
   }
 
-  private void parseProject(JSONObject unparsedObject,Component father) {
+  private void parseJsonElementAsProject(JSONObject unparsedObject, Component father) {
     Project project;
     String projectName = unparsedObject.getString(NAME_KEY);
     project = new Project(projectName, (Project) father);
@@ -131,7 +129,7 @@ public class JsonParser implements Visitor {
       parsedTreeFromFile = project;
     }
 
-    getProjectOrComponent(components,project);
+    transformJsonarrayIntoProject(components,project);
 
   }
 
@@ -144,12 +142,16 @@ public class JsonParser implements Visitor {
         writer.flush(); //We make sure that Project Tree is correctly written to the Json file.
         writer.close();
       }
+      else {
+        return false;
+      }
     }
 
     catch (Exception e) {
       e.printStackTrace();
       return false;
     }
+    // This is done to reset the actual project. If this is not made, the project will be added as a sub project of itself.
 
     rootJsonProject = new JSONObject();
     projectTree = new JSONArray();

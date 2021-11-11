@@ -1,11 +1,11 @@
 package timeTracking.impl;
+
 import timeTracking.api.Visitor;
 import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
