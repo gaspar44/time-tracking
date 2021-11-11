@@ -133,7 +133,11 @@ public class JsonParser implements Visitor {
 
   }
 
-  public boolean storeProjectsIntoJson(String storeToJson) {
+  private boolean storeProjectsIntoJson(String storeToJson,Project project) {
+    if (project.getFather() != null ){
+      return true;
+    }
+
     try {
       if (!projectTree.isEmpty()) {
         FileWriter writer = new FileWriter(storeToJson,false);
@@ -195,37 +199,35 @@ public class JsonParser implements Visitor {
     JSONArray jsonArray;
     JSONObject jsonObject = new JSONObject();
 
+    jsonObject.put(NAME_KEY,project.getName());
+    jsonObject.put(TYPE_KEY,PROJECT_TYPE);
+    jsonObject.put(DURATION_KEY,project.getTotalTime());
+
     if (project.getFather() != null ){
       jsonObject.put(FATHER_NAME,project.getFather().getName());
-      jsonObject.put(NAME_KEY,project.getName());
-      jsonObject.put(TYPE_KEY,PROJECT_TYPE);
-      jsonObject.put(DURATION_KEY,project.getTotalTime());
 
-      if (components.size() != 0) {
-        jsonArray = new JSONArray();
-        jsonObject.put(COMPONENT_KEY,jsonArray);
-      }
+      jsonArray = new JSONArray();
+      jsonObject.put(COMPONENT_KEY,jsonArray);
 
       JSONArray fatherJsonArray = rootJsonProject.getJSONArray(COMPONENT_KEY);
       fatherJsonArray.put(jsonObject);
     }
 
     else {
-      jsonObject.put(NAME_KEY,project.getName());
-      jsonObject.put(TYPE_KEY,PROJECT_TYPE);
-      jsonObject.put(DURATION_KEY,project.getTotalTime());
-
       jsonArray = new JSONArray();
       jsonObject.put(COMPONENT_KEY,jsonArray);
       projectTree.put(jsonObject);
     }
 
+    JSONObject previous = rootJsonProject;
     rootJsonProject = jsonObject;
 
     for (Component component: components) {
       component.acceptVisitor(this);
-    }
 
-    storeProjectsIntoJson(fileName);
+    }
+    rootJsonProject = previous;
+
+    storeProjectsIntoJson(fileName,project);
   }
 }

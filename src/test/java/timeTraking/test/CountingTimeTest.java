@@ -8,6 +8,7 @@ import timeTracking.core.Project;
 import timeTracking.core.Task;
 import timeTracking.core.Timer;
 import timeTracking.impl.ConsoleMenu;
+import timeTracking.impl.JsonParser;
 import timeTracking.impl.TreePrinter;
 
 public class CountingTimeTest {
@@ -29,7 +30,7 @@ public class CountingTimeTest {
         Project rootProject = new Project("root", null);
         Project softwareDessign = new Project("software dessgin", rootProject);
         Project softwareTesting = new Project("software testing", rootProject);
-        Project dataBase = new Project("dataBasse",rootProject);
+        Project dataBase = new Project("dataBase",rootProject);
         Task transportation = new Task("transportation", rootProject);
 
         Project problems = new Project("problems",softwareDessign);
@@ -64,6 +65,11 @@ public class CountingTimeTest {
         transportation.stopActualInterval();
 
         System.out.println("Project total time: " + rootProject.getTotalTime());
+        JsonParser.getInstance().setFileName("demo.json");
+        rootProject.acceptVisitor(JsonParser.getInstance());
+        Project newRootProject = JsonParser.getInstance().getProjectsFromJson("demo.json");
+        System.out.println(newRootProject.getName());
+
     }
 
     @Test

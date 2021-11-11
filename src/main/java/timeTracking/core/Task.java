@@ -45,8 +45,10 @@ public class Task extends Component{
 
   public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
     this.timeIntervalList = timeIntervalList;
-    startTime = timeIntervalList.get(0).getStartTime();
-    endTime = timeIntervalList.get(timeIntervalList.size() - 1).getEndTime();
+    if (timeIntervalList.size() != 0 ){
+      startTime = timeIntervalList.get(0).getStartTime();
+      endTime = timeIntervalList.get(timeIntervalList.size() - 1).getEndTime();
+    }
   }
 
   @Override
