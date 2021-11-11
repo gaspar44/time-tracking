@@ -27,7 +27,7 @@ public class Task extends Component{
     timeInterval = new TimeInterval(this);
     timeIntervalList.add(timeInterval);
     timeInterval.startTime();
-    startTime = timeInterval.getStartTime();
+    setStartTime(timeIntervalList.get(0).getStartTime());
 
     return timeInterval;
   }

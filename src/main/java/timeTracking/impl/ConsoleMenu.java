@@ -1,10 +1,8 @@
 package timeTracking.impl;
 
 import timeTracking.api.MenuInterface;
-import timeTracking.api.Visitor;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
-import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.util.InputMismatchException;
@@ -33,10 +31,6 @@ public class ConsoleMenu implements MenuInterface {
     System.out.println("Creating new project and switching to add");
     actualProject = actualProject == null ? new Project(name,rootProject) : new Project(name,actualProject);
 
-    Assertions.assertNotNull(actualProject);
-    Assertions.assertEquals(1,rootProject.getComponents().size());
-    Assertions.assertEquals(actualProject, rootProject.getComponents().get(0));
-
     return actualProject;
   }
 
@@ -45,11 +39,6 @@ public class ConsoleMenu implements MenuInterface {
     System.out.println("Creating new task with name: " + name + " and appending "
           + "to the actual project");
     actualTask = new Task(name, actualProject);
-
-    Assertions.assertNotNull(actualTask);
-    Assertions.assertEquals(1,actualProject.getComponents().size());
-    Assertions.assertEquals(actualTask,actualProject.getComponents().get(0));
-
     return actualTask;
   }
 

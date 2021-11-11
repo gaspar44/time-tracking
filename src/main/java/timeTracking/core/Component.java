@@ -55,11 +55,25 @@ public abstract class Component {
     return endTime;
   }
 
+  public void setStartTime(LocalTime startTime) {
+    this.startTime = startTime;
+    if (father != null && father.getStartedTime() == null){
+      father.setStartTime(startTime);
+    }
+  }
+
+  public void setEndTime(LocalTime endTime) {
+    this.endTime = endTime;
+    if (father != null){
+      father.setEndTime(endTime);
+    }
+  }
+
   public abstract void acceptVisitor(Visitor visitor);
 
   private void printTime() {
     System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
-    System.out.println(" " + this.name + "  +   " + this.startTime + "  " + this.endTime + "    " + this.totalTime);
+    System.out.println(" " + this.name + "  +   " + this.startTime + "  " + this.endTime + "                 " + this.totalTime);
   }
 
   protected void addTimeDuration(long moreDuration) {

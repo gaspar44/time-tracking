@@ -14,6 +14,7 @@ public class TimeInterval implements Observer {
   public void update(Observable observable, Object obj) {
       duration = duration + Timer.getInstance().getTimerMillisecondsPeriod() / 1000 ;
       endTime = (LocalTime) obj;
+      fatherTask.setEndTime(endTime);
       fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
 
   }

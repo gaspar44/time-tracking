@@ -56,13 +56,13 @@ public class JsonParser implements Visitor {
     JSONArray jsonArrayProjectTree = new JSONArray(tokener);
 
     for (int i = 0; i < jsonArrayProjectTree.length(); i++) {
-      transformJsonarrayIntoProject(jsonArrayProjectTree,null);
+      transformJsonArrayIntoProject(jsonArrayProjectTree,null);
     }
 
     return parsedTreeFromFile;
   }
 
-  private void transformJsonarrayIntoProject(JSONArray jsonArrayProjectTree, Component father) {
+  private void transformJsonArrayIntoProject(JSONArray jsonArrayProjectTree, Component father) {
     for (int i = 0; i < jsonArrayProjectTree.length(); i++ ){
       JSONObject unparsedJsonObject = (JSONObject) jsonArrayProjectTree.get(i);
 
@@ -129,7 +129,7 @@ public class JsonParser implements Visitor {
       parsedTreeFromFile = project;
     }
 
-    transformJsonarrayIntoProject(components,project);
+    transformJsonArrayIntoProject(components,project);
 
   }
 
