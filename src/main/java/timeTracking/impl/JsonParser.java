@@ -8,6 +8,7 @@ import timeTracking.core.Component;
 import timeTracking.core.Project;
 import timeTracking.core.Task;
 import timeTracking.core.TimeInterval;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -50,6 +51,9 @@ public class JsonParser implements Visitor {
 
   public Project getProjectsFromJson(String fileName) throws Exception{
     String stringProjectTree = Files.readString(Paths.get(fileName));
+
+    Assertions.assertNull(Files.readString(Paths.get(fileName)));
+
     JSONTokener tokener = new JSONTokener(stringProjectTree);
     JSONArray jsonArrayProjectTree = new JSONArray(tokener);
 
@@ -137,7 +141,7 @@ public class JsonParser implements Visitor {
         FileWriter writer = new FileWriter(storeToJson,false);
         writer.write(projectTree.toString(4));
 
-        writer.flush();
+        writer.flush(); //We make sure that Project Tree is correctly written to the Json file.
         writer.close();
       }
     }

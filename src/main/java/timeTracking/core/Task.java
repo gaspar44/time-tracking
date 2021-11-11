@@ -2,6 +2,8 @@ package timeTracking.core;
 
 import timeTracking.api.Visitor;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,10 @@ public class Task extends Component{
     timeIntervalList.add(timeInterval);
     timeInterval.startTime();
     startTime = timeInterval.getStartTime();
+
+    Assertions.assertTrue(timeIntervalList.size() != 0);
+    Assertions.assertNotNull(timeInterval);
+
     return timeInterval;
   }
 
