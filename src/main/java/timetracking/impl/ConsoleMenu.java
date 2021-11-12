@@ -1,12 +1,11 @@
 package timetracking.impl;
 
-import timetracking.api.MenuInterface;
-import timetracking.core.Project;
-import timetracking.core.Task;
-
 import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import timetracking.api.MenuInterface;
+import timetracking.core.Project;
+import timetracking.core.Task;
 
 public class ConsoleMenu implements MenuInterface {
   private static JsonParser jsonParser;
@@ -29,7 +28,8 @@ public class ConsoleMenu implements MenuInterface {
   @Override
   public Project createNewProject(String name) {
     System.out.println("Creating new project and switching to add");
-    actualProject = actualProject == null ? new Project(name, rootProject) : new Project(name, actualProject);
+    actualProject = actualProject == null
+        ? new Project(name, rootProject) : new Project(name, actualProject);
 
     return actualProject;
   }
@@ -174,7 +174,8 @@ public class ConsoleMenu implements MenuInterface {
 
           case 6:
             System.out.println("You have selected option 6");
-            System.out.println("Project: " + actualProject.getName() + " time: " + actualProject.getHumanReadableTimeDuration());
+            System.out.println("Project: " + actualProject.getName()
+                + " time: " + actualProject.getHumanReadableTimeDuration());
             break;
 
           case 7:
@@ -243,7 +244,8 @@ public class ConsoleMenu implements MenuInterface {
   private boolean checkForJson(String readFromJson) throws Exception {
     File jsonToReadFrom = new File(readFromJson);
     if (!jsonToReadFrom.exists()) {
-      System.out.println("Json does not exists, a new one with name: " + readFromJson + " will be created.");
+      System.out.println("Json does not exists, a new one with name: "
+          + readFromJson + " will be created.");
       jsonToReadFrom.createNewFile();
       return false;
     }

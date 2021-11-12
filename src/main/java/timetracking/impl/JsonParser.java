@@ -1,5 +1,11 @@
 package timetracking.impl;
 
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -8,13 +14,6 @@ import timetracking.core.Component;
 import timetracking.core.Project;
 import timetracking.core.Task;
 import timetracking.core.TimeInterval;
-
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JsonParser implements Visitor {
   private static final String TIME_INTERVAL_KEY = "time_intervals";
@@ -199,7 +198,7 @@ public class JsonParser implements Visitor {
 
   @Override
   public void visitProject(Project project) {
-    List<Component> components = project.getComponents();
+    final List<Component> components = project.getComponents();
     JSONArray jsonArray;
     JSONObject jsonObject = new JSONObject();
 

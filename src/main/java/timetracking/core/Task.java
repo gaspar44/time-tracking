@@ -1,9 +1,8 @@
 package timetracking.core;
 
-import timetracking.api.Visitor;
-
 import java.util.ArrayList;
 import java.util.List;
+import timetracking.api.Visitor;
 
 public class Task extends Component {
   private List<TimeInterval> timeIntervalList;
