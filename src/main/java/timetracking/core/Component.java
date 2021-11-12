@@ -1,19 +1,18 @@
-package timeTracking.core;
+package timetracking.core;
 
-import timeTracking.api.Visitor;
+import timetracking.api.Visitor;
 
 import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Component {
-  private String name;
   protected Component father;
   protected long totalTime;
   protected LocalTime startTime;
   protected LocalTime endTime;
+  private final String name;
 
-  public Component(String componentName,Component father)
-  {
+  public Component(String componentName, Component father) {
     this.name = componentName;
     this.father = father;
     this.totalTime = 0;
@@ -39,12 +38,12 @@ public abstract class Component {
     return father;
   }
 
-  public void setTotalTime(long totalTime) {
-    this.totalTime = totalTime;
-  }
-
   public long getTotalTime() {
     return totalTime;
+  }
+
+  public void setTotalTime(long totalTime) {
+    this.totalTime = totalTime;
   }
 
   public LocalTime getStartedTime() {
@@ -57,14 +56,14 @@ public abstract class Component {
 
   public void setStartTime(LocalTime startTime) {
     this.startTime = startTime;
-    if (father != null && father.getStartedTime() == null){
+    if (father != null && father.getStartedTime() == null) {
       father.setStartTime(startTime);
     }
   }
 
   public void setEndTime(LocalTime endTime) {
     this.endTime = endTime;
-    if (father != null){
+    if (father != null) {
       father.setEndTime(endTime);
     }
   }
@@ -72,7 +71,7 @@ public abstract class Component {
   public abstract void acceptVisitor(Visitor visitor);
 
   private void printTime() {
-    System.out.println("Name "+"   Initial date " + "          Final date " + "                   Duration ");
+    System.out.println("Name " + "   Initial date " + "          Final date " + "                   Duration ");
     System.out.println(" " + this.name + "  +   " + this.startTime + "  " + this.endTime + "                 " + this.totalTime);
   }
 

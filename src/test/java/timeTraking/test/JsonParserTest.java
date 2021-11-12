@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timeTracking.core.Project;
-import timeTracking.core.Task;
-import timeTracking.core.Timer;
-import timeTracking.impl.JsonParser;
+import timetracking.core.Project;
+import timetracking.core.Task;
+import timetracking.core.Timer;
+import timetracking.impl.JsonParser;
 
 import java.io.File;
 import java.nio.file.Files;

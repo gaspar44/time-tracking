@@ -1,23 +1,21 @@
-package timeTracking.core;
-
-import timeTracking.api.Visitor;
+package timetracking.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import timetracking.api.Visitor;
 
-public class Project extends Component{
+public class Project extends Component {
   private List<Component> components;
 
 
   public Project(String root, Project father) {
-    super(root,father);
+    super(root, father);
     components = new ArrayList<>();
 
     if (father != null) {
       father.add(this);
     }
   }
-
 
 
   public List<Component> getComponents() {

@@ -1,7 +1,7 @@
-package timeTracking;
+package timetracking;
 
-import timeTracking.api.MenuInterface;
-import timeTracking.impl.ConsoleMenu;
+import timetracking.api.MenuInterface;
+import timetracking.impl.ConsoleMenu;
 
 public class Main {
   public static void main(String[] args) throws Exception {

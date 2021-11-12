@@ -1,22 +1,30 @@
-package timeTracking.core;
+package timetracking.core;
 
-import timeTracking.api.Visitor;
+import timetracking.api.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task extends Component{
+public class Task extends Component {
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
 
   public Task(String name, Project father) {
-    super(name,father);
+    super(name, father);
     timeIntervalList = new ArrayList<>();
     father.add(this);
   }
 
-  public List<TimeInterval> getTimeIntervalList(){
+  public List<TimeInterval> getTimeIntervalList() {
     return timeIntervalList;
+  }
+
+  public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
+    this.timeIntervalList = timeIntervalList;
+    if (timeIntervalList.size() != 0) {
+      startTime = timeIntervalList.get(0).getStartTime();
+      endTime = timeIntervalList.get(timeIntervalList.size() - 1).getEndTime();
+    }
   }
 
   public TimeInterval getTimeInterval() {
@@ -35,20 +43,12 @@ public class Task extends Component{
   public TimeInterval stopActualInterval() {
     TimeInterval ret = timeInterval;
 
-    if (timeInterval != null ) {
+    if (timeInterval != null) {
       timeInterval.stopTime();
     }
 
     timeInterval = null;
     return ret;
-  }
-
-  public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
-    this.timeIntervalList = timeIntervalList;
-    if (timeIntervalList.size() != 0 ){
-      startTime = timeIntervalList.get(0).getStartTime();
-      endTime = timeIntervalList.get(timeIntervalList.size() - 1).getEndTime();
-    }
   }
 
   @Override

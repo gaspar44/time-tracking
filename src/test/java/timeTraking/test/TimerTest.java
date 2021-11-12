@@ -4,10 +4,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import timeTracking.core.Project;
-import timeTracking.core.Task;
-import timeTracking.core.TimeInterval;
-import timeTracking.core.Timer;
+import timetracking.core.Project;
+import timetracking.core.Task;
+import timetracking.core.TimeInterval;
+import timetracking.core.Timer;
 
 public class TimerTest {
   private static Timer timer;

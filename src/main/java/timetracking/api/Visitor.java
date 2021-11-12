@@ -1,7 +1,7 @@
-package timeTracking.api;
+package timetracking.api;
 
-import timeTracking.core.Project;
-import timeTracking.core.Task;
+import timetracking.core.Project;
+import timetracking.core.Task;
 
 public interface Visitor {
 

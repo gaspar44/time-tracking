@@ -3,10 +3,10 @@ package timeTraking.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timeTracking.api.MenuInterface;
-import timeTracking.core.Project;
-import timeTracking.core.Task;
-import timeTracking.impl.ConsoleMenu;
+import timetracking.api.MenuInterface;
+import timetracking.core.Project;
+import timetracking.core.Task;
+import timetracking.impl.ConsoleMenu;
 
 public class ConsoleMenuTest {
   private static MenuInterface menu;

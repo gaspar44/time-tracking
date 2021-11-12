@@ -1,9 +1,9 @@
-package timeTracking.impl;
+package timetracking.impl;
 
-import timeTracking.api.Visitor;
-import timeTracking.core.Component;
-import timeTracking.core.Project;
-import timeTracking.core.Task;
+import timetracking.api.Visitor;
+import timetracking.core.Component;
+import timetracking.core.Project;
+import timetracking.core.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,13 @@ import java.util.List;
 public class TreePrinter implements Visitor {
 
   private String fileName;
-  private List<String> tabulatorList = new ArrayList<String>();
+  private final List<String> tabulatorList = new ArrayList<String>();
 
 
-  public TreePrinter(){
-      this.fileName = "";
+  public TreePrinter() {
+    this.fileName = "";
   }
+
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
@@ -33,16 +34,14 @@ public class TreePrinter implements Visitor {
     Component father = project.getFather();
     List<Component> components = project.getComponents();
 
-    if(father == null) {
+    if (father == null) {
       System.out.println(project.getName());
     }
 
-    for ( Component component : components)
-    {
+    for (Component component : components) {
       tabulatorList.add("+");
 
-      for (String plus : tabulatorList)
-      {
+      for (String plus : tabulatorList) {
         System.out.print(plus);
       }
 

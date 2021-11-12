@@ -1,18 +1,18 @@
-package timeTracking.impl;
+package timetracking.impl;
 
-import timeTracking.api.MenuInterface;
-import timeTracking.core.Project;
-import timeTracking.core.Task;
+import timetracking.api.MenuInterface;
+import timetracking.core.Project;
+import timetracking.core.Task;
 
 import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleMenu implements MenuInterface {
+  private static JsonParser jsonParser;
   private Project rootProject;
   private Project actualProject;
   private Task actualTask;
-  private static JsonParser jsonParser;
 
   public ConsoleMenu() {
     jsonParser = JsonParser.getInstance();
@@ -29,7 +29,7 @@ public class ConsoleMenu implements MenuInterface {
   @Override
   public Project createNewProject(String name) {
     System.out.println("Creating new project and switching to add");
-    actualProject = actualProject == null ? new Project(name,rootProject) : new Project(name,actualProject);
+    actualProject = actualProject == null ? new Project(name, rootProject) : new Project(name, actualProject);
 
     return actualProject;
   }
@@ -37,7 +37,7 @@ public class ConsoleMenu implements MenuInterface {
   @Override
   public Task createTask(String name) {
     System.out.println("Creating new task with name: " + name + " and appending "
-          + "to the actual project");
+        + "to the actual project");
     actualTask = new Task(name, actualProject);
     return actualTask;
   }
@@ -49,28 +49,23 @@ public class ConsoleMenu implements MenuInterface {
 
   @Override
   public boolean saveToJson(String fileName) {
-    try
-    {
+    try {
       jsonParser.setFileName(fileName);
       rootProject.acceptVisitor(jsonParser);
       return true;
-    }
-    catch(Exception e)
-    {
+    } catch (Exception e) {
       System.out.println("ERROR saving at json.");
       return false;
     }
   }
 
   @Override
-  public boolean printTree()
-  {
-    try{
+  public boolean printTree() {
+    try {
       TreePrinter tree = new TreePrinter();
       rootProject.acceptVisitor(tree);
       return true;
-    }catch(Exception e)
-    {
+    } catch (Exception e) {
       System.out.println("Error printing tree.");
       return false;
     }
@@ -81,8 +76,7 @@ public class ConsoleMenu implements MenuInterface {
   public boolean loadFromJson(String fileName) {
     try {
       rootProject = jsonParser.getProjectsFromJson(fileName);
-    }
-    catch(Exception e) {
+    } catch (Exception e) {
       System.out.println("ERROR loading from json. Creating new empty project.");
       createNewProject("default");
       return false;
@@ -97,13 +91,15 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
-  public void returnToMenu() {   }
+  public void returnToMenu() {
+  }
 
   @Override
-  public void addProjectToCurrentOne() {   }
+  public void addProjectToCurrentOne() {
+  }
 
   @Override
-  public void start() throws Exception{
+  public void start() throws Exception {
     System.out.println("starting");
 
     Scanner sn = new Scanner(System.in);
@@ -165,7 +161,7 @@ public class ConsoleMenu implements MenuInterface {
             }
 
             break;
-            
+
           case 5:
             System.out.println("task: " + actualTask.getName() + " time: " + getTaskTime());
 
@@ -181,9 +177,9 @@ public class ConsoleMenu implements MenuInterface {
             System.out.println("Project: " + actualProject.getName() + " time: " + actualProject.getHumanReadableTimeDuration());
             break;
 
-            case 7:
+          case 7:
             System.out.println("You have selected option 7");
-            if (actualTask == null ) {
+            if (actualTask == null) {
               System.out.println("To time of a task, a task must be created.");
               break;
             }
