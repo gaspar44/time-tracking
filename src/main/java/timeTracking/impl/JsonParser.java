@@ -128,12 +128,14 @@ public class JsonParser implements Visitor {
     if (father == null ){
       parsedTreeFromFile = project;
     }
-
     transformJsonArrayIntoProject(components,project);
-
   }
 
   private boolean storeProjectsIntoJson(String storeToJson,Project project) {
+    /*This must be done because we want to write from the root until the end
+    we don't want to write from some nodes, we want from the start.
+    This grants a way to end the recursion.
+    */
     if (project.getFather() != null ){
       return true;
     }
@@ -155,7 +157,10 @@ public class JsonParser implements Visitor {
       e.printStackTrace();
       return false;
     }
-    // This is done to reset the actual project. If this is not made, the project will be added as a sub project of itself.
+
+    /*This is done to reset the actual project. If this is not made,
+     the project will be added as a subproject of itself.
+    */
 
     rootJsonProject = new JSONObject();
     projectTree = new JSONArray();
@@ -202,6 +207,8 @@ public class JsonParser implements Visitor {
     jsonObject.put(NAME_KEY,project.getName());
     jsonObject.put(TYPE_KEY,PROJECT_TYPE);
     jsonObject.put(DURATION_KEY,project.getTotalTime());
+    jsonObject.put(START_TIME_KEY,project.getStartedTime());
+    jsonObject.put(END_TIME_KEY,project.getEndedTime());
 
     if (project.getFather() != null ){
       jsonObject.put(FATHER_NAME,project.getFather().getName());
@@ -218,16 +225,20 @@ public class JsonParser implements Visitor {
       jsonObject.put(COMPONENT_KEY,jsonArray);
       projectTree.put(jsonObject);
     }
-
+    /*
+    This is done because we are going thought recursive iteration
+    if we don't set a previous object, when we return to this scope , will lose
+    the previous state, this causes that some projects can be converted into child of their brothers.
+    This behaviour is unexpected
+     */
     JSONObject previous = rootJsonProject;
     rootJsonProject = jsonObject;
 
     for (Component component: components) {
       component.acceptVisitor(this);
-
     }
-    rootJsonProject = previous;
 
+    rootJsonProject = previous;
     storeProjectsIntoJson(fileName,project);
   }
 }
