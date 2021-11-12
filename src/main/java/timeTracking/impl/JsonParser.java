@@ -116,6 +116,16 @@ public class JsonParser implements Visitor {
     project = new Project(projectName, (Project) father);
 
     project.setTotalTime(unparsedObject.getLong(DURATION_KEY));
+    try {
+      String startTime =  unparsedObject.getString(START_TIME_KEY);
+      String endTime = unparsedObject.getString(END_TIME_KEY);
+      project.setStartTime(LocalTime.parse(startTime));
+      project.setEndTime(LocalTime.parse(endTime));
+    }
+    catch (Exception e){
+      System.out.println("Project without started task " + projectName);
+    }
+
     JSONArray components;
 
     try {

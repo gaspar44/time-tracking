@@ -61,7 +61,7 @@ public class CountingTimeTest {
         Thread.sleep(TIMER_CLOCK);
 
         transportation.startNewInterval();
-        Thread.sleep(TIMER_CLOCK * 2);
+        Thread.sleep(TIMER_CLOCK * 3);
         transportation.stopActualInterval();
 
         System.out.println("Project total time: " + rootProject.getTotalTime());
