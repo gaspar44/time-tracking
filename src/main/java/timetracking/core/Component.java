@@ -1,6 +1,7 @@
 package timetracking.core;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import timetracking.api.Visitor;
 
@@ -10,6 +11,7 @@ public abstract class Component {
   protected long totalTime;
   protected LocalTime startTime;
   protected LocalTime endTime;
+  protected List<String> tags;
   private final String name;
 
   public Component(String componentName, Component father) {
@@ -69,6 +71,18 @@ public abstract class Component {
     if (father != null) {
       father.setEndTime(endTime);
     }
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
+  public List<String> getTags() {
+    return this.tags;
+  }
+
+  public void addTagToExistingOne(String newTag) {
+    this.tags.add(newTag);
   }
 
   public abstract void acceptVisitor(Visitor visitor);
