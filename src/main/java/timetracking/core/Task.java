@@ -8,8 +8,17 @@ public class Task extends Component {
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
 
+  public Task(String name, Project father, String... tags) {
+    super(name, father, tags);
+    init(father);
+  }
+
   public Task(String name, Project father) {
     super(name, father);
+    init(father);
+  }
+
+  private void init(Project father) {
     timeIntervalList = new ArrayList<>();
     father.add(this);
   }

@@ -7,9 +7,12 @@ import timetracking.api.Visitor;
 public class Project extends Component {
   private List<Component> components;
 
-
   public Project(String root, Project father) {
     super(root, father);
+    init(father);
+  }
+
+  private void init(Project father) {
     components = new ArrayList<>();
 
     if (father != null) {
@@ -17,6 +20,10 @@ public class Project extends Component {
     }
   }
 
+  public Project(String root, Project father, String... tags) {
+    super(root, father, tags);
+    init(father);
+  }
 
   public List<Component> getComponents() {
     return components;
@@ -30,11 +37,9 @@ public class Project extends Component {
     components.add(componentToAdd);
   }
 
-
   @Override
   public void acceptVisitor(Visitor visitor) {
     visitor.visitProject(this);
   }
-
 
 }
