@@ -69,7 +69,6 @@ public class CountingTimeTest {
         rootProject.acceptVisitor(JsonParser.getInstance());
         Project newRootProject = JsonParser.getInstance().getProjectsFromJson("demo.json");
         System.out.println(newRootProject.getName());
-
     }
 
     @Test

@@ -77,5 +77,26 @@ public class TagSearcherTest {
     Assertions.assertNotNull(results);
     Assertions.assertEquals(1,results.size());
     Assertions.assertEquals(results.get(0),dataBase);
+
+    tagToSearch = "c++";
+    searcher = new TagSearcher();
+    searcher.addSearchTag(tagToSearch);
+
+    rootProject.acceptVisitor(searcher);
+    List<Component> newResults = searcher.getMatchedComponents();
+    Assertions.assertNotNull(newResults);
+    Assertions.assertEquals(1,newResults.size());
+    Assertions.assertEquals(newResults.get(0),softwareTesting);
+  }
+
+  @Test
+  public void searchNonexistentTag() throws Exception {
+    TagSearcher searcher = new TagSearcher();
+    searcher.addSearchTag("Golang");
+
+    rootProject.acceptVisitor(searcher);
+    List<Component> results = searcher.getMatchedComponents();
+    Assertions.assertNotNull(results);
+    Assertions.assertEquals(0,results.size());
   }
 }

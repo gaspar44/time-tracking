@@ -1,6 +1,7 @@
 package timetracking.core;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +17,7 @@ public abstract class Component {
   private final String name;
 
   public Component(String componentName, Component father, String... tags) {
-    this(componentName,father);
+    this(componentName, father);
     this.tags = Arrays.asList(tags);
   }
 
@@ -24,6 +25,7 @@ public abstract class Component {
     this.name = componentName;
     this.father = father;
     this.totalTime = 0;
+    this.tags = new ArrayList<>();
   }
 
   public String getName() {
@@ -83,12 +85,12 @@ public abstract class Component {
     this.tags = tags;
   }
 
-  public List<String> getTags() {
-    return this.tags;
+  public void addTag(String tag) {
+    this.tags.add(tag);
   }
 
-  public void addTagToExistingOne(String newTag) {
-    this.tags.add(newTag);
+  public List<String> getTags() {
+    return this.tags;
   }
 
   public abstract void acceptVisitor(Visitor visitor);

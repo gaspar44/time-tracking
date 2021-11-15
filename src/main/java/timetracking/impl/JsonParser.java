@@ -27,6 +27,7 @@ public class JsonParser implements Visitor {
   private static final String FATHER_NAME = "father_name";
   private static final String PROJECT_TYPE = "Project";
   private static final String TASK_TYPE = "Task";
+  private static final String TAGS_KEY = "tags";
   private static JsonParser instance;
   private String fileName;
   private JSONArray projectTree;
@@ -119,9 +120,16 @@ public class JsonParser implements Visitor {
     }
 
     JSONArray components;
+    List<String> tags = new ArrayList<>();
 
     try {
-      components = (JSONArray) unparsedObject.get(COMPONENT_KEY);
+      components = unparsedObject.getJSONArray(COMPONENT_KEY);
+      JSONArray unparsedTags = unparsedObject.getJSONArray(TAGS_KEY);
+
+      for (int i = 0; i < unparsedTags.length(); i++) {
+        tags.add(unparsedTags.getString(i));
+      }
+
     } catch (Exception e) {
       return;
     }
@@ -178,6 +186,7 @@ public class JsonParser implements Visitor {
     jsonObject.put(FATHER_NAME, task.getFather().getName());
     jsonObject.put(TYPE_KEY, "Task");
     jsonObject.put(DURATION_KEY, task.getTotalTime());
+    jsonObject.put(TAGS_KEY,task.getTags());
     JSONArray timeIntervals = new JSONArray();
 
     List<TimeInterval> timeIntervalList = task.getTimeIntervalList();
@@ -207,6 +216,7 @@ public class JsonParser implements Visitor {
     jsonObject.put(DURATION_KEY, project.getTotalTime());
     jsonObject.put(START_TIME_KEY, project.getStartedTime());
     jsonObject.put(END_TIME_KEY, project.getEndedTime());
+    jsonObject.put(TAGS_KEY,project.getTags());
 
     if (project.getFather() != null) {
       jsonObject.put(FATHER_NAME, project.getFather().getName());

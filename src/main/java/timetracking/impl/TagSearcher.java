@@ -67,9 +67,16 @@ public class TagSearcher implements Visitor {
   @Override
   public void visitProject(Project project) {
     System.out.println("TagSearcher visiting task: " + project.getName()); // INFO
+
+    if (tagsToSearch.size() == 0) {
+      System.out.println("no tags passed. Can not search"); // INFO
+      return;
+    }
+
     checkIfSearchTagsAreInComponentTags(project);
     List<Component> components = project.getComponents();
-    System.out.println("Visiting components "); // INFO
+    System.out.println("Visiting components of "
+        + project.getName()); // INFO
 
     for (Component component : components) {
       component.acceptVisitor(this);
