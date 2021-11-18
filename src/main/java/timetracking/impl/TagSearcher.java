@@ -3,6 +3,8 @@ package timetracking.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import timetracking.api.Visitor;
 import timetracking.core.Component;
 import timetracking.core.Project;
@@ -11,9 +13,10 @@ import timetracking.core.Task;
 public class TagSearcher implements Visitor {
   private List<Component> matchedComponents;
   private List<String> tagsToSearch;
+  private final Logger logger = LoggerFactory.getLogger(TagSearcher.class);
 
   public TagSearcher() {
-    System.out.println("creating new TagSearcher"); // DEBUG
+    logger.debug("creating new TagSearcher");
     resetSearchElements();
   }
 
@@ -24,59 +27,54 @@ public class TagSearcher implements Visitor {
 
   @Override
   public void visitTask(Task task) {
-    System.out.println("TagSearcher visiting task: " + task.getName()); // DEBUG
+    logger.debug("TagSearcher visiting task: {} ", task.getName());
     checkIfSearchTagsAreInComponentTags(task);
   }
 
   private void checkIfSearchTagsAreInComponentTags(Component component) {
     List<String> componentTags = component.getTags();
     if (componentTags == null) {
-      System.out.println("no tags found for component: " + component.getName()); // DEBUG
+      logger.debug("no tags found for component: {} ", component.getName());
       return;
     }
 
     if (componentTags.containsAll(tagsToSearch)) {
       matchedComponents.add(component);
-      System.out.println("Component: " + component.getName()
-          + " tags matched: " + tagsToSearch.toString()); // INFO
+      logger.info("Component: {} tags matched: {}", component.getName(),
+          tagsToSearch.toString());
       return;
     }
 
-    System.out.println("Component: " + component.getName() + " tags not matched"
-        + " expected: " + Arrays.toString(tagsToSearch.toArray()) + " actual: "
-        + Arrays.toString(componentTags.toArray())); // DEBUG;
+    logger.debug("Component: {} tags not matched, expected: {} and actual: {}",
+        component.getName(),
+        Arrays.toString(tagsToSearch.toArray()),
+        Arrays.toString(componentTags.toArray()));
   }
 
+
   public List<Component> getMatchedComponents() {
-    System.out.println("obtaining results of search"); // DEBUG
+    logger.debug("obtaining results of search {}",matchedComponents);
     List<Component> componentListToReturn = matchedComponents;
     resetSearchElements();
     return componentListToReturn;
   }
 
   public void addSearchTag(String tag) {
-    if (tag == null) {
-      System.out.println("null tag passed "); // DEBUG
-      return;
-    }
+    assert (tag != null);
 
-    System.out.println("adding tags: " + tag); // DEBUG
+    logger.debug("adding tags: {}", tag);
     tagsToSearch.add(tag);
   }
 
   @Override
   public void visitProject(Project project) {
-    System.out.println("TagSearcher visiting task: " + project.getName()); // INFO
+    logger.info("TagSearcher visiting task: {}", project.getName());
 
-    if (tagsToSearch.size() == 0) {
-      System.out.println("no tags passed. Can not search"); // INFO
-      return;
-    }
+    assert (tagsToSearch.size() != 0);
 
     checkIfSearchTagsAreInComponentTags(project);
     List<Component> components = project.getComponents();
-    System.out.println("Visiting components of "
-        + project.getName()); // INFO
+    logger.info("Visiting components of {} ", project.getName());
 
     for (Component component : components) {
       component.acceptVisitor(this);
