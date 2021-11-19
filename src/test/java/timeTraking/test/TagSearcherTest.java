@@ -44,7 +44,7 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchForJavaTagsAtProject() throws Exception {
+  public void searchForJavaTagsAtProjectTest() throws Exception {
     String tagToSearch = "java";
     TagSearcher tagSearcher = new TagSearcher();
     tagSearcher.addSearchTag(tagToSearch);
@@ -68,7 +68,7 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchForCppTagsAtProject() throws Exception {
+  public void searchForCppTagsAtProjectTest() throws Exception {
     String tagToSearch = "C++";
     generalTest(dataBase,1,tagToSearch);
 
@@ -77,7 +77,7 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchNonexistentTag() throws Exception {
+  public void searchNonexistentTagTest() throws Exception {
     TagSearcher searcher = new TagSearcher();
     searcher.addSearchTag("Golang");
 
@@ -88,13 +88,13 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchForDartTagsAtProject() throws Exception {
+  public void searchForDartTagsAtProjectTest() throws Exception {
     String tagToSearch = "Dart";
     generalTest(secondList,1,tagToSearch);
   }
 
   @Test
-  public void searchForJavaAndFlutterTagsAtProject() throws Exception {
+  public void searchForJavaAndFlutterTagsAtProjectTest() throws Exception {
     String tagToSearch1 = "java";
     String tagToSearch2 = "flutter";
     generalTest(softwareDesign,1,tagToSearch1,tagToSearch2);
@@ -112,7 +112,7 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchForPythonTagsAtProject() throws Exception {
+  public void searchForPythonTagsAtProjectTest() throws Exception {
     String tagToSearch1 = "python";
     String tagToSearch2 = "Java";
     String tagToSearch3 = "c++";
@@ -121,7 +121,7 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchFordataBases() throws Exception {
+  public void searchFordataBasesTest() throws Exception {
     String tagToSearch1 = "python";
     String tagToSearch2 = "SQL";
     String tagToSearch3 = "C++";
