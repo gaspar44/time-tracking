@@ -20,9 +20,18 @@ public class TagSearcher implements Visitor {
     resetSearchElements();
   }
 
+  public TagSearcher(List<String> tagsToSearch) {
+    this.tagsToSearch = tagsToSearch;
+    matchedComponents = new ArrayList<>();
+  }
+
   private void resetSearchElements() {
     tagsToSearch = new ArrayList<>();
     matchedComponents = new ArrayList<>();
+  }
+
+  public void setTagsToSearch(List<String> tagsToSearch) {
+    this.tagsToSearch = tagsToSearch;
   }
 
   @Override
@@ -53,7 +62,7 @@ public class TagSearcher implements Visitor {
 
 
   public List<Component> getMatchedComponents() {
-    logger.debug("obtaining results of search {}",matchedComponents);
+    logger.debug("obtaining results of search {}", matchedComponents);
     List<Component> componentListToReturn = matchedComponents;
     resetSearchElements();
     return componentListToReturn;

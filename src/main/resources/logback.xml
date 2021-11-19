@@ -17,7 +17,7 @@
         <file>logs.html</file>
     </appender>
 
-    <logger name="timetracking" level="debug" additivity="false">
+    <logger name="timetracking" level="off" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>

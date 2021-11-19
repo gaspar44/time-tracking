@@ -8,6 +8,7 @@ import timetracking.core.Project;
 import timetracking.core.Task;
 import timetracking.impl.TagSearcher;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TagSearcherTest {
@@ -69,24 +70,10 @@ public class TagSearcherTest {
   @Test
   public void searchForCppTagsAtProject() throws Exception {
     String tagToSearch = "C++";
-    TagSearcher searcher = new TagSearcher();
-    searcher.addSearchTag(tagToSearch);
-
-    rootProject.acceptVisitor(searcher);
-    List<Component> results = searcher.getMatchedComponents();
-    Assertions.assertNotNull(results);
-    Assertions.assertEquals(1,results.size());
-    Assertions.assertEquals(results.get(0),dataBase);
+    generalTest(dataBase,1,tagToSearch);
 
     tagToSearch = "c++";
-    searcher = new TagSearcher();
-    searcher.addSearchTag(tagToSearch);
-
-    rootProject.acceptVisitor(searcher);
-    List<Component> newResults = searcher.getMatchedComponents();
-    Assertions.assertNotNull(newResults);
-    Assertions.assertEquals(1,newResults.size());
-    Assertions.assertEquals(newResults.get(0),softwareTesting);
+    generalTest(softwareTesting,1,tagToSearch);
   }
 
   @Test
@@ -98,5 +85,53 @@ public class TagSearcherTest {
     List<Component> results = searcher.getMatchedComponents();
     Assertions.assertNotNull(results);
     Assertions.assertEquals(0,results.size());
+  }
+
+  @Test
+  public void searchForDartTagsAtProject() throws Exception {
+    String tagToSearch = "Dart";
+    generalTest(secondList,1,tagToSearch);
+  }
+
+  @Test
+  public void searchForJavaAndFlutterTagsAtProject() throws Exception {
+    String tagToSearch1 = "java";
+    String tagToSearch2 = "flutter";
+    generalTest(softwareDesign,1,tagToSearch1,tagToSearch2);
+  }
+
+  private void generalTest(Component expectedComponent, int expectedSize,String... tags) throws Exception {
+    List<String> tagsToSearch = Arrays.asList(tags);
+    TagSearcher searcher = new TagSearcher(tagsToSearch);
+
+    rootProject.acceptVisitor(searcher);
+    List<Component> newResults = searcher.getMatchedComponents();
+    Assertions.assertNotNull(newResults);
+    Assertions.assertEquals(expectedSize,newResults.size());
+    Assertions.assertEquals(newResults.get(0),expectedComponent);
+  }
+
+  @Test
+  public void searchForPythonTagsAtProject() throws Exception {
+    String tagToSearch1 = "python";
+    String tagToSearch2 = "Java";
+    String tagToSearch3 = "c++";
+    generalTest(softwareTesting,1,tagToSearch1,tagToSearch2,tagToSearch3);
+
+  }
+
+  @Test
+  public void searchFordataBases() throws Exception {
+    String tagToSearch1 = "python";
+    String tagToSearch2 = "SQL";
+    String tagToSearch3 = "C++";
+    generalTest(dataBase,1,tagToSearch1,tagToSearch2,tagToSearch3);
+  }
+
+  @Test
+  public void searchForMilestone() throws Exception {
+    String tagToSearch1 = "Java";
+    String tagToSearch2 = "IntelliJ";
+    generalTest(firstMilestone, 1, tagToSearch1, tagToSearch2);
   }
 }
