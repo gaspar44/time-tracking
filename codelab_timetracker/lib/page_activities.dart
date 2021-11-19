@@ -1,6 +1,8 @@
 import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/material.dart';
 
+import 'PageIntervals.dart';
+
 class PageActivities extends StatefulWidget {
   @override
   _PageActivitiesState createState() => _PageActivitiesState();
@@ -41,6 +43,12 @@ class _PageActivitiesState extends State<PageActivities> {
     );
   }
 
+  void _navigateDownIntervals(int childId) {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (context) => PageIntervals())
+    );
+  }
+
   Widget _buildRow(Activity activity, int index) {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list
@@ -52,19 +60,20 @@ class _PageActivitiesState extends State<PageActivities> {
         onTap: () => {},
         // TODO, navigate down to show children tasks and projects
       );
-    } else { // must be a task
-      assert(activity is Task);
+    } else if (activity is Task) {
       Task task = activity as Task;
       Widget trailing;
       trailing = Text('$strDuration');
       return ListTile(
         title: Text('${activity.name}'),
         trailing: trailing,
-        onTap: () => {},
-        // TODO, navigate down to show intervals
-        onLongPress: () {},
-        // TODO start/stop counting the time for tis task
+        onTap: () => _navigateDownIntervals(index),
+        onLongPress: () {}, // TODO start/stop counting the time for tis task
       );
+    } else {
+      throw(Exception("Activity that is neither a Task or a Project"));
+      // this solves the problem of return Widget is not nullable because an
+      // Exception is also a Widget?
     }
   }
 }
