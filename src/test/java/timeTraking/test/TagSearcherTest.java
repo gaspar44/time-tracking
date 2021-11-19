@@ -64,8 +64,8 @@ public class TagSearcherTest {
   @Test
   public void searchForCppTagsAtProjectTest() throws Exception {
     List<Component> expected = new ArrayList<>();
-    expected.add(dataBase);
     expected.add(softwareTesting);
+    expected.add(dataBase);
 
     String tagToSearch = "C++";
     generalTest(expected,tagToSearch);
@@ -139,6 +139,8 @@ public class TagSearcherTest {
     List<Component> obtainedResults = searcher.getMatchedComponents();
     Assertions.assertNotNull(obtainedResults);
     Assertions.assertEquals(expected.size(),obtainedResults.size());
+    Assertions.assertEquals(expected,obtainedResults);
+    Assertions.assertTrue(expected.containsAll(obtainedResults));
     Assertions.assertTrue(obtainedResults.containsAll(expected));
   }
 }
