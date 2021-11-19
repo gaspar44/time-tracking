@@ -2,12 +2,14 @@ package timeTraking.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import timetracking.core.Component;
 import timetracking.core.Project;
 import timetracking.core.Task;
 import timetracking.impl.TagSearcher;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,35 +47,31 @@ public class TagSearcherTest {
 
   @Test
   public void searchForJavaTagsAtProjectTest() throws Exception {
+    List<Component> expected = new ArrayList<>();
+    expected.add(softwareDesign);
+    expected.add(firtslist);
+    expected.add(firstMilestone);
+    expected.add(softwareTesting);
+
     String tagToSearch = "java";
-    TagSearcher tagSearcher = new TagSearcher();
-    tagSearcher.addSearchTag(tagToSearch);
-
-    rootProject.acceptVisitor(tagSearcher);
-    List<Component> componentList = tagSearcher.getMatchedComponents();
-    Assertions.assertNotNull(componentList);
-    Assertions.assertEquals(2,componentList.size());
-    Assertions.assertTrue(componentList.contains(softwareDesign));
-    Assertions.assertTrue(componentList.contains(firtslist));
-
+    generalTest(expected,tagToSearch);
     tagToSearch = "Java";
-    tagSearcher.addSearchTag(tagToSearch);
-    rootProject.acceptVisitor(tagSearcher);
-    List<Component> newComponentList = tagSearcher.getMatchedComponents();
-    Assertions.assertNotNull(newComponentList);
-    Assertions.assertEquals(2,newComponentList.size());
-    Assertions.assertNotEquals(newComponentList,componentList);
-    Assertions.assertTrue(newComponentList.contains(firstMilestone));
-    Assertions.assertTrue(newComponentList.contains(softwareTesting));
+    generalTest(expected,tagToSearch);
+    tagToSearch = "JaVA";
+    generalTest(expected,tagToSearch);
   }
 
   @Test
   public void searchForCppTagsAtProjectTest() throws Exception {
+    List<Component> expected = new ArrayList<>();
+    expected.add(dataBase);
+    expected.add(softwareTesting);
+
     String tagToSearch = "C++";
-    generalTest(dataBase,1,tagToSearch);
+    generalTest(expected,tagToSearch);
 
     tagToSearch = "c++";
-    generalTest(softwareTesting,1,tagToSearch);
+    generalTest(expected,tagToSearch);
   }
 
   @Test
@@ -90,25 +88,18 @@ public class TagSearcherTest {
   @Test
   public void searchForDartTagsAtProjectTest() throws Exception {
     String tagToSearch = "Dart";
-    generalTest(secondList,1,tagToSearch);
+    List<Component> expected = new ArrayList<>();
+    expected.add(secondList);
+    generalTest(expected,tagToSearch);
   }
 
   @Test
   public void searchForJavaAndFlutterTagsAtProjectTest() throws Exception {
     String tagToSearch1 = "java";
     String tagToSearch2 = "flutter";
-    generalTest(softwareDesign,1,tagToSearch1,tagToSearch2);
-  }
-
-  private void generalTest(Component expectedComponent, int expectedSize,String... tags) throws Exception {
-    List<String> tagsToSearch = Arrays.asList(tags);
-    TagSearcher searcher = new TagSearcher(tagsToSearch);
-
-    rootProject.acceptVisitor(searcher);
-    List<Component> newResults = searcher.getMatchedComponents();
-    Assertions.assertNotNull(newResults);
-    Assertions.assertEquals(expectedSize,newResults.size());
-    Assertions.assertEquals(newResults.get(0),expectedComponent);
+    List<Component> expected = new ArrayList<>();
+    expected.add(softwareDesign);
+    generalTest(expected,tagToSearch1,tagToSearch2);
   }
 
   @Test
@@ -116,22 +107,38 @@ public class TagSearcherTest {
     String tagToSearch1 = "python";
     String tagToSearch2 = "Java";
     String tagToSearch3 = "c++";
-    generalTest(softwareTesting,1,tagToSearch1,tagToSearch2,tagToSearch3);
-
+    List<Component> expected = new ArrayList<>();
+    expected.add(softwareTesting);
+    generalTest(expected,tagToSearch1,tagToSearch2,tagToSearch3);
   }
 
   @Test
-  public void searchFordataBasesTest() throws Exception {
+  public void searchForDataBaseTest() throws Exception {
     String tagToSearch1 = "python";
     String tagToSearch2 = "SQL";
     String tagToSearch3 = "C++";
-    generalTest(dataBase,1,tagToSearch1,tagToSearch2,tagToSearch3);
+    List<Component> expected = new ArrayList<>();
+    expected.add(dataBase);
+    generalTest(expected,tagToSearch1,tagToSearch2,tagToSearch3);
   }
 
   @Test
   public void searchForMilestone() throws Exception {
     String tagToSearch1 = "Java";
     String tagToSearch2 = "IntelliJ";
-    generalTest(firstMilestone, 1, tagToSearch1, tagToSearch2);
+    List<Component> expected = new ArrayList<>();
+    expected.add(firstMilestone);
+    generalTest(expected, tagToSearch1, tagToSearch2);
+  }
+
+  private void generalTest(List<Component> expected ,String... tags) throws Exception {
+    List<String> tagsToSearch = Arrays.asList(tags);
+    TagSearcher searcher = new TagSearcher(tagsToSearch);
+
+    rootProject.acceptVisitor(searcher);
+    List<Component> obtainedResults = searcher.getMatchedComponents();
+    Assertions.assertNotNull(obtainedResults);
+    Assertions.assertEquals(expected.size(),obtainedResults.size());
+    Assertions.assertTrue(obtainedResults.containsAll(expected));
   }
 }
