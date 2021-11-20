@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import timetracking.api.Visitor;
-
 
 public abstract class Component {
   protected Component father;
@@ -15,16 +16,26 @@ public abstract class Component {
   protected LocalTime endTime;
   protected List<String> tags;
   private final String name;
+  private final Logger logger = LoggerFactory.getLogger(Component.class);
 
   public Component(String componentName, Component father, String... tags) {
     this(componentName, father);
     this.tags = Arrays.asList(tags);
+    logger.info("initialize component");
+    logger.trace("component name: {}, father name: {}, tags :{}",
+        componentName, father.getName(), tags);
   }
 
   public Component(String componentName, Component father) {
+    logger.info("initialize component");
     this.name = componentName;
     this.father = father;
     this.totalTime = 0;
+    if (father != null) {
+      logger.trace("component name: {}, father name: {}, tags :{}",
+          componentName, father.getName(), tags);
+    }
+
     this.tags = new ArrayList<>();
   }
 
@@ -40,7 +51,9 @@ public abstract class Component {
         - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(totalDuration));
     long sec = TimeUnit.SECONDS.toSeconds(totalDuration)
         - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(totalDuration));
-    return (String.format("%d Days %d Hours %d Minutes %d Seconds", days, hours, minutes, sec));
+    String msg = String.format("%d Days %d Hours %d Minutes %d Seconds", days, hours, minutes, sec);
+    logger.info(msg);
+    return msg;
   }
 
   public String getHumanReadableTimeDuration() {
@@ -52,10 +65,14 @@ public abstract class Component {
   }
 
   public long getTotalTime() {
+    logger.debug("getting time");
+    logger.trace("total time is: {}", totalTime);
     return totalTime;
   }
 
   public void setTotalTime(long totalTime) {
+    logger.debug("setting time");
+    logger.trace("total time is: {}", totalTime);
     this.totalTime = totalTime;
   }
 
@@ -69,14 +86,21 @@ public abstract class Component {
 
   public void setStartTime(LocalTime startTime) {
     this.startTime = startTime;
+    logger.debug("set start time to component: {}", name);
+    logger.trace("time is: {}", startTime);
+
     if (father != null && father.getStartedTime() == null) {
+      logger.debug("setting start time to {} father of {}", father.getName(), name);
       father.setStartTime(startTime);
     }
   }
 
   public void setEndTime(LocalTime endTime) {
     this.endTime = endTime;
+    logger.debug("set end time to component: {}", name);
+    logger.trace("time is: {}", endTime);
     if (father != null) {
+      logger.debug("setting end time to {} father of {}", father.getName(), name);
       father.setEndTime(endTime);
     }
   }
@@ -96,16 +120,20 @@ public abstract class Component {
   public abstract void acceptVisitor(Visitor visitor);
 
   private void printTime() {
-    System.out.println("Name " + "   Initial date "
-        + "          Final date " + "                   Duration "); // INFO
-    System.out.println(" " + this.name + "  +   " + this.startTime + "  "
-        + this.endTime + "                 " + this.totalTime); // INFO
+    logger.info("Name: {}\tInitial date: {}\tFinal date: {}\tDuration : {}",
+        this.name,
+        this.startTime,
+        this.endTime,
+        this.totalTime);
   }
 
   protected void addTimeDuration(long moreDuration) {
     totalTime = totalTime + moreDuration;
+    logger.debug("adding time to component {}", this.name);
+
     printTime();
     if (father != null) {
+      logger.debug("adding time to component {} father of {}", father.getName(), this.name);
       father.addTimeDuration(moreDuration);
     }
   }

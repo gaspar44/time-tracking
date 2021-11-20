@@ -3,21 +3,26 @@ package timetracking.core;
 import java.time.LocalTime;
 import java.util.Observable;
 import java.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Timer extends Observable {
   private static final int TIMER_MILLISECONDS_PERIOD = 2000;
   private static Timer instance;
   private static LocalTime date;
   private static java.util.Timer timer;
-  private static TimerTask innerTimer;
+  private final Logger logger = LoggerFactory.getLogger(Timer.class);
 
   private Timer() {
+    logger.info("creating new timer");
     timer = new java.util.Timer();
-    innerTimer = new TimerTask() {
+    TimerTask innerTimer = new TimerTask() {
       @Override
       public void run() {
         date = LocalTime.now();
+        logger.trace("clock's time: {}", date);
         setChanged();
+        logger.debug("notifying observers ");
         notifyObservers(date);
       }
     };
@@ -35,12 +40,8 @@ public class Timer extends Observable {
     return TIMER_MILLISECONDS_PERIOD;
   }
 
-  public LocalTime getDate() {
-    return date;
-  }
-
-
   public void stopCounting() {
+    logger.debug("Timer stopped");
     timer.cancel();
   }
 

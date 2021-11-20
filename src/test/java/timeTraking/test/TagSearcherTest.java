@@ -138,6 +138,12 @@ public class TagSearcherTest {
     rootProject.acceptVisitor(searcher);
     List<Component> obtainedResults = searcher.getMatchedComponents();
     Assertions.assertNotNull(obtainedResults);
+
+    System.out.println("obtained results: ");
+    for (Component obtainedResult: obtainedResults) {
+      System.out.println(obtainedResult.getName());
+    }
+
     Assertions.assertEquals(expected.size(),obtainedResults.size());
     Assertions.assertEquals(expected,obtainedResults);
     Assertions.assertTrue(expected.containsAll(obtainedResults));

@@ -3,12 +3,15 @@ package timetracking.core;
 import java.time.LocalTime;
 import java.util.Observable;
 import java.util.Observer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TimeInterval implements Observer {
   private LocalTime startTime;
   private LocalTime endTime;
   private long duration;
   private final Task fatherTask;
+  private final Logger logger = LoggerFactory.getLogger(TimeInterval.class);
 
   public TimeInterval(Task task) {
     fatherTask = task;
@@ -18,20 +21,28 @@ public class TimeInterval implements Observer {
   @Override
   public void update(Observable observable, Object obj) {
     duration = duration + Timer.getInstance().getTimerMillisecondsPeriod() / 1000;
-    endTime = (LocalTime) obj;
-    fatherTask.setEndTime(endTime);
-    fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
+    logger.debug("updating time interval time");
+    logger.trace("received value {}", endTime);
 
+    endTime = (LocalTime) obj;
+
+    logger.debug("updating father's time");
+    fatherTask.setEndTime(endTime);
+
+    logger.debug("updating total time of father");
+    fatherTask.addTimeDuration(Timer.getInstance().getTimerMillisecondsPeriod() / 1000);
   }
 
   public void startTime() {
     startTime = LocalTime.now();
-    System.out.println("Adding observer");
+    logger.debug("subscribing to clock");
+    logger.trace("Adding observer: {}", fatherTask.getName());
     Timer.getInstance().addObserver(this);
   }
 
   public void stopTime() {
-    System.out.println("Deleting Observer");
+    logger.debug("unsubscribing to clock");
+    logger.trace("unsubscribing {} of clock", fatherTask.getName());
     Timer.getInstance().deleteObserver(this);
   }
 
@@ -48,6 +59,7 @@ public class TimeInterval implements Observer {
   }
 
   public void setStartTime(LocalTime startTime) {
+    logger.debug("setting new start time");
     this.startTime = startTime;
   }
 

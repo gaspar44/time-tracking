@@ -9,6 +9,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import timetracking.api.Visitor;
 import timetracking.core.Component;
 import timetracking.core.Project;
@@ -16,6 +18,7 @@ import timetracking.core.Task;
 import timetracking.core.TimeInterval;
 
 public class JsonParser implements Visitor {
+  // JSON's Keys:
   private static final String TIME_INTERVAL_KEY = "time_intervals";
   private static final String CURRENT_TIME_INTERVAL_DURATION = "current_duration";
   private static final String DURATION_KEY = "duration";
@@ -28,13 +31,16 @@ public class JsonParser implements Visitor {
   private static final String PROJECT_TYPE = "Project";
   private static final String TASK_TYPE = "Task";
   private static final String TAGS_KEY = "tags";
+
   private static JsonParser instance;
   private String fileName;
   private JSONArray projectTree;
   private JSONObject rootJsonProject;
   private Project parsedTreeFromFile;
+  private final Logger logger = LoggerFactory.getLogger(JsonParser.class);
 
   private JsonParser() {
+    logger.info("starting Json Parser");
     projectTree = new JSONArray();
     rootJsonProject = new JSONObject();
   }
@@ -47,11 +53,13 @@ public class JsonParser implements Visitor {
   }
 
   public Project getProjectsFromJson(String fileName) throws Exception {
+    logger.info("getting project from json");
     String stringProjectTree = Files.readString(Paths.get(fileName));
 
     // tokener let the array to transform the string into a JSONArrayObject.
     JSONTokener tokener = new JSONTokener(stringProjectTree);
     JSONArray jsonArrayProjectTree = new JSONArray(tokener);
+    logger.debug("readed, starting transformation into components");
 
     for (int i = 0; i < jsonArrayProjectTree.length(); i++) {
       transformJsonArrayIntoProject(jsonArrayProjectTree, null);
@@ -65,8 +73,10 @@ public class JsonParser implements Visitor {
       JSONObject unparsedJsonObject = (JSONObject) jsonArrayProjectTree.get(i);
 
       if (unparsedJsonObject.get(TYPE_KEY).equals(PROJECT_TYPE)) {
+        logger.debug("Parsing as Project");
         parseJsonElementAsProject(unparsedJsonObject, father);
       } else if (unparsedJsonObject.get(TYPE_KEY).equals(TASK_TYPE)) {
+        logger.debug("Parsing as task");
         parseJsonElementAsTask(unparsedJsonObject, father);
       }
     }
@@ -116,7 +126,7 @@ public class JsonParser implements Visitor {
       project.setStartTime(LocalTime.parse(startTime));
       project.setEndTime(LocalTime.parse(endTime));
     } catch (Exception e) {
-      System.out.println("Project without started task " + projectName);
+      logger.warn("Project without started task {} ", projectName);
     }
 
     JSONArray components;
@@ -131,6 +141,7 @@ public class JsonParser implements Visitor {
       }
 
     } catch (Exception e) {
+      logger.warn(e.getMessage());
       return;
     }
 
@@ -156,18 +167,20 @@ public class JsonParser implements Visitor {
 
         writer.flush(); //We make sure that Project Tree is correctly written to the Json file.
         writer.close();
+        logger.debug("json saved");
       } else {
+        logger.warn("no json project to store found");
         return false;
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.warn(e.getMessage());
       return false;
     }
 
     /*This is done to reset the actual project. If this is not made,
      the project will be added as a subproject of itself.
     */
-
+    logger.debug("resetting json trees for future uses");
     rootJsonProject = new JSONObject();
     projectTree = new JSONArray();
 
@@ -186,7 +199,7 @@ public class JsonParser implements Visitor {
     jsonObject.put(FATHER_NAME, task.getFather().getName());
     jsonObject.put(TYPE_KEY, "Task");
     jsonObject.put(DURATION_KEY, task.getTotalTime());
-    jsonObject.put(TAGS_KEY,task.getTags());
+    jsonObject.put(TAGS_KEY, task.getTags());
     JSONArray timeIntervals = new JSONArray();
 
     List<TimeInterval> timeIntervalList = task.getTimeIntervalList();
@@ -216,7 +229,7 @@ public class JsonParser implements Visitor {
     jsonObject.put(DURATION_KEY, project.getTotalTime());
     jsonObject.put(START_TIME_KEY, project.getStartedTime());
     jsonObject.put(END_TIME_KEY, project.getEndedTime());
-    jsonObject.put(TAGS_KEY,project.getTags());
+    jsonObject.put(TAGS_KEY, project.getTags());
 
     if (project.getFather() != null) {
       jsonObject.put(FATHER_NAME, project.getFather().getName());

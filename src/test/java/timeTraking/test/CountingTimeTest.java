@@ -23,22 +23,22 @@ public class CountingTimeTest {
     }
 
     @Test
-    public void createProjectTest() throws Exception {
+    public void AppendixB() throws Exception {
 
         // make a small tree of projects and tasks
 
         Project rootProject = new Project("root", null);
-        Project softwareDessign = new Project("software dessgin", rootProject);
-        Project softwareTesting = new Project("software testing", rootProject);
-        Project dataBase = new Project("dataBase",rootProject);
+        Project softwareDesign = new Project("software design", rootProject,"java","flutter");
+        Project softwareTesting = new Project("software testing", rootProject,"c++","Java","python");
+        Project dataBase = new Project("dataBase",rootProject,"SQL","python","C++");
         Task transportation = new Task("transportation", rootProject);
 
-        Project problems = new Project("problems",softwareDessign);
-        Project projectTimeTracke = new Project("time tracker", softwareDessign);
+        Project problems = new Project("problems",softwareDesign);
+        Project projectTimeTracke = new Project("time tracker", softwareDesign);
 
-        Task firtslist = new Task("firts list", problems);
-        Task secondList = new Task("Second list", problems);
-        Task readHandle = new Task("read handle",projectTimeTracke);
+        Task firtslist = new Task("firts list", problems, "java");
+        Task secondList = new Task("Second list", problems, "Dart");
+        Task readHandle = new Task("read handle",projectTimeTracke, "Java","IntelliJ");
 
         Task firstMilestone = new Task("firstMilestone",projectTimeTracke);
 
