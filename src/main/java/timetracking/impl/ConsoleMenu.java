@@ -7,6 +7,11 @@ import timetracking.api.MenuInterface;
 import timetracking.core.Project;
 import timetracking.core.Task;
 
+/* This class is used to
+ * simulate a Menu to, for example, print the tree of
+ * Components, get the time of the Components, store
+ * them into JSON files...
+*/
 public class ConsoleMenu implements MenuInterface {
   private static JsonParser jsonParser;
   private Project rootProject;

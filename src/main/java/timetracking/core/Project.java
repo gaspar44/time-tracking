@@ -6,6 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import timetracking.api.Visitor;
 
+/* This class is based on a kind of Component called "Project",
+ * which can contain more "Projects" in each father Project or
+ * have tasks inside these fathers as a list of Components.
+*/
+
 public class Project extends Component {
   private List<Component> components;
   private final Logger logger = LoggerFactory.getLogger(Project.class);
@@ -41,6 +46,7 @@ public class Project extends Component {
   }
 
   public void add(Component componentToAdd) {
+    assert(componentToAdd != null);
     logger.trace("adding component {} to {}", componentToAdd.getName(), this.getName());
     components.add(componentToAdd);
   }

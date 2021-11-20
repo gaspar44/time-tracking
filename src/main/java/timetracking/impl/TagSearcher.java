@@ -11,6 +11,10 @@ import timetracking.core.Component;
 import timetracking.core.Project;
 import timetracking.core.Task;
 
+/* Through a Visitor pattern, this class makes a Component
+ * (see "Component" class) able to have a tag associated to
+ * itself to make it distinguishable between other Components.
+*/
 public class TagSearcher implements Visitor {
   private List<Component> matchedComponents;
   private List<String> tagsToSearch;

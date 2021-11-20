@@ -9,6 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import timetracking.api.Visitor;
 
+/*
+ * This class can be a "Project" or "Task", which contains
+ * all the information about each of them, depending on what
+ * kind of component is (start/end time, tags, name...) and
+ * its Component "father". It also shows his information in
+ * a humanly readable way.
+ *
+ * Note: The first "Project" of the whole Tree of components
+ *       is the father we've talked about before.
+*/
+
 public abstract class Component {
   protected Component father;
   protected long totalTime;
@@ -44,6 +55,7 @@ public abstract class Component {
   }
 
   private String getHumanReadableTimeDuration(long totalDuration) {
+    assert(totalDuration >= 0);
     long days = TimeUnit.SECONDS.toDays(totalDuration);
     long hours = TimeUnit.SECONDS.toHours(totalDuration)
         - TimeUnit.DAYS.toHours(TimeUnit.SECONDS.toDays(totalDuration));
@@ -57,6 +69,7 @@ public abstract class Component {
   }
 
   public String getHumanReadableTimeDuration() {
+    assert(totalTime >= 0);
     return getHumanReadableTimeDuration(totalTime);
   }
 
@@ -65,12 +78,14 @@ public abstract class Component {
   }
 
   public long getTotalTime() {
+    assert(totalTime >= 0);
     logger.debug("getting time");
     logger.trace("total time is: {}", totalTime);
     return totalTime;
   }
 
   public void setTotalTime(long totalTime) {
+    assert(totalTime >= 0);
     logger.debug("setting time");
     logger.trace("total time is: {}", totalTime);
     this.totalTime = totalTime;
@@ -88,7 +103,6 @@ public abstract class Component {
     this.startTime = startTime;
     logger.debug("set start time to component: {}", name);
     logger.trace("time is: {}", startTime);
-
     if (father != null && father.getStartedTime() == null) {
       logger.debug("setting start time to {} father of {}", father.getName(), name);
       father.setStartTime(startTime);
@@ -128,6 +142,7 @@ public abstract class Component {
   }
 
   protected void addTimeDuration(long moreDuration) {
+    assert(moreDuration >= 0);
     totalTime = totalTime + moreDuration;
     logger.debug("adding time to component {}", this.name);
 

@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -17,6 +19,11 @@ import timetracking.core.Project;
 import timetracking.core.Task;
 import timetracking.core.TimeInterval;
 
+/* This class creates a JSON type of file which contains
+ * the Component list tree (see "Project" for further information),
+ * that it's a collection of components which are related to each
+ * other in a "Project-Project" way or "Project-Task".
+*/
 public class JsonParser implements Visitor {
   // JSON's Keys:
   private static final String TIME_INTERVAL_KEY = "time_intervals";
@@ -83,6 +90,7 @@ public class JsonParser implements Visitor {
   }
 
   private void parseJsonElementAsTask(JSONObject unparsedJsonObject, Component father) {
+    assert(father != null);
     Task task;
     String taskName = unparsedJsonObject.getString(NAME_KEY);
     task = new Task(taskName, (Project) father);
@@ -188,6 +196,7 @@ public class JsonParser implements Visitor {
   }
 
   public void setFileName(String fileName) {
+    assert(!Objects.equals(fileName, ""));
     this.fileName = fileName;
   }
 

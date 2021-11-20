@@ -6,6 +6,10 @@ import java.util.Observer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/* "TimeInterval" notifies a "Task" ("Task" contains "Intervals)
+ *  when it's been executed, for how long, and when its execution has ended through
+ *  a "Timer" (see "Timer" class).
+ */
 public class TimeInterval implements Observer {
   private LocalTime startTime;
   private LocalTime endTime;
@@ -13,7 +17,9 @@ public class TimeInterval implements Observer {
   private final Task fatherTask;
   private final Logger logger = LoggerFactory.getLogger(TimeInterval.class);
 
+
   public TimeInterval(Task task) {
+    assert(task != null);
     fatherTask = task;
     duration = 0;
   }
@@ -51,6 +57,8 @@ public class TimeInterval implements Observer {
   }
 
   public void setEndTime(LocalTime endTime) {
+    logger.debug("setting endTime");
+    assert(endTime != null);
     this.endTime = endTime;
   }
 
@@ -60,6 +68,7 @@ public class TimeInterval implements Observer {
 
   public void setStartTime(LocalTime startTime) {
     logger.debug("setting new start time");
+    assert(startTime != null);
     this.startTime = startTime;
   }
 
@@ -68,6 +77,7 @@ public class TimeInterval implements Observer {
   }
 
   public void setDuration(long duration) {
+    assert(duration >= 0);
     this.duration = duration;
   }
 }

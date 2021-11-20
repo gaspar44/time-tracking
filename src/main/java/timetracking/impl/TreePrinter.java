@@ -1,14 +1,22 @@
 package timetracking.impl;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import timetracking.api.Visitor;
 import timetracking.core.Component;
 import timetracking.core.Project;
 import timetracking.core.Task;
 
+/* This class, as its name says, prints the Tree of
+ * components (see "Component" class) ordered by which
+ * is the father of which. It also prints the tags of
+ * each Component that has any associated to it.
+ */
 public class TreePrinter implements Visitor {
-
+  private final Logger logger = LoggerFactory.getLogger(TreePrinter.class);
   private String fileName;
   private final List<String> tabulatorList = new ArrayList<String>();
 
@@ -33,17 +41,17 @@ public class TreePrinter implements Visitor {
     List<Component> components = project.getComponents();
 
     if (father == null) {
-      System.out.println(project.getName());
+      logger.info("Father of this component's tree is: {} ", project.getName());
     }
 
     for (Component component : components) {
       tabulatorList.add("+");
 
       for (String plus : tabulatorList) {
-        System.out.print(plus);
+        logger.info(plus);
       }
 
-      System.out.println(component.getName() + "       child of " + project.getName());
+      logger.trace("{} is child of {}", component.getName(), project.getName());
       component.acceptVisitor(this);
       tabulatorList.remove(tabulatorList.size() - 1);
     }
