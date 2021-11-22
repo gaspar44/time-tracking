@@ -41,7 +41,7 @@ public class Task extends Component {
   }
 
   public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
-    assert(timeIntervalList != null);
+    assert (timeIntervalList != null);
     this.timeIntervalList = timeIntervalList;
     if (timeIntervalList.size() != 0) {
       startTime = timeIntervalList.get(0).getStartTime();

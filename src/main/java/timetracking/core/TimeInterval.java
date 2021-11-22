@@ -19,7 +19,7 @@ public class TimeInterval implements Observer {
 
 
   public TimeInterval(Task task) {
-    assert(task != null);
+    assert (task != null);
     fatherTask = task;
     duration = 0;
   }
@@ -58,7 +58,7 @@ public class TimeInterval implements Observer {
 
   public void setEndTime(LocalTime endTime) {
     logger.debug("setting endTime");
-    assert(endTime != null);
+    assert (endTime != null);
     this.endTime = endTime;
   }
 
@@ -68,7 +68,7 @@ public class TimeInterval implements Observer {
 
   public void setStartTime(LocalTime startTime) {
     logger.debug("setting new start time");
-    assert(startTime != null);
+    assert (startTime != null);
     this.startTime = startTime;
   }
 
@@ -77,7 +77,7 @@ public class TimeInterval implements Observer {
   }
 
   public void setDuration(long duration) {
-    assert(duration >= 0);
+    assert (duration >= 0);
     this.duration = duration;
   }
 }

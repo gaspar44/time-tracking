@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -90,7 +89,7 @@ public class JsonParser implements Visitor {
   }
 
   private void parseJsonElementAsTask(JSONObject unparsedJsonObject, Component father) {
-    assert(father != null);
+    assert (father != null);
     Task task;
     String taskName = unparsedJsonObject.getString(NAME_KEY);
     task = new Task(taskName, (Project) father);
@@ -196,7 +195,6 @@ public class JsonParser implements Visitor {
   }
 
   public void setFileName(String fileName) {
-    assert(!Objects.equals(fileName, ""));
     this.fileName = fileName;
   }
 

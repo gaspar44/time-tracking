@@ -46,7 +46,7 @@ public class Project extends Component {
   }
 
   public void add(Component componentToAdd) {
-    assert(componentToAdd != null);
+    assert (componentToAdd != null);
     logger.trace("adding component {} to {}", componentToAdd.getName(), this.getName());
     components.add(componentToAdd);
   }
