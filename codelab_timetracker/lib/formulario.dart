@@ -11,42 +11,6 @@ class RegisterPage extends StatefulWidget {
 
 
 
-  class _RegisterPageCalendar extends State<RegisterPage> {
-    DateTime currentDate = DateTime.now();
-
-    Future<void> _selectDate(BuildContext context) async {
-      final DateTime pickedDate = await showDatePicker(
-          context: context,
-          initialDate: currentDate,
-          firstDate: DateTime(2015),
-          lastDate: DateTime(2050));
-      if (pickedDate != null && pickedDate != currentDate)
-        setState(() {
-          currentDate = pickedDate;
-        });
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text("DatePicker"),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(currentDate.toString()),
-              RaisedButton(
-                onPressed: () => _selectDate(context),
-                child: Text('Select date'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
 
 
 
@@ -64,9 +28,6 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController To = new TextEditingController();
   TextEditingController Content = new TextEditingController();
   TextEditingController Format = new TextEditingController();
-
-  GlobalKey<DateTime> key = new DateTime.now();
-
 
 
 
@@ -142,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
           onChanged: (_) {},
         ),
 
-      Text(key.toString()),
+      Text(DateTime.now().toString()),
         RaisedButton(
           onPressed: () => _selectDate(context)
         ),
