@@ -1,3 +1,4 @@
+import 'package:codelab_timetracker/page_report.dart';
 import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,9 @@ import 'PageIntervals.dart';
 class PageActivities extends StatefulWidget {
   @override
   _PageActivitiesState createState() => _PageActivitiesState();
+
 }
+
 
 class _PageActivitiesState extends State<PageActivities> {
   late Tree tree;
@@ -27,6 +30,12 @@ class _PageActivitiesState extends State<PageActivities> {
               onPressed: () {}
             // TODO go home page = root
           ),
+          IconButton(icon: Icon(Icons.home), onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute<void>(
+                builder: (context) => page_report(),
+            ));
+          })
           //TODO other actions
         ],
       ),
