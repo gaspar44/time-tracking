@@ -1,8 +1,8 @@
-import 'package:codelab_timetracker/page_report.dart';
 import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/material.dart';
 
 import 'PageIntervals.dart';
+import 'formulario.dart';
 
 class PageActivities extends StatefulWidget {
   @override
@@ -22,23 +22,25 @@ class _PageActivitiesState extends State<PageActivities> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(tree.root.name),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.home),
+    return MaterialApp(
+      home: new Scaffold(
+        appBar: AppBar(
+          title: Text(tree.root.name),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.home),
               onPressed: () {}
             // TODO go home page = root
           ),
-          IconButton(icon: Icon(Icons.home), onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute<void>(
-                builder: (context) => page_report(),
-            ));
-          })
+            IconButton(icon: Icon(Icons.document_scanner), onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute<void>(
+                builder: (context) => RegisterPage(),
+              ));
+            })
           //TODO other actions
         ],
       ),
+
       body: ListView.separated(
         // it's like ListView.builder() but better
         // because it includes a separator between items
@@ -48,6 +50,7 @@ class _PageActivitiesState extends State<PageActivities> {
             _buildRow(tree.root.children[index], index),
         separatorBuilder: (BuildContext context, int index) =>
         const Divider(),
+      ),
       ),
     );
   }
