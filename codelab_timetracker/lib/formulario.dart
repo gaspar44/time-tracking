@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController To = new TextEditingController();
   TextEditingController Content = new TextEditingController();
   TextEditingController Format = new TextEditingController();
-
+  DateTime selectedTime = DateTime.now();
 
 
 
@@ -103,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
           onChanged: (_) {},
         ),
 
-      Text(DateTime.now().toString()),
+      Text(selectedTime.toString()),
         RaisedButton(
           onPressed: () => _selectDate(context)
         ),],);
@@ -118,10 +118,12 @@ class _RegisterPageState extends State<RegisterPage> {
         initialDate: currentDate,
         firstDate: DateTime(2015),
         lastDate: DateTime(2050));
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != currentDate) {
       setState(() {
-        Key ? pickedDate;
+        selectedTime = pickedDate;
+        get() => selectedTime;
       });
+    }
   }
 }
 
