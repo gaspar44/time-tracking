@@ -4,6 +4,7 @@ abstract class Component {
     # father : Component
     # totalTime : long
     - {final} lock : ReentrantLock
+    - logger : Logger
 
     + Component(componentName : String, father : Component)
     + getName() : String
@@ -23,6 +24,7 @@ class TimeInterval implements java.util.Observer {
     - duration : long
     - fatherTask: Task
     -{final} lock : ReentrantLock
+    - logger : Logger
 
     + update(observable : Observable, obj : Object)
     - printTime()
@@ -61,6 +63,7 @@ interface Visitor {
 class Project extends Component{
 
     - components : List<Component>
+    - logger : Logger
 
     + Project(root : String, father : Project)
     + getComponents() : List<Component>
@@ -77,6 +80,7 @@ class Task {
     - timeInterval : TimeInterval
     - startTime : LocalTime
     - endTime : LocalTime
+    - logger : Logger
 
     + Task(name : String, father : Project)
     + getTimeIntervalList() : List<TimeInterval>
@@ -95,7 +99,7 @@ class Task {
 
 
 class Timer {
-
+    - logger : Logger
     - {static} instance : Timer
     - {static} date : LocalTime
     - {static} timer : java.util.Timer
@@ -121,6 +125,7 @@ class JsonParser implements Visitor{
     - projectTree : JSONArray
     - rootJsonProject : JSONObject
     - parsedTreeFromFile : Project
+    - logger : Logger
 
     - {static final} TIME_INTERVAL_KEY : String
     - {static final} CURRENT_TIME_INTERVAL_DURATION : String
@@ -149,11 +154,28 @@ class JsonParser implements Visitor{
 class TreePrinter implements Visitor{
     - fileName : String
     - tabulatorList : List<String>
+    - logger : Logger
 
     + TreePrinter()
     + visitTask(task : Task)
     + visitProject(project : Project)
     + setFileName(filename : String)
+}
+
+class TagSearcher implements Visitor
+{
+    - matchedComponents : List<Component>
+    - tagsToSearch : List<String>
+    - logger : Logger
+
+    + TagSearcher()
+    + TagSearcher(tagsToSearch : List<String>)
+    - resetSearchElements()
+    + visitTask(task : Task)
+    + visitProject(project : Project)
+    + getMatchedComponents() :  List<Component>
+    + addSearchTag(tag : String)
+    - checkIfSearchTagsAreInComponentTags(component : Component)
 }
 
 class Main {
