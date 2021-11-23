@@ -1,5 +1,4 @@
 import 'dart:core';
-
 import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,21 +32,135 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text('Report'),
+        appBar: AppBar(
+          title: Text('Report'),
         ),
+        body: new Container(
+            child: new Column(
+                children: [
+                  Row(
+                    children: <Widget> [
+                      Expanded(
+                        child: Text('Period'),
+                      ),
+                      Expanded(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: _selectedLocation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedLocation = newValue!;
+                              });
+                            },
+                            items: _locations.map((location) {
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          )
+                      )
+                    ],
+                  ),
 
-        body: new SingleChildScrollView(
-          child: new Container(
-            margin: new EdgeInsets.all(60.0),
-            child: new Form(
-              key: keyForm,
-              child: formUI(),
-            ),
-          ),
-        ),
+                  Row(
+                  children: <Widget> [
+                    Expanded(
+                      child: Text('From'),
+                    ),
+                  Expanded(
+                     child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
+                    ),
+                    Expanded(
+                      child: RaisedButton(
+                          child: Icon(Icons.today),
+                        onPressed: () => _selectDate(context)
+                      )
+                      )
+                    ],
+                  ),
+
+                  Row(
+                    children: <Widget> [
+                      Expanded(
+                        child: Text('To'),
+                      ),
+                      Expanded(
+                        child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
+                      ),
+                      Expanded(
+
+                          child: RaisedButton(
+                             child: Icon(Icons.today),
+                              onPressed: () => _selectFinalDate(context)
+                          )
+                      )
+
+                    ],
+                  ),
+
+
+                  Row(
+                    children: <Widget> [
+                      Expanded(
+                        child: Text('Content'),
+                      ),
+                      Expanded(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: _selectedContent,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedContent = newValue!;
+                              });
+                            },
+                            items: _ContentList.map((location) {
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          )
+                      )
+                    ],
+                  ),
+
+
+                  Row(
+                    children: <Widget> [
+                      Expanded(
+                        child: Text('Format'),
+                      ),
+                      Expanded(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: _selectedFormat,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedFormat = newValue!;
+                              });
+                            },
+                            items: _FormatList.map((location) {
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          )
+                      )
+                    ],
+                  ),
+
+                ]
+            )
+        )
     );
-    }
+
+
+
+
+
+  }
 
   formItemsDesign(icon, item) {
     return Padding(
@@ -56,83 +169,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-
-  Widget formUI() {
-
-    String _dropDownValue;
-
-    return  Column(
-
-
-
-    children: <Widget>[
-      // Last week
-      Text('Period'),
-      DropdownButton<String>(
-        isExpanded: true,
-        value: _selectedLocation,
-        onChanged: (newValue) {
-          setState(() {
-            _selectedLocation = newValue!;
-            });
-        },
-        items: _locations.map((location) {
-          return DropdownMenuItem(
-            child: new Text(location),
-            value: location,
-        );
-        }).toList(),
-      ),
-
-      // Brief
-      Text('Content'),
-      DropdownButton<String>(
-        isExpanded: true,
-        value: _selectedContent,
-        onChanged: (newValue) {
-          setState(() {
-            _selectedContent = newValue!;
-          });
-        },
-        items: _ContentList.map((location) {
-          return DropdownMenuItem(
-            child: new Text(location),
-            value: location,
-          );
-        }).toList(),
-      ),
-
-
-
-      Text('Format'),
-
-      DropdownButton<String>(
-        isExpanded: true,
-        value: _selectedFormat,
-        onChanged: (newValue) {
-          setState(() {
-            _selectedFormat = newValue!;
-          });
-        },
-        items: _FormatList.map((location) {
-          return DropdownMenuItem(
-            child: new Text(location),
-            value: location,
-          );
-        }).toList(),
-      ),
-
-
-      Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
-        RaisedButton(
-            onPressed: () => _selectDate(context)
-        ),
-
-      Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
-        RaisedButton(
-          onPressed: () => _selectFinalDate(context)
-        ),],);
-}
 
 
   Future<void> _selectDate(BuildContext context) async {
@@ -164,16 +200,16 @@ class _RegisterPageState extends State<RegisterPage> {
         get() => selectedTimeTo;
 
         if(pickedDate.difference(selectedTimeFrom) >= Duration(days: 0))
-          {
-            DateTimeRange Hi = DateTimeRange(start: selectedTimeFrom, end: pickedDate);
-          }else{
-          _showMyDialog();
+        {
+          DateTimeRange Hi = DateTimeRange(start: selectedTimeFrom, end: pickedDate);
+        }else{
+          _showAlert();
         }
       });
     }
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showAlert() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -203,7 +239,4 @@ class _RegisterPageState extends State<RegisterPage> {
 
 
 }
-
-
-
 
