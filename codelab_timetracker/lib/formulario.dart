@@ -2,7 +2,9 @@ import 'dart:core';
 import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -37,9 +39,12 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         body: new Container(
             child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
                     children: <Widget> [
+
                       Expanded(
                         child: Text('Period'),
                       ),
@@ -50,6 +55,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             onChanged: (newValue) {
                               setState(() {
                                 _selectedLocation = newValue!;
+                                // Funcion
+                                _uploadCalendar(context);
                               });
                             },
                             items: _locations.map((location) {
@@ -62,7 +69,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                     ],
                   ),
-
                   Row(
                   children: <Widget> [
                     Expanded(
@@ -72,14 +78,15 @@ class _RegisterPageState extends State<RegisterPage> {
                      child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
                     ),
                     Expanded(
-                      child: RaisedButton(
-                          child: Icon(Icons.today),
-                        onPressed: () => _selectDate(context)
+                        child: IconButton(
+                            icon: Icon(Icons.today, color: Colors.blue.shade400),
+                        onPressed: () { _selectDate(context);
+                              _selectedLocation = 'Other';
+                        }
                       )
                       )
                     ],
                   ),
-
                   Row(
                     children: <Widget> [
                       Expanded(
@@ -90,12 +97,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       Expanded(
 
-                          child: RaisedButton(
-                             child: Icon(Icons.today),
+                          child: IconButton(
+                              icon: Icon(Icons.today, color: Colors.blue.shade400),
                               onPressed: () => _selectFinalDate(context)
                           )
                       )
-
                     ],
                   ),
 
@@ -150,15 +156,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                     ],
                   ),
-
+                  Row(
+                      children: <Widget> [
+                        Expanded(
+                            child: FlatButton(
+                                textColor: Colors.blue,
+                                onPressed: () {},
+                                child: Text('Generate')
+                            )
+                        ),
+                      ]
+                  )
                 ]
             )
         )
     );
-
-
-
-
 
   }
 
@@ -169,7 +181,41 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Future<void> _uploadCalendar(BuildContext context) async {
 
+    DateTime today = DateTime.now();
+    DateTime yesterday = today.subtract(Duration(days:1));
+
+    DateTime mondayThisWeek = DateTime(today.year, today.month, today.day - today.weekday);
+    DateTime sundayThisWeek = mondayThisWeek.subtract(new Duration(days:-7)); //Preguntar por qué?
+
+    DateTime mondayLastWeek = mondayThisWeek.subtract(new Duration(days:7));
+    DateTime sundayLastWeek = DateTime(today.year, today.month, today.day - today.weekday);
+
+    switch(_selectedLocation){
+
+      case 'Today':
+        selectedTimeFrom = today;
+        selectedTimeTo = today;
+        break;
+
+      case 'Yesterday':
+      selectedTimeFrom = yesterday;
+      selectedTimeTo = yesterday;
+        break;
+
+      case 'This week':
+        selectedTimeFrom = mondayThisWeek;
+        selectedTimeTo = sundayThisWeek;
+        break;
+
+      case 'Last week':
+        selectedTimeFrom = mondayLastWeek;
+        selectedTimeTo = sundayLastWeek;
+        break;
+
+    }
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = DateTime.now();
