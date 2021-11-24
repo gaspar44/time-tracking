@@ -40,64 +40,57 @@ class _RegisterPageState extends State<RegisterPage> {
         body: new Container(
 
             child: new Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-               crossAxisAlignment: CrossAxisAlignment.center,
+               mainAxisAlignment: MainAxisAlignment.spaceAround,
+               //crossAxisAlignment: CrossAxisAlignment.stretch,
 
                 children: [
 
                   Row(
                     children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      Expanded(
-                          child: Text('Period'),
-                      ),
+                      Padding(padding: EdgeInsets.all(16.0)),
+                      Text('Period'),
 
-                      Expanded(
+                      SizedBox(width: 40.0),  // Espacio entre titulo y opciones
 
-                          child: DropdownButton<String>(
-                            //isExpanded: true,
-                            underline: Container(width: 5.0),
-                            value: _selectedLocation,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedLocation = newValue!;
-                                // Funcion
+                      DropdownButton<String>(
+                        value: _selectedLocation,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedLocation = newValue!;
                                 _uploadCalendar(context);
-                              });
-                            },
-                            items: _locations.map((location) {
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          )
+                          });
+                        },
+                        items: _locations.map((location) {
+                          return DropdownMenuItem(
+                            child: new Text(location),
+                            value: location,
+                          );
+                        }).toList(),
                       )
                     ],
                   ),
 
 
                   Row(
-                  children: <Widget> [
+                    children: <Widget> [
 
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    Expanded(
-                      child: Text('From'),
-                    ),
+                      Padding(padding: EdgeInsets.all(16.0)),
+                      Text('From'),
 
-                    Expanded(
-                     child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
-                    ),
+                      SizedBox(width: 50.0),  // Espacio entre titulo y opciones
 
-                    Expanded(
-                        child: IconButton(
-                            icon: Icon(Icons.today, color: Colors.blue.shade400),
-                        onPressed: () { _selectDate(context);
-                              _selectedLocation = 'Other';
+                      Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
+
+                      SizedBox(width: 10.0),  // Espacio entre titulo y opciones
+
+                      IconButton(
+                        icon: Icon(Icons.today, color: Colors.blue.shade400),
+                        onPressed: () {
+                          _selectDate(context);
+                          _selectedLocation = 'Other';
                         }
                       )
-                      )
                     ],
                   ),
 
@@ -105,21 +98,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      Expanded(
-                        child: Text('To'),
-                      ),
+                      Padding(padding: EdgeInsets.all(16.0)),
+                      Text('To'),
 
-                      Expanded(
-                        child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
-                      ),
+                      SizedBox(width: 75.0),  // Espacio entre titulo y opciones
 
-                      Expanded(
+                      Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
 
-                          child: IconButton(
+                      SizedBox(width: 10.0),  // Espacio entre titulo y opciones
+
+                      IconButton(
                               icon: Icon(Icons.today, color: Colors.blue.shade400),
                               onPressed: () => _selectFinalDate(context)
-                          )
                       )
                     ],
                   ),
@@ -128,13 +118,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      Expanded(
-                        child: Text('Content'),
-                      ),
+                      Padding(padding: EdgeInsets.all(16.0)),
+                      Text('Content'),
 
-                      Expanded(
-                          child: DropdownButton<String>(
+                      SizedBox(width: 27.0),  // Espacio entre titulo y opciones
+
+                      DropdownButton<String>(
                             //isExpanded: true,
                             value: _selectedContent,
                             onChanged: (newValue) {
@@ -149,7 +138,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               );
                             }).toList(),
                           )
-                      )
                     ],
                   ),
 
@@ -157,13 +145,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      Expanded(
-                        child: Text('Format'),
-                      ),
+                      Padding(padding: EdgeInsets.all(16.0)),
+                      Text('Format'),
 
-                      Expanded(
-                          child: DropdownButton<String>(
+                      SizedBox(width: 35.0),  // Espacio entre titulo y opciones
+
+                      DropdownButton<String>(
                             //isExpanded: true,
                             value: _selectedFormat,
                             onChanged: (newValue) {
@@ -178,7 +165,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               );
                             }).toList(),
                           )
-                      )
                     ],
                   ),
 
@@ -214,8 +200,8 @@ class _RegisterPageState extends State<RegisterPage> {
     DateTime today = DateTime.now();
     DateTime yesterday = today.subtract(Duration(days:1));
 
-    DateTime mondayThisWeek = DateTime(today.year, today.month, today.day - today.weekday);
-    DateTime sundayThisWeek = mondayThisWeek.subtract(new Duration(days:-7)); //Preguntar por qué?
+    DateTime mondayThisWeek = DateTime(today.year, today.month, today.day - today.weekday + 1);
+    DateTime sundayThisWeek = mondayThisWeek.subtract(new Duration(days:-6)); //Preguntar por qué?
 
     DateTime mondayLastWeek = mondayThisWeek.subtract(new Duration(days:7));
     DateTime sundayLastWeek = DateTime(today.year, today.month, today.day - today.weekday);
