@@ -38,19 +38,26 @@ class _RegisterPageState extends State<RegisterPage> {
           title: Text('Report'),
         ),
         body: new Container(
+
             child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+               mainAxisAlignment: MainAxisAlignment.center,
+               crossAxisAlignment: CrossAxisAlignment.center,
+
                 children: [
+
                   Row(
                     children: <Widget> [
 
+                      Padding(padding: EdgeInsets.all(8.0)),
                       Expanded(
-                        child: Text('Period'),
+                          child: Text('Period'),
                       ),
+
                       Expanded(
+
                           child: DropdownButton<String>(
-                            isExpanded: true,
+                            //isExpanded: true,
+                            underline: Container(width: 5.0),
                             value: _selectedLocation,
                             onChanged: (newValue) {
                               setState(() {
@@ -69,14 +76,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                     ],
                   ),
+
+
                   Row(
                   children: <Widget> [
+
+                    Padding(padding: EdgeInsets.all(8.0)),
                     Expanded(
                       child: Text('From'),
                     ),
-                  Expanded(
+
+                    Expanded(
                      child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
                     ),
+
                     Expanded(
                         child: IconButton(
                             icon: Icon(Icons.today, color: Colors.blue.shade400),
@@ -87,14 +100,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                     ],
                   ),
+
+
                   Row(
                     children: <Widget> [
+
+                      Padding(padding: EdgeInsets.all(8.0)),
                       Expanded(
                         child: Text('To'),
                       ),
+
                       Expanded(
                         child: Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
                       ),
+
                       Expanded(
 
                           child: IconButton(
@@ -108,12 +127,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   Row(
                     children: <Widget> [
+
+                      Padding(padding: EdgeInsets.all(8.0)),
                       Expanded(
                         child: Text('Content'),
                       ),
+
                       Expanded(
                           child: DropdownButton<String>(
-                            isExpanded: true,
+                            //isExpanded: true,
                             value: _selectedContent,
                             onChanged: (newValue) {
                               setState(() {
@@ -134,12 +156,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   Row(
                     children: <Widget> [
+
+                      Padding(padding: EdgeInsets.all(8.0)),
                       Expanded(
                         child: Text('Format'),
                       ),
+
                       Expanded(
                           child: DropdownButton<String>(
-                            isExpanded: true,
+                            //isExpanded: true,
                             value: _selectedFormat,
                             onChanged: (newValue) {
                               setState(() {
@@ -156,8 +181,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       )
                     ],
                   ),
+
+
                   Row(
                       children: <Widget> [
+
+                        Padding(padding: EdgeInsets.all(8.0)),
                         Expanded(
                             child: FlatButton(
                                 textColor: Colors.blue,
@@ -171,7 +200,6 @@ class _RegisterPageState extends State<RegisterPage> {
             )
         )
     );
-
   }
 
   formItemsDesign(icon, item) {
@@ -282,7 +310,5 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
   }
-
-
 }
 
