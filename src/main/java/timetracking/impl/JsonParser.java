@@ -89,7 +89,7 @@ public class JsonParser implements Visitor {
   }
 
   private void parseJsonElementAsTask(JSONObject unparsedJsonObject, Component father) {
-    assert (father != null);
+    assert (father != null);  // Precondition
     Task task;
     String taskName = unparsedJsonObject.getString(NAME_KEY);
     task = new Task(taskName, (Project) father);

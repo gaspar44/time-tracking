@@ -55,7 +55,7 @@ public abstract class Component {
   }
 
   private String getHumanReadableTimeDuration(long totalDuration) {
-    assert (totalDuration >= 0);
+    assert (totalDuration >= 0); // Precondiction
     long days = TimeUnit.SECONDS.toDays(totalDuration);
     long hours = TimeUnit.SECONDS.toHours(totalDuration)
         - TimeUnit.DAYS.toHours(TimeUnit.SECONDS.toDays(totalDuration));
@@ -69,7 +69,7 @@ public abstract class Component {
   }
 
   public String getHumanReadableTimeDuration() {
-    assert (totalTime >= 0);
+    assert (totalTime >= 0);  // Precondition
     return getHumanReadableTimeDuration(totalTime);
   }
 
@@ -78,14 +78,14 @@ public abstract class Component {
   }
 
   public long getTotalTime() {
-    assert (totalTime >= 0);
+    assert (totalTime >= 0);  // Precondition
     logger.debug("getting time");
     logger.trace("total time is: {}", totalTime);
     return totalTime;
   }
 
   public void setTotalTime(long totalTime) {
-    assert (totalTime >= 0);
+    assert (totalTime >= 0);  // Precondition
     logger.debug("setting time");
     logger.trace("total time is: {}", totalTime);
     this.totalTime = totalTime;
@@ -142,7 +142,7 @@ public abstract class Component {
   }
 
   protected void addTimeDuration(long moreDuration) {
-    assert (moreDuration >= 0);
+    assert (moreDuration >= 0); //Precondition
     totalTime = totalTime + moreDuration;
     logger.debug("adding time to component {}", this.name);
 

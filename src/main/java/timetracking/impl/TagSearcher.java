@@ -47,7 +47,7 @@ public class TagSearcher implements Visitor {
   @Override
   public void visitProject(Project project) {
     logger.info("TagSearcher visiting task: {}", project.getName());
-    assert (tagsToSearch.size() != 0);
+    assert (tagsToSearch.size() != 0);  // Intercondition
 
     checkIfSearchTagsAreInComponentTags(project);
     List<Component> components = project.getComponents();
@@ -67,7 +67,7 @@ public class TagSearcher implements Visitor {
   }
 
   public void addSearchTag(String tag) {
-    assert (tag != null);
+    assert (tag != null); // Precondition
 
     logger.debug("adding tags: {}", tag);
     tagsToSearch.add(tag.toLowerCase());

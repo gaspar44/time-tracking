@@ -42,17 +42,28 @@ public class TreePrinter implements Visitor {
 
     if (father == null) {
       logger.info("Father of this component's tree is: {} ", project.getName());
+      System.out.println("Father of this component's tree is: " +  project.getName());
     }
 
     for (Component component : components) {
       tabulatorList.add("+");
 
-      for (String plus : tabulatorList) {
-        logger.info(plus);
-      }
+      String finalPlus = "";
 
-      logger.trace("{} is child of {}, tags: {}", component.getName(),
+      for (String plus : tabulatorList) {
+        //logger.info(plus);
+        finalPlus = String.join("", finalPlus, plus);
+        //System.out.print(plus);
+      }
+      //logger.info(finalPlus);
+      System.out.print(finalPlus);
+
+      logger.info("{} {} is child of {}, tags: {}", finalPlus, component.getName(),
           project.getName(), component.getTags());
+
+      System.out.println(component.getName() + " is child of " +
+              project.getName() + " tags: " + component.getTags());
+
       component.acceptVisitor(this);
       tabulatorList.remove(tabulatorList.size() - 1);
     }
