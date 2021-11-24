@@ -61,9 +61,6 @@ public class TreePrinter implements Visitor {
       logger.info("{} {} is child of {}, tags: {}", finalPlus, component.getName(),
           project.getName(), component.getTags());
 
-      System.out.println(component.getName() + " is child of " +
-              project.getName() + " tags: " + component.getTags());
-
       component.acceptVisitor(this);
       tabulatorList.remove(tabulatorList.size() - 1);
     }
