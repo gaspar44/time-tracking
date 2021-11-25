@@ -31,20 +31,18 @@ public class ConsoleMenu implements MenuInterface {
   }
 
   @Override
-  public Project createNewProject(String name) {
+  public void createNewProject(String name) {
     System.out.println("Creating new project and switching to add");
     actualProject = actualProject == null
         ? new Project(name, rootProject) : new Project(name, actualProject);
 
-    return actualProject;
   }
 
   @Override
-  public Task createTask(String name) {
+  public void createTask(String name) {
     System.out.println("Creating new task with name: " + name + " and appending "
         + "to the actual project");
     actualTask = new Task(name, actualProject);
-    return actualTask;
   }
 
   @Override

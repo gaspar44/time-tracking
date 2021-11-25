@@ -9,7 +9,7 @@ import timetracking.firtsmilestone.core.Timer;
 
 public class ProjectTest {
   private Project project;
-  private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
+  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
 
   @BeforeEach
   public void setup() throws Exception {
@@ -31,13 +31,13 @@ public class ProjectTest {
     Assertions.assertTrue(project.getComponents().size() == 1);
     Assertions.assertTrue(project.getTotalTime() == 0);
     task.startNewInterval();
-    Thread.sleep(timerClock);
+    Thread.sleep(TIMER_CLOCK);
 
     Assertions.assertTrue(project.getTotalTime() > 0);
 
     task.stopActualInterval();
     long currentDuration = task.getTotalTime();
-    Thread.sleep(timerClock * 2);
+    Thread.sleep(TIMER_CLOCK * 2);
     Assertions.assertEquals(currentDuration, project.getTotalTime());
   }
 
@@ -50,14 +50,14 @@ public class ProjectTest {
     Assertions.assertTrue(project.getTotalTime() == 0);
 
     task1.startNewInterval();
-    Thread.sleep(timerClock);
+    Thread.sleep(TIMER_CLOCK);
 
     task1.stopActualInterval();
     long task1CurrenTime = task1.getTotalTime();
     Assertions.assertTrue(task1CurrenTime == project.getTotalTime());
 
     task2.startNewInterval();
-    Thread.sleep(timerClock * 2);
+    Thread.sleep(TIMER_CLOCK * 2);
     task2.stopActualInterval();
     long task2CurrentTime = task2.getTotalTime();
 
@@ -75,13 +75,13 @@ public class ProjectTest {
 
     task1.startNewInterval();
     task2.startNewInterval();
-    Thread.sleep(timerClock);
+    Thread.sleep(TIMER_CLOCK);
     task2.stopActualInterval();
 
     long project1TotalTime = project1.getTotalTime();
     Assertions.assertTrue(task2.getTotalTime() == project1TotalTime);
 
-    Thread.sleep(timerClock * 2);
+    Thread.sleep(TIMER_CLOCK * 2);
     task1.stopActualInterval();
 
     Assertions.assertTrue(task2.getTotalTime() == project1TotalTime);

@@ -1,12 +1,11 @@
 package timetracking.firtsmilestone.api;
 
 import timetracking.firtsmilestone.core.Project;
-import timetracking.firtsmilestone.core.Task;
 
 public interface MenuInterface {
-  Project createNewProject(String name);
+  void createNewProject(String name);
 
-  Task createTask(String name);
+  void createTask(String name);
 
   Project getRootProject();
 

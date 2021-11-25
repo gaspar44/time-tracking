@@ -1,26 +1,15 @@
 package timetraking.test;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timetracking.firtsmilestone.api.MenuInterface;
 import timetracking.firtsmilestone.api.Visitor;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
-import timetracking.firtsmilestone.impl.ConsoleMenu;
 import timetracking.firtsmilestone.impl.JsonParser;
 import timetracking.firtsmilestone.impl.TreePrinter;
 
 public class FirstMilestoneTest {
-  private static MenuInterface menu;
-  private String projectName = "root";
-  private String taskName = "task";
-  private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
-
-  @BeforeEach
-  public void setup() throws Exception {
-    menu = new ConsoleMenu();
-  }
+  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
 
   @Test
   public void appendixB() throws Exception {
@@ -43,25 +32,25 @@ public class FirstMilestoneTest {
     Task firstMilestone = new Task("firstMilestone", projectTimeTracke);
 
     transportation.startNewInterval();
-    Thread.sleep(timerClock * 2);
+    Thread.sleep(TIMER_CLOCK * 2);
     transportation.stopActualInterval();
 
-    Thread.sleep(timerClock);
+    Thread.sleep(TIMER_CLOCK);
 
     firtslist.startNewInterval();
-    Thread.sleep(timerClock * 3);
+    Thread.sleep(TIMER_CLOCK * 3);
 
     secondList.startNewInterval();
-    Thread.sleep(timerClock * 2);
+    Thread.sleep(TIMER_CLOCK * 2);
     firtslist.stopActualInterval();
 
-    Thread.sleep(timerClock);
+    Thread.sleep(TIMER_CLOCK);
 
     secondList.stopActualInterval();
-    Thread.sleep(timerClock);
+    Thread.sleep(TIMER_CLOCK);
 
     transportation.startNewInterval();
-    Thread.sleep(timerClock * 3);
+    Thread.sleep(TIMER_CLOCK * 3);
     transportation.stopActualInterval();
 
     System.out.println("Project total time: " + rootProject.getTotalTime());
