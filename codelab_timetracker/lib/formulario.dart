@@ -22,13 +22,13 @@ class _RegisterPageState extends State<RegisterPage> {
   DateTime selectedTimeTo = DateTime.now();
   DateTime selectedTimeFrom = DateTime.now();
 
-  List<String> _locations = ['Last week', 'This week', 'Yesterday', 'Today', 'Other']; // Option 1
-  String _selectedLocation = 'Last week'; // Option 1
+  List<String> _periods = ['Last week', 'This week', 'Yesterday', 'Today', 'Other']; // Option 1
+  String _selectedPeriod = 'Last week'; // Option 1
 
-  List<String> _ContentList = ['Brief', 'Detailed', 'Statistic']; // Option 2
+  List<String> _contents = ['Brief', 'Detailed', 'Statistic']; // Option 2
   String _selectedContent = 'Brief'; // Option 2
 
-  List<String> _FormatList= ['Web page', 'PDF', 'Text']; // Option 3
+  List<String> _formats= ['Web page', 'PDF', 'Text']; // Option 3
   String _selectedFormat = 'Web page'; // Option 3
 
   @override
@@ -41,7 +41,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
             child: new Column(
                mainAxisAlignment: MainAxisAlignment.spaceAround,
-               //crossAxisAlignment: CrossAxisAlignment.stretch,
 
                 children: [
 
@@ -54,14 +53,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(width: 40.0),  // Espacio entre titulo y opciones
 
                       DropdownButton<String>(
-                        value: _selectedLocation,
+                        value: _selectedPeriod,
                         onChanged: (newValue) {
                           setState(() {
-                            _selectedLocation = newValue!;
+                            _selectedPeriod = newValue!;
                                 _uploadCalendar(context);
                           });
                         },
-                        items: _locations.map((location) {
+                        items: _periods.map((location) {
                           return DropdownMenuItem(
                             child: new Text(location),
                             value: location,
@@ -88,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         icon: Icon(Icons.today, color: Colors.blue.shade400),
                         onPressed: () {
                           _selectDate(context);
-                          _selectedLocation = 'Other';
+                          _selectedPeriod = 'Other';
                         }
                       )
                     ],
@@ -131,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 _selectedContent = newValue!;
                               });
                             },
-                            items: _ContentList.map((location) {
+                            items: _contents.map((location) {
                               return DropdownMenuItem(
                                 child: new Text(location),
                                 value: location,
@@ -158,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 _selectedFormat = newValue!;
                               });
                             },
-                            items: _FormatList.map((location) {
+                            items: _formats.map((location) {
                               return DropdownMenuItem(
                                 child: new Text(location),
                                 value: location,
@@ -201,12 +200,12 @@ class _RegisterPageState extends State<RegisterPage> {
     DateTime yesterday = today.subtract(Duration(days:1));
 
     DateTime mondayThisWeek = DateTime(today.year, today.month, today.day - today.weekday + 1);
-    DateTime sundayThisWeek = mondayThisWeek.subtract(new Duration(days:-6)); //Preguntar por qué?
+    DateTime sundayThisWeek = mondayThisWeek.subtract(new Duration(days:-6));
 
     DateTime mondayLastWeek = mondayThisWeek.subtract(new Duration(days:7));
     DateTime sundayLastWeek = DateTime(today.year, today.month, today.day - today.weekday);
 
-    switch(_selectedLocation){
+    switch(_selectedPeriod){
 
       case 'Today':
         selectedTimeFrom = today;
@@ -237,8 +236,8 @@ class _RegisterPageState extends State<RegisterPage> {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: currentDate,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2050));
+        firstDate: DateTime(currentDate.year -5),
+        lastDate: DateTime(currentDate.year + 5));
     if (pickedDate != null && pickedDate != currentDate) {
       setState(() {
         selectedTimeFrom = pickedDate;
@@ -252,8 +251,8 @@ class _RegisterPageState extends State<RegisterPage> {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: currentDate,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2050));
+        firstDate: DateTime(currentDate.year -5),
+        lastDate: DateTime(currentDate.year + 5));
     if (pickedDate != null && pickedDate != currentDate) {
       setState(() {
         selectedTimeTo = pickedDate;
@@ -261,7 +260,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         if(pickedDate.difference(selectedTimeFrom) >= Duration(days: 0))
         {
-          DateTimeRange Hi = DateTimeRange(start: selectedTimeFrom, end: pickedDate);
+          DateTimeRange rangeTimer = DateTimeRange(start: selectedTimeFrom, end: pickedDate);
         }else{
           _showAlert();
         }
