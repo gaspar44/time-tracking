@@ -1,4 +1,4 @@
-package timetracking.core;
+package timetracking.firtsmilestone.core;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import timetracking.api.Visitor;
+import timetracking.firtsmilestone.api.Visitor;
 
 /*
  * This class can be a "Project" or "Task", which contains

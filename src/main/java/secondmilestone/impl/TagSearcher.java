@@ -1,4 +1,4 @@
-package timetracking.impl;
+package secondmilestone.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import timetracking.api.Visitor;
-import timetracking.core.Component;
-import timetracking.core.Project;
-import timetracking.core.Task;
+import timetracking.firtsmilestone.api.Visitor;
+import timetracking.firtsmilestone.core.Component;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
 
 /* Through a Visitor pattern, this class makes a Component
  * (see "Component" class) able to have a tag associated to

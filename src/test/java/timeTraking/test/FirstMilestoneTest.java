@@ -2,16 +2,16 @@ package timeTraking.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timetracking.api.MenuInterface;
-import timetracking.api.Visitor;
-import timetracking.core.Project;
-import timetracking.core.Task;
-import timetracking.core.Timer;
-import timetracking.impl.ConsoleMenu;
-import timetracking.impl.JsonParser;
-import timetracking.impl.TreePrinter;
+import timetracking.firtsmilestone.api.MenuInterface;
+import timetracking.firtsmilestone.api.Visitor;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.core.Timer;
+import timetracking.firtsmilestone.impl.ConsoleMenu;
+import timetracking.firtsmilestone.impl.JsonParser;
+import timetracking.firtsmilestone.impl.TreePrinter;
 
-public class CountingTimeTest {
+public class FirstMilestoneTest {
     private static MenuInterface menu;
     private String projectName = "root";
     private String taskName = "task";

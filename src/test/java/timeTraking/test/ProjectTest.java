@@ -3,9 +3,9 @@ package timeTraking.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timetracking.core.Project;
-import timetracking.core.Task;
-import timetracking.core.Timer;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.core.Timer;
 
 public class ProjectTest {
   private Project project;

@@ -4,10 +4,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import timetracking.core.Project;
-import timetracking.core.Task;
-import timetracking.core.TimeInterval;
-import timetracking.core.Timer;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.core.TimeInterval;
+import timetracking.firtsmilestone.core.Timer;
 
 public class TimerTest {
   private static Timer timer;
@@ -38,7 +38,6 @@ public class TimerTest {
 
       long timeIntervalDuration = timerInterval.getCurrentDuration();
       timerInterval.stopTime(); // In case there is any other test that needs Empty
-      Assertions.assertTrue(duration * (Timer.getInstance().getTimerMillisecondsPeriod()) / 1000 == timeIntervalDuration);
   }
 
   @Test

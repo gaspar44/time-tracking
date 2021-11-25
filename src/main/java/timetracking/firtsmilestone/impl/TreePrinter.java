@@ -1,14 +1,14 @@
-package timetracking.impl;
+package timetracking.firtsmilestone.impl;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import timetracking.api.Visitor;
-import timetracking.core.Component;
-import timetracking.core.Project;
-import timetracking.core.Task;
+import timetracking.firtsmilestone.api.Visitor;
+import timetracking.firtsmilestone.core.Component;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
 
 /* This class, as its name says, prints the Tree of
  * components (see "Component" class) ordered by which

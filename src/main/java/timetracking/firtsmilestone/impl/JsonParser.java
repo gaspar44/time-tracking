@@ -1,4 +1,4 @@
-package timetracking.impl;
+package timetracking.firtsmilestone.impl;
 
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -6,17 +6,17 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import timetracking.api.Visitor;
-import timetracking.core.Component;
-import timetracking.core.Project;
-import timetracking.core.Task;
-import timetracking.core.TimeInterval;
+import timetracking.firtsmilestone.api.Visitor;
+import timetracking.firtsmilestone.core.Component;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.core.TimeInterval;
 
 /* This class creates a JSON type of file which contains
  * the Component list tree (see "Project" for further information),

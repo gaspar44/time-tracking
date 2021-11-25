@@ -1,4 +1,4 @@
-package timetracking.core;
+package timetracking.firtsmilestone.core;
 
 import java.time.LocalTime;
 import java.util.Observable;

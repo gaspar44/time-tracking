@@ -2,12 +2,11 @@ package timeTraking.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timetracking.core.Component;
-import timetracking.core.Project;
-import timetracking.core.Task;
-import timetracking.impl.TagSearcher;
+import timetracking.firtsmilestone.core.Component;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import secondmilestone.impl.TagSearcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;

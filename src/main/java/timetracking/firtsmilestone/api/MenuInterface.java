@@ -1,7 +1,7 @@
-package timetracking.api;
+package timetracking.firtsmilestone.api;
 
-import timetracking.core.Project;
-import timetracking.core.Task;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
 
 public interface MenuInterface {
   Project createNewProject(String name);

@@ -2,11 +2,11 @@ package timeTraking.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timetracking.api.MenuInterface;
-import timetracking.core.Project;
-import timetracking.core.Task;
-import timetracking.impl.ConsoleMenu;
-import timetracking.impl.TreePrinter;
+import timetracking.firtsmilestone.api.MenuInterface;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.impl.ConsoleMenu;
+import timetracking.firtsmilestone.impl.TreePrinter;
 
 public class PrinterTest {
 

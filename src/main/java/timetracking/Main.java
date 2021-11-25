@@ -1,7 +1,7 @@
 package timetracking;
 
-import timetracking.api.MenuInterface;
-import timetracking.impl.ConsoleMenu;
+import timetracking.firtsmilestone.api.MenuInterface;
+import timetracking.firtsmilestone.impl.ConsoleMenu;
 
 /* 
  * This class is the one wich starts our project.

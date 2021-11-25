@@ -1,10 +1,10 @@
-package timetracking.core;
+package timetracking.firtsmilestone.core;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import timetracking.api.Visitor;
+import timetracking.firtsmilestone.api.Visitor;
 
 /* This class is based on a kind of Component called "Task",
  * which HAS to be contained in a "Project", another kind of
