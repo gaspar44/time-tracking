@@ -46,9 +46,11 @@ public class Project extends Component {
   }
 
   public void add(Component componentToAdd) {
+    int componentsSize = components.size();
     assert (componentToAdd != null);  //Precondition
     logger.trace("adding component {} to {}", componentToAdd.getName(), this.getName());
     components.add(componentToAdd);
+    assert (components.size() == componentsSize + 1); // Postcondition
   }
 
   @Override
