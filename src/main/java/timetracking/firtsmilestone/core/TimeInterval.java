@@ -31,7 +31,7 @@ public class TimeInterval implements Observer {
     logger.trace("received value {}", endTime);
 
     endTime = (LocalTime) obj;
-    assert(endTime != null);
+    assert (endTime != null);
 
     logger.debug("updating father's time");
     fatherTask.setEndTime(endTime);
