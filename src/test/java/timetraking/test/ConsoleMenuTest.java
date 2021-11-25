@@ -1,4 +1,4 @@
-package timeTraking.test;
+package timetraking.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ public class ConsoleMenuTest {
     Assertions.assertNotNull(project);
     Project rootProject = menu.getRootProject();
 
-    Assertions.assertEquals(1,rootProject.getComponents().size());
+    Assertions.assertEquals(1, rootProject.getComponents().size());
     Assertions.assertEquals(project, rootProject.getComponents().get(0));
   }
 
@@ -34,7 +34,7 @@ public class ConsoleMenuTest {
     Task task = menu.createTask(taskName);
 
     Assertions.assertNotNull(task);
-    Assertions.assertEquals(1,project.getComponents().size());
-    Assertions.assertEquals(task,project.getComponents().get(0));
+    Assertions.assertEquals(1, project.getComponents().size());
+    Assertions.assertEquals(task, project.getComponents().get(0));
   }
 }

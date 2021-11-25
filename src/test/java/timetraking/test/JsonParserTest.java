@@ -1,5 +1,8 @@
-package timeTraking.test;
+package timetraking.test;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,15 +15,13 @@ import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
 import timetracking.firtsmilestone.impl.JsonParser;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 
 public class JsonParserTest {
   private static JsonParser jsonParser;
   private Project project;
   private Task task;
-  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
+  private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
 
 
   @BeforeAll
@@ -30,21 +31,21 @@ public class JsonParserTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    project = new Project("root",null);
-    task = new Task("task",project);
+    project = new Project("root", null);
+    task = new Task("task", project);
   }
 
   @Test
   public void acceptSimpleProjectVisitorTest() throws Exception {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
-    Project demoProject = new Project("root",null);
-    Project demoProject1 = new Project ("project1",demoProject);
+    Project demoProject = new Project("root", null);
+    Project demoProject1 = new Project("project1", demoProject);
     demoProject.acceptVisitor(jsonParser);
 
     Assertions.assertTrue(checkForJson(jsonName));
-    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
-    Assertions.assertTrue(isJSONValid(readedJson));
+    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName)));
+    Assertions.assertTrue(isJsonvalid(readedJson));
 
   }
 
@@ -52,31 +53,31 @@ public class JsonParserTest {
   public void acceptSimpleProjectThreeLevelVisitorTest() throws Exception {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
-    Project demoProject = new Project("root",null);
-    Project demoProject1 = new Project ("project1",demoProject);
-    Project demoProject2 = new Project("project2",demoProject1);
+    Project demoProject = new Project("root", null);
+    Project demoProject1 = new Project("project1", demoProject);
+    final Project demoProject2 = new Project("project2", demoProject1);
     demoProject.acceptVisitor(jsonParser);
 
     Assertions.assertTrue(checkForJson(jsonName));
-    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
-    Assertions.assertTrue(isJSONValid(readedJson));
+    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName)));
+    Assertions.assertTrue(isJsonvalid(readedJson));
 
 
     Project project = JsonParser.getInstance().getProjectsFromJson(jsonName);
-    Assertions.assertEquals(1,project.getComponents().size());
-    Assertions.assertEquals(project.getName(),demoProject.getName());
+    Assertions.assertEquals(1, project.getComponents().size());
+    Assertions.assertEquals(project.getName(), demoProject.getName());
     Assertions.assertNull(project.getFather());
-    Assertions.assertEquals(project.getFather(),demoProject.getFather());
+    Assertions.assertEquals(project.getFather(), demoProject.getFather());
 
     Project project1 = (Project) project.getComponents().get(0);
-    Assertions.assertEquals(1,project1.getComponents().size());
-    Assertions.assertEquals(demoProject1.getName(),project1.getName());
-    Assertions.assertEquals(demoProject1.getFather().getName(),project1.getFather().getName());
+    Assertions.assertEquals(1, project1.getComponents().size());
+    Assertions.assertEquals(demoProject1.getName(), project1.getName());
+    Assertions.assertEquals(demoProject1.getFather().getName(), project1.getFather().getName());
 
     Project project2 = (Project) project1.getComponents().get(0);
-    Assertions.assertEquals(0,project2.getComponents().size());
-    Assertions.assertEquals(demoProject2.getName(),project2.getName());
-    Assertions.assertEquals(demoProject2.getFather().getName(),project2.getFather().getName());
+    Assertions.assertEquals(0, project2.getComponents().size());
+    Assertions.assertEquals(demoProject2.getName(), project2.getName());
+    Assertions.assertEquals(demoProject2.getFather().getName(), project2.getFather().getName());
   }
 
   @Test
@@ -84,61 +85,66 @@ public class JsonParserTest {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     task.startNewInterval();
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
     task.stopActualInterval();
 
     project.acceptVisitor(jsonParser);
 
     Assertions.assertTrue(checkForJson(jsonName));
-    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
-    Assertions.assertTrue(isJSONValid(readedJson));
+    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName)));
+    Assertions.assertTrue(isJsonvalid(readedJson));
     Project loadedProject = JsonParser.getInstance().getProjectsFromJson(jsonName);
-    Assertions.assertEquals(1,loadedProject.getComponents().size());
+    Assertions.assertEquals(1, loadedProject.getComponents().size());
     Task taskOfLoadedProject = (Task) loadedProject.getComponents().get(0);
 
-    Assertions.assertEquals(task.getName(),taskOfLoadedProject.getName());
-    Assertions.assertEquals(task.getTimeIntervalList().size(),taskOfLoadedProject.getTimeIntervalList().size());
-    Assertions.assertEquals(task.getStartedTime(),taskOfLoadedProject.getStartedTime());
-    Assertions.assertEquals(task.getTotalTime(),taskOfLoadedProject.getTotalTime());
+    Assertions.assertEquals(task.getName(), taskOfLoadedProject.getName());
+    Assertions.assertEquals(task.getTimeIntervalList().size(),
+            taskOfLoadedProject.getTimeIntervalList().size());
+    Assertions.assertEquals(task.getStartedTime(), taskOfLoadedProject.getStartedTime());
+    Assertions.assertEquals(task.getTotalTime(), taskOfLoadedProject.getTotalTime());
   }
 
   @Test
   public void acceptSimpleProjectWithMultipleTimeIntervalTaskVisitorTest() throws Exception {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
-    Task task2 = new Task("task2",project);
+    Task task2 = new Task("task2", project);
     task.startNewInterval();
 
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
     task2.startNewInterval();
     task.stopActualInterval();
 
     task.startNewInterval();
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
     task2.stopActualInterval();
     task.stopActualInterval();
 
     project.acceptVisitor(jsonParser);
 
     Assertions.assertTrue(checkForJson(jsonName));
-    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName) ));
+    String readedJson = new String(Files.readAllBytes(Paths.get(jsonName)));
 
-    Assertions.assertTrue(isJSONValid(readedJson));
+    Assertions.assertTrue(isJsonvalid(readedJson));
     Project loadedProject = jsonParser.getProjectsFromJson(jsonName);
 
-    Assertions.assertEquals(2,loadedProject.getComponents().size());
+    Assertions.assertEquals(2, loadedProject.getComponents().size());
     Assertions.assertNull(loadedProject.getFather());
-    Assertions.assertEquals(project.getName(),loadedProject.getName());
+    Assertions.assertEquals(project.getName(), loadedProject.getName());
 
     Task taskOfLoadedProjectWithTwoTimeIntervals = (Task) loadedProject.getComponents().get(0);
 
-    Assertions.assertEquals(2,taskOfLoadedProjectWithTwoTimeIntervals.getTimeIntervalList().size());
-    Assertions.assertEquals(task.getTotalTime(),taskOfLoadedProjectWithTwoTimeIntervals.getTotalTime());
+    Assertions.assertEquals(2,
+            taskOfLoadedProjectWithTwoTimeIntervals.getTimeIntervalList().size());
+    Assertions.assertEquals(task.getTotalTime(),
+            taskOfLoadedProjectWithTwoTimeIntervals.getTotalTime());
 
     Task taskOfLoadedProjectWithOneTimeIntervals = (Task) loadedProject.getComponents().get(1);
 
-    Assertions.assertEquals(1,taskOfLoadedProjectWithOneTimeIntervals.getTimeIntervalList().size());
-    Assertions.assertEquals(task2.getTotalTime(),taskOfLoadedProjectWithOneTimeIntervals.getTotalTime());
+    Assertions.assertEquals(1,
+            taskOfLoadedProjectWithOneTimeIntervals.getTimeIntervalList().size());
+    Assertions.assertEquals(task2.getTotalTime(),
+            taskOfLoadedProjectWithOneTimeIntervals.getTotalTime());
 
   }
 
@@ -150,15 +156,13 @@ public class JsonParserTest {
     return true;
   }
 
-  public boolean isJSONValid(String test) {
+  public boolean isJsonvalid(String test) {
     try {
       new JSONObject(test);
-    }
-    catch (JSONException ex) {
+    } catch (JSONException ex) {
       try {
         new JSONArray(test);
-      }
-      catch (JSONException ex1) {
+      } catch (JSONException ex1) {
         return false;
       }
     }
