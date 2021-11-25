@@ -1,4 +1,4 @@
-package secondmilestone.impl;
+package timetracking.secondmilestone.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;

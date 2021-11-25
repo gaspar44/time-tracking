@@ -18,11 +18,11 @@ public class ProjectTest {
 
   @Test
   public void addTaskToProjectTest() {
-    Assertions.assertTrue(project.getComponents().size() == 0);
-    Assertions.assertTrue(project.getTotalTime() == 0);
+    Assertions.assertEquals(0, project.getComponents().size());
+    Assertions.assertEquals(0, project.getTotalTime());
 
     Task task = new Task("holis", project);
-    Assertions.assertTrue(project.getComponents().size() == 1);
+    Assertions.assertEquals(1, project.getComponents().size());
   }
 
   @Test

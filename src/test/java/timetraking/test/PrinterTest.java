@@ -11,8 +11,8 @@ import timetracking.firtsmilestone.impl.TreePrinter;
 public class PrinterTest {
 
   private static MenuInterface menu;
-  private String projectName = "root";
-  private String taskName = "task";
+  private final String PROJECT_NAME = "root";
+  private final String TASK_NAME = "task";
 
   @BeforeEach
   public void setup() throws Exception {

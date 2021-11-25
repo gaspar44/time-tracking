@@ -12,12 +12,11 @@ import timetracking.firtsmilestone.core.Timer;
 public class TimerTest {
   private static Timer timer;
   private static Task task;
-  private static Project project;
 
   @BeforeAll
   public static void setup() throws Exception {
     timer = Timer.getInstance();
-    project = new Project("root", null);
+    Project project = new Project("root", null);
     task = new Task("task", project);
   }
 
@@ -28,11 +27,11 @@ public class TimerTest {
 
   @Test
   public void timerTaskStartTimeTest() throws Exception {
-    Assertions.assertTrue(Timer.getInstance().countObservers() == 0);
+    Assertions.assertEquals(0, Timer.getInstance().countObservers());
     TimeInterval timerInterval = new TimeInterval(task);
 
     timerInterval.startTime();
-    Assertions.assertTrue(Timer.getInstance().countObservers() == 1);
+    Assertions.assertEquals(1, Timer.getInstance().countObservers());
     long duration = 4;
     Thread.sleep(duration * Timer.getInstance().getTimerMillisecondsPeriod());
 
@@ -42,17 +41,17 @@ public class TimerTest {
 
   @Test
   public void timerTaskStopTimeTest() throws Exception {
-    Assertions.assertTrue(Timer.getInstance().countObservers() == 0);
+    Assertions.assertEquals(0, Timer.getInstance().countObservers());
     TimeInterval timerInterval = new TimeInterval(task);
     timerInterval.startTime();
-    Assertions.assertTrue(Timer.getInstance().countObservers() == 1);
+    Assertions.assertEquals(1, Timer.getInstance().countObservers());
 
     long sleepTime = Timer.getInstance().getTimerMillisecondsPeriod();
     Thread.sleep(sleepTime);
     timerInterval.stopTime();
 
-    Assertions.assertTrue(Timer.getInstance().countObservers() == 0);
+    Assertions.assertEquals(0, Timer.getInstance().countObservers());
     Assertions.assertNotNull(timerInterval.getEndTime());
-    Assertions.assertTrue(timerInterval.getStartTime() != timerInterval.getEndTime());
+    Assertions.assertNotSame(timerInterval.getStartTime(), timerInterval.getEndTime());
   }
 }

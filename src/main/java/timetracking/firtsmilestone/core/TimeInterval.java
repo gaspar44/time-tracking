@@ -59,7 +59,7 @@ public class TimeInterval implements Observer {
 
   public void setEndTime(LocalTime endTime) {
     logger.debug("setting endTime");
-    assert (endTime != null); // Invariant
+    assert (endTime != null);
     this.endTime = endTime;
   }
 
@@ -69,7 +69,7 @@ public class TimeInterval implements Observer {
 
   public void setStartTime(LocalTime startTime) {
     logger.debug("setting new start time");
-    assert (startTime != null); // Invariant
+    assert (startTime != null);
     this.startTime = startTime;
   }
 

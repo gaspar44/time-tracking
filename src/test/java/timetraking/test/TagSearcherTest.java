@@ -6,11 +6,10 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import secondmilestone.impl.TagSearcher;
+import timetracking.secondmilestone.impl.TagSearcher;
 import timetracking.firtsmilestone.core.Component;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
-
 
 
 public class TagSearcherTest {

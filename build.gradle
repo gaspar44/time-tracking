@@ -27,5 +27,7 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform() {
+        enableAssertions = true
+    }
 }
