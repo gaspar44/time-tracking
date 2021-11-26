@@ -58,7 +58,7 @@ public class Task extends Component {
     logger.info("starting new time interval for task {}", this.getName());
     timeInterval = new TimeInterval(this);
     timeIntervalList.add(timeInterval);
-    assert (timeIntervalList.size() == size + 1);  // Invariant
+    assert (timeIntervalList.size() == size + 1);
     timeInterval.startTime();
     setStartTime(timeIntervalList.get(0).getStartTime());
 

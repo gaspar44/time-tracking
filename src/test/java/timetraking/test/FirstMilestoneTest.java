@@ -9,7 +9,7 @@ import timetracking.firtsmilestone.impl.JsonParser;
 import timetracking.firtsmilestone.impl.TreePrinter;
 
 public class FirstMilestoneTest {
-  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
+  private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
 
   @Test
   public void appendixB() throws Exception {
@@ -32,25 +32,25 @@ public class FirstMilestoneTest {
     Task firstMilestone = new Task("firstMilestone", projectTimeTracke);
 
     transportation.startNewInterval();
-    Thread.sleep(TIMER_CLOCK * 2);
+    Thread.sleep(timerClock * 2);
     transportation.stopActualInterval();
 
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
 
     firtslist.startNewInterval();
-    Thread.sleep(TIMER_CLOCK * 3);
+    Thread.sleep(timerClock * 3);
 
     secondList.startNewInterval();
-    Thread.sleep(TIMER_CLOCK * 2);
+    Thread.sleep(timerClock * 2);
     firtslist.stopActualInterval();
 
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
 
     secondList.stopActualInterval();
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
 
     transportation.startNewInterval();
-    Thread.sleep(TIMER_CLOCK * 3);
+    Thread.sleep(timerClock * 3);
     transportation.stopActualInterval();
 
     System.out.println("Project total time: " + rootProject.getTotalTime());

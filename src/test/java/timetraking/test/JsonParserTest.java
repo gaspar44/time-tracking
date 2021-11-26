@@ -21,7 +21,7 @@ public class JsonParserTest {
   private static JsonParser jsonParser;
   private Project project;
   private Task task;
-  private final long TIMER_CLOCK = Timer.getInstance().getTimerMillisecondsPeriod();
+  private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
 
   @BeforeAll
   public static void beforeAll() throws Exception {
@@ -84,7 +84,7 @@ public class JsonParserTest {
     String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     task.startNewInterval();
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
     task.stopActualInterval();
 
     project.acceptVisitor(jsonParser);
@@ -110,12 +110,12 @@ public class JsonParserTest {
     Task task2 = new Task("task2", project);
     task.startNewInterval();
 
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
     task2.startNewInterval();
     task.stopActualInterval();
 
     task.startNewInterval();
-    Thread.sleep(TIMER_CLOCK);
+    Thread.sleep(timerClock);
     task2.stopActualInterval();
     task.stopActualInterval();
 
