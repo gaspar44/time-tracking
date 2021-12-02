@@ -1,3 +1,4 @@
+import 'package:codelab_timetracker/add_projectOrtask.dart';
 import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,6 @@ class PageActivities extends StatefulWidget {
   _PageActivitiesState createState() => _PageActivitiesState();
 
 }
-
 
 class _PageActivitiesState extends State<PageActivities> {
   late Tree tree;
@@ -23,14 +23,18 @@ class _PageActivitiesState extends State<PageActivities> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: new Scaffold(
+      home: Scaffold(
         appBar: AppBar(
-          title: Text(tree.root.name),
+          title: Text('Inicio'), //Cambiado tree.root.name
           actions: <Widget>[
             IconButton(icon: Icon(Icons.home),
-              onPressed: () {}
-            // TODO go home page = root
-          ),
+                onPressed: () {
+                  while(Navigator.of(context).canPop()) {
+                    print("POP");
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  }
+                  PageActivities();
+                }),
             IconButton(icon: Icon(Icons.document_scanner), onPressed: () {
               Navigator.of(context)
                   .push(MaterialPageRoute<void>(
@@ -49,10 +53,19 @@ class _PageActivitiesState extends State<PageActivities> {
         itemBuilder: (BuildContext context, int index) =>
             _buildRow(tree.root.children[index], index),
         separatorBuilder: (BuildContext context, int index) =>
-        const Divider(),
+            const Divider(),
       ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute<void>(
+                    builder: (context) => AddComponent(),
+                ));
+              },
+              child: Icon(Icons.add_circle_outline_sharp),
+            ),
       ),
-    );
+      );
   }
 
   void _navigateDownIntervals(int childId) {
@@ -82,6 +95,10 @@ class _PageActivitiesState extends State<PageActivities> {
         onTap: () => _navigateDownIntervals(index),
         onLongPress: () {}, // TODO start/stop counting the time for tis task
       );
+
+
+
+
     } else {
       throw(Exception("Activity that is neither a Task or a Project"));
       // this solves the problem of return Widget is not nullable because an

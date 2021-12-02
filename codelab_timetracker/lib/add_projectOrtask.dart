@@ -6,41 +6,41 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 
-class RegisterPage extends StatefulWidget {
+class AddComponent extends StatefulWidget {
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _AddComponentState createState() => _AddComponentState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _AddComponentState extends State<AddComponent> {
+
   GlobalKey<FormState> keyForm = new GlobalKey();
-  TextEditingController Period = new TextEditingController();
-  TextEditingController From = new TextEditingController();
-  TextEditingController To = new TextEditingController();
-  TextEditingController Content = new TextEditingController();
-  TextEditingController Format = new TextEditingController();
 
   DateTime selectedTimeTo = DateTime.now();
   DateTime selectedTimeFrom = DateTime.now();
 
-  List<String> _periods = ['Last week', 'This week', 'Yesterday', 'Today', 'Other']; // Option 1
-  String _selectedPeriod = 'Last week'; // Option 1
+  List<String> _types = ['Task', 'Project']; // Option 1
+  String _selectedType = 'Task';
 
-  List<String> _contents = ['Brief', 'Detailed', 'Statistic']; // Option 2
-  String _selectedContent = 'Brief'; // Option 2
+  String _nameType = '';
 
-  List<String> _formats= ['Web page', 'PDF', 'Text']; // Option 3
-  String _selectedFormat = 'Web page'; // Option 3
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Report'),
+          title: Text('Add Project or Task'),
         ),
+
+        //"{ \"name\":\"software design\",
+        // \"id\":1,
+        // \"initialDate\":\"2020-09-22 16:05:04\",
+        // \"finalDate\":\"2020-09-22 16:05:16\",
+        // \"duration\":16 },"
+        //
         body: new Container(
 
             child: new Column(
-               mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
 
                 children: [
 
@@ -48,19 +48,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget> [
 
                       Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Period'),
+                      Text('Select type to add:'),
 
                       SizedBox(width: 40.0),  // Espacio entre titulo y opciones
 
                       DropdownButton<String>(
-                        value: _selectedPeriod,
+                        value: _selectedType,
                         onChanged: (newValue) {
                           setState(() {
-                            _selectedPeriod = newValue!;
-                                _uploadCalendar(context);
+                            _selectedType = newValue!;
                           });
                         },
-                        items: _periods.map((location) {
+                        items: _types.map((location) {
                           return DropdownMenuItem(
                             child: new Text(location),
                             value: location,
@@ -75,25 +74,38 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget> [
 
                       Padding(padding: EdgeInsets.all(16.0)),
-                      Text('From'),
+                      Text('Name:'),
 
                       SizedBox(width: 50.0),  // Espacio entre titulo y opciones
 
-                      Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
+                      new TextField(
+                          controller: new TextEditingController(text: _nameType),
+                          decoration: const InputDecoration(
+                              hintText: 'Cuenta / Correo electrónico',
+                              contentPadding: const EdgeInsets.all(10.0),
+                          ),
+                          onChanged: (val) {
+                              this.setState(() {
+                                  _nameType = val;
+                              });
+                          },
+                      ),
 
                       SizedBox(width: 10.0),  // Espacio entre titulo y opciones
-
+/*
                       IconButton(
-                        icon: Icon(Icons.today, color: Colors.blue.shade400),
-                        onPressed: () {
-                          _selectDate(context);
-                          _selectedPeriod = 'Other';
-                        }
+                          icon: Icon(Icons.today, color: Colors.blue.shade400),
+                          onPressed: () {
+                            _selectDate(context);
+                            _selectedPeriod = 'Other';
+                          }
                       )
+*/
+
                     ],
                   ),
 
-
+/*
                   Row(
                     children: <Widget> [
 
@@ -107,12 +119,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(width: 10.0),  // Espacio entre titulo y opciones
 
                       IconButton(
-                              icon: Icon(Icons.today, color: Colors.blue.shade400),
-                              onPressed: () => _selectFinalDate(context)
+                          icon: Icon(Icons.today, color: Colors.blue.shade400),
+                          onPressed: () => _selectFinalDate(context)
                       )
                     ],
                   ),
-
+*/
 
                   Row(
                     children: <Widget> [
@@ -121,22 +133,24 @@ class _RegisterPageState extends State<RegisterPage> {
                       Text('Content'),
 
                       SizedBox(width: 27.0),  // Espacio entre titulo y opciones
-
+/*
                       DropdownButton<String>(
-                            //isExpanded: true,
-                            value: _selectedContent,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedContent = newValue!;
-                              });
-                            },
-                            items: _contents.map((location) {
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          )
+                        //isExpanded: true,
+                        value: _selectedContent,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedContent = newValue!;
+                          });
+                        },
+                        items: _contents.map((location) {
+                          return DropdownMenuItem(
+                            child: new Text(location),
+                            value: location,
+                          );
+                        }).toList(),
+                      )
+
+ */
                     ],
                   ),
 
@@ -148,22 +162,24 @@ class _RegisterPageState extends State<RegisterPage> {
                       Text('Format'),
 
                       SizedBox(width: 35.0),  // Espacio entre titulo y opciones
-
+/*
                       DropdownButton<String>(
-                            //isExpanded: true,
-                            value: _selectedFormat,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedFormat = newValue!;
-                              });
-                            },
-                            items: _formats.map((location) {
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          )
+                        //isExpanded: true,
+                        value: _selectedFormat,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedFormat = newValue!;
+                          });
+                        },
+                        items: _formats.map((location) {
+                          return DropdownMenuItem(
+                            child: new Text(location),
+                            value: location,
+                          );
+                        }).toList(),
+                      )
+
+ */
                     ],
                   ),
 
@@ -193,7 +209,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Card(child: ListTile(leading: Icon(icon), title: item)),
     );
   }
-
+/*
   Future<void> _uploadCalendar(BuildContext context) async {
 
     DateTime today = DateTime.now();
@@ -213,8 +229,8 @@ class _RegisterPageState extends State<RegisterPage> {
         break;
 
       case 'Yesterday':
-      selectedTimeFrom = yesterday;
-      selectedTimeTo = yesterday;
+        selectedTimeFrom = yesterday;
+        selectedTimeTo = yesterday;
         break;
 
       case 'This week':
@@ -229,6 +245,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     }
   }
+
+ */
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime currentDate = DateTime.now();
@@ -296,4 +314,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-
