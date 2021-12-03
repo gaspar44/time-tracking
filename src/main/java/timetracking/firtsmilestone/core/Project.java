@@ -2,9 +2,13 @@ package timetracking.firtsmilestone.core;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import timetracking.firtsmilestone.api.Visitor;
+import timetracking.firtsmilestone.impl.JsonKeys;
 
 /* This class is based on a kind of Component called "Project",
  * which can contain more "Projects" in each father Project or
@@ -57,6 +61,32 @@ public class Project extends Component {
   public void acceptVisitor(Visitor visitor) {
     logger.debug("accepting visitor");
     visitor.visitProject(this);
+  }
+
+  @Override
+  public JSONObject toJson() {
+    JSONObject jsonObject = new JSONObject();
+
+    jsonObject.put(JsonKeys.NAME_KEY, this.getName());
+    jsonObject.put(JsonKeys.TYPE_KEY, JsonKeys.PROJECT_TYPE);
+    jsonObject.put(JsonKeys.DURATION_KEY, this.getTotalTime());
+    jsonObject.put(JsonKeys.START_TIME_KEY, this.getStartedTime());
+    jsonObject.put(JsonKeys.END_TIME_KEY, this.getEndedTime());
+    jsonObject.put(JsonKeys.TAGS_KEY, this.getTags());
+    JSONArray jsonArray = new JSONArray();
+    jsonObject.put(JsonKeys.COMPONENT_KEY, jsonArray);
+
+    if (this.getFather() != null) {
+      jsonObject.put(JsonKeys.FATHER_NAME, this.getFather().getName());
+    }
+
+    return jsonObject;
+
+  }
+
+  @Override
+  public JSONObject toJson(int treeDeep) {
+    return null;
   }
 
 }
