@@ -28,7 +28,7 @@ public class TagSearcherTest {
   private static Task firstMilestone;
 
   @BeforeAll
-  public static void setup() throws Exception {
+  public static void setup() {
     DemoTree demoTree = new DemoTree();
     rootProject = demoTree.getRootProject();
     softwareDesign = demoTree.getSoftwareDesign();
@@ -76,7 +76,7 @@ public class TagSearcherTest {
   }
 
   @Test
-  public void searchNonexistentTagTest() throws Exception {
+  public void searchNonexistentTagTest() {
     TagSearcher searcher = new TagSearcher();
     searcher.addSearchTag("Golang");
 
@@ -132,7 +132,7 @@ public class TagSearcherTest {
     generalTest(expected, tagToSearch1, tagToSearch2);
   }
 
-  private void generalTest(List<Component> expected, String... tags) throws Exception {
+  private void generalTest(List<Component> expected, String... tags) {
     List<String> tagsToSearch = Arrays.asList(tags);
     TagSearcher searcher = new TagSearcher(tagsToSearch);
 

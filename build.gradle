@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.example'
@@ -9,12 +10,8 @@ repositories {
     mavenCentral()
 }
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'timetracking.Main'
-        )
-    }
+application {
+    mainClass = 'timetracking.thirdmilestone.Main'
 }
 
 dependencies {

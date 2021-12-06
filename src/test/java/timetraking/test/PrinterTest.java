@@ -9,7 +9,7 @@ import timetracking.firtsmilestone.impl.TreePrinter;
 public class PrinterTest {
 
   @Test
-  public void createProjectTest() throws Exception {
+  public void createProjectTest() {
 
     // make a small tree of projects and tasks
     Project root = new Project("root", null);

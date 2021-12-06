@@ -1,15 +1,13 @@
 package timetraking.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
@@ -23,10 +21,17 @@ public class JsonParserTest {
   private Project project;
   private Task task;
   private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
+  private final String jsonName = "demo.json";
 
   @BeforeAll
   public static void beforeAll() throws Exception {
     jsonParser = JsonParser.getInstance();
+  }
+
+  @AfterEach
+  public void afterEach() throws IOException {
+    File file = new File(jsonName);
+    Files.deleteIfExists(file.toPath());
   }
 
   @BeforeEach
@@ -37,7 +42,6 @@ public class JsonParserTest {
 
   @Test
   public void acceptSimpleProjectVisitorTest() throws Exception {
-    String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     Project demoProject = new Project("root", null);
     Project demoProject1 = new Project("project1", demoProject);
@@ -51,7 +55,6 @@ public class JsonParserTest {
 
   @Test
   public void acceptSimpleProjectThreeLevelVisitorTest() throws Exception {
-    String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     Project demoProject = new Project("root", null);
     Project demoProject1 = new Project("project1", demoProject);
@@ -82,7 +85,6 @@ public class JsonParserTest {
 
   @Test
   public void acceptSimpleProjectWithStartedTaskVisitorTest() throws Exception {
-    String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     task.startNewInterval();
     Thread.sleep(timerClock);
@@ -106,7 +108,6 @@ public class JsonParserTest {
 
   @Test
   public void acceptSimpleProjectWithMultipleTimeIntervalTaskVisitorTest() throws Exception {
-    String jsonName = "demo.json";
     jsonParser.setFileName(jsonName);
     Task task2 = new Task("task2", project);
     task.startNewInterval();
@@ -149,16 +150,7 @@ public class JsonParserTest {
   }
 
   @Test
-  public void projectTreeShorterThanDepthTest() throws Exception {
-    DemoTree demoTree = new DemoTree();
-    Project root = demoTree.getRootProject();
-    String jsonString = root.toJson(Integer.MAX_VALUE).toString();
-    String demoRootTree = "{\"duration\":0,\"components\":[{\"duration\":0,\"components\":[+{\"duration\":0,\"components\":[{\"duration\":0,\"time_intervals\":[],\"father_name\":\"problems\",\"name\":\"firts list\",\"type\":\"Task\",\"tags\":[\"java\"]},{\"duration\":0,\"time_intervals\":[],\"father_name\":\"problems\",\"name\":\"Second list\",\"type\":\"Task\",\"tags\":[\"Dart\"]}],\"father_name\":\"software design\",\"name\":\"problems\",\"type\":\"Project\",\"tags\":[]},{\"duration\":0,\"components\":[{\"duration\":0,\"time_intervals\":[],\"father_name\":\"time tracker\",\"name\":\"read handle\",\"type\":\"Task\",\"tags\":[]},{\"duration\":0,\"time_intervals\":[],\"father_name\":\"time tracker\",\"name\":\"firstMilestone\",\"type\":\"Task\",\"tags\":[\"Java\",\"IntelliJ\"]}],\"father_name\":\"software design\",\"name\":\"time tracker\",\"type\":\"Project\",\"tags\":[]}],\"father_name\":\"root\",\"name\":\"software design\",\"type\":\"Project\",\"tags\":[\"java\",\"flutter\"]},{\"duration\":0,\"components\":[],\"father_name\":\"root\",\"name\":\"software testing\",\"type\":\"Project\",\"tags\":[\"c++\",\"Java\",\"python\"]},{\"duration\":0,\"components\":[],\"father_name\":\"root\",\"name\":\"dataBasse\",\"type\":\"Project\",\"tags\":[\"SQL\",\"python\",\"C++\"]},{\"duration\":0,\"time_intervals\":[],\"father_name\":\"root\",\"name\":\"task transportation\",\"type\":\"Task\",\"tags\":[]}],\"name\":\"root\",\"type\":\"Project\",\"tags\":[]}";
-    Assertions.assertEquals(demoRootTree, jsonString);
-  }
-
-  @Test
-  public void projectTreeOneLevelDepthTest() throws Exception {
+  public void projectTreeOneLevelDepthTest() {
     DemoTree demoTree = new DemoTree();
     Project root = demoTree.getRootProject();
     JSONObject rootJsonProject = root.toJson(1);
@@ -170,12 +162,12 @@ public class JsonParserTest {
         JSONArray subComponents = component.getJSONArray(JsonKeys.COMPONENT_KEY);
         Assertions.assertEquals(0, subComponents.length());
       } catch (Exception e) {
-        System.out.println("Task doesn't have any component");
+        System.out.println("Tasks doesn't have any component");
       }
     }
   }
 
-  private boolean checkForJson(String readFromJson) throws Exception {
+  private boolean checkForJson(String readFromJson) {
     File jsonToReadFrom = new File(readFromJson);
     return jsonToReadFrom.exists();
   }

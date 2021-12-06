@@ -27,7 +27,7 @@
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="timetracking.thirdmilestone" level="off" additivity="false">
+    <logger name="timetracking.thirdmilestone" level="info" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>

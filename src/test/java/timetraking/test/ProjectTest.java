@@ -28,12 +28,12 @@ public class ProjectTest {
   @Test
   public void startCountingTimeAtProject() throws Exception {
     Task task = new Task("holis", project);
-    Assertions.assertTrue(project.getComponents().size() == 1);
-    Assertions.assertTrue(project.getTotalTime() == 0);
+    Assertions.assertEquals(1, project.getComponents().size());
+    Assertions.assertEquals(0, project.getTotalTime());
     task.startNewInterval();
     Thread.sleep(timerClock);
 
-    Assertions.assertTrue(project.getTotalTime() > 0);
+    Assertions.assertEquals(project.getTotalTime(), timerClock / 1000);
 
     task.stopActualInterval();
     long currentDuration = task.getTotalTime();
@@ -46,22 +46,22 @@ public class ProjectTest {
     Task task1 = new Task("holis", project);
     final Task task2 = new Task("holis2", project);
 
-    Assertions.assertTrue(project.getComponents().size() == 2);
-    Assertions.assertTrue(project.getTotalTime() == 0);
+    Assertions.assertEquals(2, project.getComponents().size());
+    Assertions.assertEquals(0, project.getTotalTime());
 
     task1.startNewInterval();
     Thread.sleep(timerClock);
 
     task1.stopActualInterval();
     long task1CurrenTime = task1.getTotalTime();
-    Assertions.assertTrue(task1CurrenTime == project.getTotalTime());
+    Assertions.assertEquals(task1CurrenTime, project.getTotalTime());
 
     task2.startNewInterval();
     Thread.sleep(timerClock * 2);
     task2.stopActualInterval();
     long task2CurrentTime = task2.getTotalTime();
 
-    Assertions.assertTrue(task1CurrenTime + task2CurrentTime == project.getTotalTime());
+    Assertions.assertEquals(task1CurrenTime + task2CurrentTime, project.getTotalTime());
   }
 
   @Test

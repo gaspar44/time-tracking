@@ -1,7 +1,6 @@
 package timetracking.thirdmilestone;
 
 import timetracking.firtsmilestone.impl.DemoTree;
-import timetracking.thirdmilestone.WebServer;
 
 /*
  * This class is the one wich starts our project.

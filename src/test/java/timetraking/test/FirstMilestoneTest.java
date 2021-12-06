@@ -1,5 +1,6 @@
 package timetraking.test;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import timetracking.firtsmilestone.api.Visitor;
 import timetracking.firtsmilestone.core.Project;
@@ -9,8 +10,19 @@ import timetracking.firtsmilestone.impl.DemoTree;
 import timetracking.firtsmilestone.impl.JsonParser;
 import timetracking.firtsmilestone.impl.TreePrinter;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 public class FirstMilestoneTest {
   private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();
+
+  @AfterEach
+  public void afterEach() throws IOException {
+    File file = new File("demo.json");
+    Files.deleteIfExists(file.toPath());
+  }
+
 
   @Test
   public void appendixB() throws Exception {
@@ -53,7 +65,7 @@ public class FirstMilestoneTest {
   }
 
   @Test
-  public void appendixA() throws Exception {
+  public void appendixA() {
     DemoTree demoTree = new DemoTree();
     Project rootProject = demoTree.getRootProject();
 
