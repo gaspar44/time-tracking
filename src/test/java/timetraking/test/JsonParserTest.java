@@ -98,7 +98,7 @@ public class JsonParserTest {
 
     Assertions.assertEquals(task.getName(), taskOfLoadedProject.getName());
     Assertions.assertEquals(task.getTimeIntervalList().size(),
-            taskOfLoadedProject.getTimeIntervalList().size());
+        taskOfLoadedProject.getTimeIntervalList().size());
     Assertions.assertEquals(task.getStartedTime(), taskOfLoadedProject.getStartedTime());
     Assertions.assertEquals(task.getTotalTime(), taskOfLoadedProject.getTotalTime());
   }
@@ -134,16 +134,21 @@ public class JsonParserTest {
     Task taskOfLoadedProjectWithTwoTimeIntervals = (Task) loadedProject.getComponents().get(0);
 
     Assertions.assertEquals(2,
-            taskOfLoadedProjectWithTwoTimeIntervals.getTimeIntervalList().size());
+        taskOfLoadedProjectWithTwoTimeIntervals.getTimeIntervalList().size());
     Assertions.assertEquals(task.getTotalTime(),
-            taskOfLoadedProjectWithTwoTimeIntervals.getTotalTime());
+        taskOfLoadedProjectWithTwoTimeIntervals.getTotalTime());
 
     Task taskOfLoadedProjectWithOneTimeIntervals = (Task) loadedProject.getComponents().get(1);
 
     Assertions.assertEquals(1,
-            taskOfLoadedProjectWithOneTimeIntervals.getTimeIntervalList().size());
+        taskOfLoadedProjectWithOneTimeIntervals.getTimeIntervalList().size());
     Assertions.assertEquals(task2.getTotalTime(),
-            taskOfLoadedProjectWithOneTimeIntervals.getTotalTime());
+        taskOfLoadedProjectWithOneTimeIntervals.getTotalTime());
+
+  }
+
+  @Test
+  public void projectTreeShorterThanDepthTest() throws Exception {
 
   }
 

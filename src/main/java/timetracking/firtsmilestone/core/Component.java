@@ -28,6 +28,7 @@ public abstract class Component {
   protected LocalTime startTime;
   protected LocalTime endTime;
   protected List<String> tags;
+  protected int id;
   private final String name;
   private final Logger logger = LoggerFactory.getLogger(Component.class);
 
@@ -56,24 +57,6 @@ public abstract class Component {
     return name;
   }
 
-  private String getHumanReadableTimeDuration(long totalDuration) {
-    assert (totalDuration >= 0); // Precondiction
-    long days = TimeUnit.SECONDS.toDays(totalDuration);
-    long hours = TimeUnit.SECONDS.toHours(totalDuration)
-        - TimeUnit.DAYS.toHours(TimeUnit.SECONDS.toDays(totalDuration));
-    long minutes = TimeUnit.SECONDS.toMinutes(totalDuration)
-        - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(totalDuration));
-    long sec = TimeUnit.SECONDS.toSeconds(totalDuration)
-        - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(totalDuration));
-    String msg = String.format("%d Days %d Hours %d Minutes %d Seconds", days, hours, minutes, sec);
-    logger.info(msg);
-    return msg;
-  }
-
-  public String getHumanReadableTimeDuration() {
-    assert (totalTime >= 0);  // Precondition
-    return getHumanReadableTimeDuration(totalTime);
-  }
 
   public Component getFather() {
     return father;

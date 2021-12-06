@@ -5,6 +5,7 @@ import timetracking.firtsmilestone.api.Visitor;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
+import timetracking.firtsmilestone.impl.DemoTree;
 import timetracking.firtsmilestone.impl.JsonParser;
 import timetracking.firtsmilestone.impl.TreePrinter;
 
@@ -15,21 +16,21 @@ public class FirstMilestoneTest {
   public void appendixB() throws Exception {
 
     // make a small tree of projects and tasks
+    DemoTree demoTree = new DemoTree();
+    Project rootProject = demoTree.getRootProject();
+    Project softwareDesign = demoTree.getSoftwareDesign();
+    Project softwareTesting = demoTree.getSoftwareTesting();
+    Project dataBase = demoTree.getDataBase();
+    Task transportation = demoTree.getTransPortation();
 
-    Project rootProject = new Project("root", null);
-    Project softwareDesign = new Project("software design", rootProject, "java", "flutter");
-    Project softwareTesting = new Project("software testing", rootProject, "c++", "Java", "python");
-    Project dataBase = new Project("dataBase", rootProject, "SQL", "python", "C++");
-    Task transportation = new Task("transportation", rootProject);
+    Project problems = demoTree.getProblems();
+    Project projectTimeTracke = demoTree.getProjectTimeTracke();
 
-    Project problems = new Project("problems", softwareDesign);
-    Project projectTimeTracke = new Project("time tracker", softwareDesign);
+    final Task firtslist = demoTree.getFirtslist();
+    final Task secondList = demoTree.getSecondList();
+    final Task readHandle = demoTree.getReadHandle();
 
-    final Task firtslist = new Task("firts list", problems, "java");
-    final Task secondList = new Task("Second list", problems, "Dart");
-    final Task readHandle = new Task("read handle", projectTimeTracke, "Java", "IntelliJ");
-
-    Task firstMilestone = new Task("firstMilestone", projectTimeTracke);
+    Task firstMilestone = demoTree.getFirstMilestone();
 
     transportation.startNewInterval();
     Thread.sleep(timerClock * 2);
@@ -62,20 +63,9 @@ public class FirstMilestoneTest {
 
   @Test
   public void appendixA() throws Exception {
-    Project rootProject = new Project("root", null);
-    Project software = new Project("software dessgin", rootProject);
-    Project softwareTesting = new Project("software testing", rootProject);
-    Project dataBase = new Project("dataBasse", rootProject);
-    Project transPortation = new Project("task transportation", rootProject);
+    DemoTree demoTree = new DemoTree();
+    Project rootProject = demoTree.getRootProject();
 
-    Project problems = new Project("problems", software);
-    Project projectTimeTracke = new Project("time tracker", software);
-
-    Task firtslist = new Task("firts list", problems);
-    Task secondList = new Task("Second list", problems);
-    Task readHandle = new Task("read handle", projectTimeTracke);
-
-    Task firstMilestone = new Task("firstMilestone", projectTimeTracke);
 
     Visitor printer = new TreePrinter();
     printer.visitProject(rootProject);

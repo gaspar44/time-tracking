@@ -81,12 +81,29 @@ public class Project extends Component {
     }
 
     return jsonObject;
-
   }
 
   @Override
   public JSONObject toJson(int treeDeep) {
-    return null;
+    if (treeDeep == -1) {
+      return null;
+    }
+
+    final List<Component> components = this.getComponents();
+    JSONObject jsonObject = this.toJson();
+    JSONArray jsonComponents = new JSONArray();
+
+    for (Component component : components) {
+      JSONObject parsedComponent = component.toJson(treeDeep - 1);
+
+      if (parsedComponent != null) {
+        jsonComponents.put(parsedComponent);
+      }
+
+    }
+    jsonObject.put(JsonKeys.COMPONENT_KEY,jsonComponents);
+
+    return jsonObject;
   }
 
 }

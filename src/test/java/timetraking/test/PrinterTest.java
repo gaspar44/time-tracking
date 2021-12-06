@@ -2,20 +2,11 @@ package timetraking.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import timetracking.firtsmilestone.api.MenuInterface;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
-import timetracking.firtsmilestone.impl.ConsoleMenu;
 import timetracking.firtsmilestone.impl.TreePrinter;
 
 public class PrinterTest {
-
-  private static MenuInterface menu;
-
-  @BeforeEach
-  public void setup() throws Exception {
-    menu = new ConsoleMenu();
-  }
 
   @Test
   public void createProjectTest() throws Exception {

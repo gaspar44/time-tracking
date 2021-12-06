@@ -40,27 +40,21 @@ public class TaskTest {
 
   @Test
   public void startStopMultipleIntervalTaskTest() throws Exception {
-    Assertions.assertTrue(task.getTimeIntervalList().size() == 0);
+    Assertions.assertEquals(0, task.getTimeIntervalList().size());
     Assertions.assertNull(task.getTimeInterval());
     int timesToCreate = 4;
 
     createTasks(timesToCreate);
-    Assertions.assertTrue(task.getTimeIntervalList().size() == timesToCreate);
+    Assertions.assertEquals(task.getTimeIntervalList().size(), timesToCreate);
     Assertions.assertNull(task.getTimeInterval());
 
     long totalDuration = task.getTotalTime();
-    Assertions.assertTrue(totalDuration == timesToCreate * (timerClock) / 1000);
-  }
-
-  @Test
-  public void getTotalHumanTimeTest() throws Exception {
-    createTasks(5);
-    task.getHumanReadableTimeDuration();
+    Assertions.assertEquals(totalDuration, timesToCreate * (timerClock) / 1000);
   }
 
   @Test
   public void getTotalTimeMultipleTimesTest() throws Exception {
-    Assertions.assertTrue(task.getTimeIntervalList().size() == 0);
+    Assertions.assertEquals(0, task.getTimeIntervalList().size());
     Assertions.assertNull(task.getTimeInterval());
     int timesToCreate = 3;
     createTasks(timesToCreate);
@@ -69,12 +63,12 @@ public class TaskTest {
     Thread.sleep(timerClock);
 
     Assertions.assertTrue(currentTimeDuration >= timesToCreate);
-    Assertions.assertTrue(currentTimeDuration == task.getTotalTime());
+    Assertions.assertEquals(currentTimeDuration, task.getTotalTime());
   }
 
   @Test
   public void startTimeStopTimeWithDifferentTimeIntervalsTest() throws Exception {
-    Assertions.assertTrue(task.getTimeIntervalList().size() == 0);
+    Assertions.assertEquals(0, task.getTimeIntervalList().size());
     Assertions.assertNull(task.getTimeInterval());
     TimeInterval firstTimeInterval = task.startNewInterval();
     Assertions.assertNotNull(firstTimeInterval);
@@ -89,13 +83,11 @@ public class TaskTest {
     TimeInterval stoppedFirstTimeInterval = task.stopActualInterval();
 
     Assertions.assertNotNull(stoppedFirstTimeInterval);
-    Assertions.assertTrue(stoppedFirstTimeInterval.getCurrentDuration()
-            == firstTimeInterval.getCurrentDuration());
+    Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(), firstTimeInterval.getCurrentDuration());
 
     Thread.sleep(timerClock * 2);
 
-    Assertions.assertTrue(stoppedFirstTimeInterval.getCurrentDuration()
-            == firstTimeInterval.getCurrentDuration());
+    Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(), firstTimeInterval.getCurrentDuration());
   }
 
   private void createTasks(int timesToCreate) throws Exception {

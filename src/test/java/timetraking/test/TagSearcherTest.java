@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import timetracking.firtsmilestone.core.Component;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.impl.DemoTree;
 import timetracking.secondmilestone.impl.TagSearcher;
 
 
@@ -17,31 +18,32 @@ public class TagSearcherTest {
   private static Project softwareDesign;
   private static Project softwareTesting;
   private static Project dataBase;
-  private static Project transPortation;
   private static Project problems;
   private static Project projectTimeTracke;
 
   private static Task firtslist;
+  private static Task transPortation;
   private static Task secondList;
   private static Task readHandle;
   private static Task firstMilestone;
 
   @BeforeAll
   public static void setup() throws Exception {
-    rootProject = new Project("root", null);
-    softwareDesign = new Project("software design", rootProject, "java", "flutter");
-    softwareTesting = new Project("software testing", rootProject, "c++", "Java", "python");
-    dataBase = new Project("dataBasse", rootProject, "SQL", "python", "C++");
-    transPortation = new Project("task transportation", rootProject);
+    DemoTree demoTree = new DemoTree();
+    rootProject = demoTree.getRootProject();
+    softwareDesign = demoTree.getSoftwareDesign();
+    softwareTesting = demoTree.getSoftwareTesting();
+    dataBase = demoTree.getDataBase();
+    transPortation = demoTree.getTransPortation();
 
-    problems = new Project("problems", softwareDesign);
-    projectTimeTracke = new Project("time tracker", softwareDesign);
+    problems = demoTree.getProblems();
+    projectTimeTracke = demoTree.getProjectTimeTracke();
 
-    firtslist = new Task("firts list", problems, "java");
-    secondList = new Task("Second list", problems, "Dart");
-    readHandle = new Task("read handle", projectTimeTracke);
+    firtslist = demoTree.getFirtslist();
+    secondList = demoTree.getSecondList();
+    readHandle = demoTree.getReadHandle();
 
-    firstMilestone = new Task("firstMilestone", projectTimeTracke, "Java", "IntelliJ");
+    firstMilestone = demoTree.getFirstMilestone();
   }
 
   @Test
