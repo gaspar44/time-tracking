@@ -4,8 +4,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,13 +48,14 @@ public abstract class Component {
           componentName, father.getName(), tags);
     }
 
+    logger.info("Generating ID: {}", IdGenerator.getInstance().getNextId());
+    this.id = IdGenerator.getInstance().generateId();
     this.tags = new ArrayList<>();
   }
 
   public String getName() {
     return name;
   }
-
 
   public Component getFather() {
     return father;
@@ -112,6 +111,10 @@ public abstract class Component {
     this.tags.add(tag);
   }
 
+  public int getId() {
+    return id;
+  }
+
   public List<String> getTags() {
     return this.tags;
   }
@@ -139,6 +142,8 @@ public abstract class Component {
   }
 
   public abstract JSONObject toJson();
+
   public abstract JSONObject toJson(int treeDeep);
 
+  public abstract Component findComponentById(int id);
 }

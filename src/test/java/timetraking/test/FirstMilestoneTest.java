@@ -17,20 +17,10 @@ public class FirstMilestoneTest {
 
     // make a small tree of projects and tasks
     DemoTree demoTree = new DemoTree();
-    Project rootProject = demoTree.getRootProject();
-    Project softwareDesign = demoTree.getSoftwareDesign();
-    Project softwareTesting = demoTree.getSoftwareTesting();
-    Project dataBase = demoTree.getDataBase();
     Task transportation = demoTree.getTransPortation();
-
-    Project problems = demoTree.getProblems();
-    Project projectTimeTracke = demoTree.getProjectTimeTracke();
 
     final Task firtslist = demoTree.getFirtslist();
     final Task secondList = demoTree.getSecondList();
-    final Task readHandle = demoTree.getReadHandle();
-
-    Task firstMilestone = demoTree.getFirstMilestone();
 
     transportation.startNewInterval();
     Thread.sleep(timerClock * 2);
@@ -54,6 +44,7 @@ public class FirstMilestoneTest {
     Thread.sleep(timerClock * 3);
     transportation.stopActualInterval();
 
+    Project rootProject = demoTree.getRootProject();
     System.out.println("Project total time: " + rootProject.getTotalTime());
     JsonParser.getInstance().setFileName("demo.json");
     rootProject.acceptVisitor(JsonParser.getInstance());

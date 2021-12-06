@@ -13,8 +13,9 @@ import org.junit.jupiter.api.Test;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
+import timetracking.firtsmilestone.impl.DemoTree;
+import timetracking.firtsmilestone.impl.JsonKeys;
 import timetracking.firtsmilestone.impl.JsonParser;
-
 
 
 public class JsonParserTest {
@@ -149,7 +150,29 @@ public class JsonParserTest {
 
   @Test
   public void projectTreeShorterThanDepthTest() throws Exception {
+    DemoTree demoTree = new DemoTree();
+    Project root = demoTree.getRootProject();
+    String jsonString = root.toJson(Integer.MAX_VALUE).toString();
+    String demoRootTree = "{\"duration\":0,\"components\":[{\"duration\":0,\"components\":[+{\"duration\":0,\"components\":[{\"duration\":0,\"time_intervals\":[],\"father_name\":\"problems\",\"name\":\"firts list\",\"type\":\"Task\",\"tags\":[\"java\"]},{\"duration\":0,\"time_intervals\":[],\"father_name\":\"problems\",\"name\":\"Second list\",\"type\":\"Task\",\"tags\":[\"Dart\"]}],\"father_name\":\"software design\",\"name\":\"problems\",\"type\":\"Project\",\"tags\":[]},{\"duration\":0,\"components\":[{\"duration\":0,\"time_intervals\":[],\"father_name\":\"time tracker\",\"name\":\"read handle\",\"type\":\"Task\",\"tags\":[]},{\"duration\":0,\"time_intervals\":[],\"father_name\":\"time tracker\",\"name\":\"firstMilestone\",\"type\":\"Task\",\"tags\":[\"Java\",\"IntelliJ\"]}],\"father_name\":\"software design\",\"name\":\"time tracker\",\"type\":\"Project\",\"tags\":[]}],\"father_name\":\"root\",\"name\":\"software design\",\"type\":\"Project\",\"tags\":[\"java\",\"flutter\"]},{\"duration\":0,\"components\":[],\"father_name\":\"root\",\"name\":\"software testing\",\"type\":\"Project\",\"tags\":[\"c++\",\"Java\",\"python\"]},{\"duration\":0,\"components\":[],\"father_name\":\"root\",\"name\":\"dataBasse\",\"type\":\"Project\",\"tags\":[\"SQL\",\"python\",\"C++\"]},{\"duration\":0,\"time_intervals\":[],\"father_name\":\"root\",\"name\":\"task transportation\",\"type\":\"Task\",\"tags\":[]}],\"name\":\"root\",\"type\":\"Project\",\"tags\":[]}";
+    Assertions.assertEquals(demoRootTree, jsonString);
+  }
 
+  @Test
+  public void projectTreeOneLevelDepthTest() throws Exception {
+    DemoTree demoTree = new DemoTree();
+    Project root = demoTree.getRootProject();
+    JSONObject rootJsonProject = root.toJson(1);
+    JSONArray jsonComponents = rootJsonProject.getJSONArray(JsonKeys.COMPONENT_KEY);
+
+    for (int i = 0; i < jsonComponents.length(); i ++) {
+      JSONObject component = jsonComponents.getJSONObject(i);
+      try {
+        JSONArray subComponents = component.getJSONArray(JsonKeys.COMPONENT_KEY);
+        Assertions.assertEquals(0, subComponents.length());
+      } catch (Exception e) {
+        System.out.println("Task doesn't have any component");
+      }
+    }
   }
 
   private boolean checkForJson(String readFromJson) throws Exception {

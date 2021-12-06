@@ -2,7 +2,6 @@ package timetracking.firtsmilestone.core;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -73,6 +72,7 @@ public class Project extends Component {
     jsonObject.put(JsonKeys.START_TIME_KEY, this.getStartedTime());
     jsonObject.put(JsonKeys.END_TIME_KEY, this.getEndedTime());
     jsonObject.put(JsonKeys.TAGS_KEY, this.getTags());
+    jsonObject.put(JsonKeys.ID_KEY, this.getId());
     JSONArray jsonArray = new JSONArray();
     jsonObject.put(JsonKeys.COMPONENT_KEY, jsonArray);
 
@@ -99,11 +99,28 @@ public class Project extends Component {
       if (parsedComponent != null) {
         jsonComponents.put(parsedComponent);
       }
-
     }
-    jsonObject.put(JsonKeys.COMPONENT_KEY,jsonComponents);
 
+    jsonObject.put(JsonKeys.COMPONENT_KEY, jsonComponents);
     return jsonObject;
   }
 
+  @Override
+  public Component findComponentById(int id) {
+    if (id == this.id) {
+      return this;
+    }
+
+    final List<Component> components = this.getComponents();
+
+    for (Component component : components) {
+      Component isThis = component.findComponentById(id);
+
+      if (isThis != null) {
+        return isThis;
+      }
+    }
+
+    return null;
+  }
 }

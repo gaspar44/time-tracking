@@ -23,9 +23,6 @@ import timetracking.firtsmilestone.core.TimeInterval;
  * other in a "Project-Project" way or "Project-Task".
 */
 public class JsonParser implements Visitor {
-  // JSON's Keys:
-
-
   private static JsonParser instance;
   private String fileName;
   private JSONArray projectTree;
@@ -87,6 +84,7 @@ public class JsonParser implements Visitor {
     try {
       jsonArrayTimeIntervalList = unparsedJsonObject.getJSONArray(JsonKeys.TIME_INTERVAL_KEY);
     } catch (Exception e) {
+      logger.warn(e.getMessage());
       return;
     }
 

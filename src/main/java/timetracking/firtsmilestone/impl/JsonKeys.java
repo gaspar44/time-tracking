@@ -3,6 +3,7 @@ package timetracking.firtsmilestone.impl;
 public class JsonKeys {
   public static final String TIME_INTERVAL_KEY = "time_intervals";
   public static final String CURRENT_TIME_INTERVAL_DURATION = "current_duration";
+  public static final String ID_KEY = "ID";
   public static final String DURATION_KEY = "duration";
   public static final String NAME_KEY = "name";
   public static final String TYPE_KEY = "type";

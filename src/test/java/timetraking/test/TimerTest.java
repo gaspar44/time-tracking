@@ -36,7 +36,7 @@ public class TimerTest {
     Thread.sleep(duration * Timer.getInstance().getTimerMillisecondsPeriod());
 
     long timeIntervalDuration = timerInterval.getCurrentDuration();
-    timerInterval.stopTime(); // In case there is any other test that needs Empty
+    timerInterval.stopTime();
   }
 
   @Test

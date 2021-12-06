@@ -83,11 +83,13 @@ public class TaskTest {
     TimeInterval stoppedFirstTimeInterval = task.stopActualInterval();
 
     Assertions.assertNotNull(stoppedFirstTimeInterval);
-    Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(), firstTimeInterval.getCurrentDuration());
+    Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(),
+        firstTimeInterval.getCurrentDuration());
 
     Thread.sleep(timerClock * 2);
 
-    Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(), firstTimeInterval.getCurrentDuration());
+    Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(),
+        firstTimeInterval.getCurrentDuration());
   }
 
   private void createTasks(int timesToCreate) throws Exception {

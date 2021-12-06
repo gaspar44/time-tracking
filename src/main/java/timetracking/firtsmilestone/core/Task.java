@@ -2,7 +2,6 @@ package timetracking.firtsmilestone.core;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -93,6 +92,7 @@ public class Task extends Component {
     jsonObject.put(JsonKeys.TYPE_KEY, "Task");
     jsonObject.put(JsonKeys.DURATION_KEY, this.getTotalTime());
     jsonObject.put(JsonKeys.TAGS_KEY, this.getTags());
+    jsonObject.put(JsonKeys.ID_KEY, this.getId());
     JSONArray timeIntervals = new JSONArray();
 
     List<TimeInterval> timeIntervalList = this.getTimeIntervalList();
@@ -101,7 +101,8 @@ public class Task extends Component {
       JSONObject jsonTimeInterval = new JSONObject();
       jsonTimeInterval.put(JsonKeys.START_TIME_KEY, timeInterval.getStartTime());
       jsonTimeInterval.put(JsonKeys.END_TIME_KEY, timeInterval.getEndTime());
-      jsonTimeInterval.put(JsonKeys.CURRENT_TIME_INTERVAL_DURATION, timeInterval.getCurrentDuration());
+      jsonTimeInterval.put(JsonKeys.CURRENT_TIME_INTERVAL_DURATION,
+          timeInterval.getCurrentDuration());
       timeIntervals.put(jsonTimeInterval);
     }
 
@@ -112,5 +113,14 @@ public class Task extends Component {
   @Override
   public JSONObject toJson(int treeDeep) {
     return toJson();
+  }
+
+  @Override
+  public Component findComponentById(int id) {
+    if (id == this.id) {
+      return this;
+    }
+
+    return null;
   }
 }
