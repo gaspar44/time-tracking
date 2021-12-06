@@ -12,6 +12,7 @@ repositories {
 
 application {
     mainClass = 'timetracking.thirdmilestone.Main'
+    applicationName = 'run'
 }
 
 dependencies {
