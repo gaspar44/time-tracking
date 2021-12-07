@@ -1,5 +1,8 @@
 package timetracking.firtsmilestone.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import timetracking.firtsmilestone.core.IdGenerator;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 
@@ -16,8 +19,11 @@ public class DemoTree {
   private final Task secondList;
   private final Task readHandle;
   private final Task firstMilestone;
+  private final Logger logger = LoggerFactory.getLogger(DemoTree.class);
 
   public DemoTree() {
+    logger.info("Creating new Demo tree");
+    IdGenerator.getInstance().reset();
     rootProject = new Project("root", null);
     softwareDesign = new Project("software design", rootProject, "java", "flutter");
     softwareTesting = new Project("software testing", rootProject, "c++", "Java", "python");

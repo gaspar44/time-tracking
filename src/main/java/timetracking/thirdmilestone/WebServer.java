@@ -10,7 +10,10 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import timetracking.firtsmilestone.core.Component;
+import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.core.Timer;
+import timetracking.firtsmilestone.impl.DemoTree;
 
 
 // Based on
@@ -21,7 +24,7 @@ public class WebServer {
   private static final int PORT = 8080; // port to listen to
   private final Logger logger = LoggerFactory.getLogger(WebServer.class);
 
-  private final Component root;
+  private Component root;
 
   public WebServer(Component root) {
     this.root = root;
@@ -37,6 +40,10 @@ public class WebServer {
     } catch (IOException e) {
       logger.error("Server Connection error : {}", e.getMessage());
     }
+  }
+
+  public WebServer() {
+    this(new Project("root", null));
   }
 
   private Component findComponentById(int id) {
@@ -139,6 +146,12 @@ public class WebServer {
           Task task = (Task) component;
           task.stopActualInterval();
           body = "{}";
+          break;
+        }
+        case "reset_demo": {
+          logger.debug("reset to demo environment");
+          DemoTree demo = new DemoTree();
+          root = demo.getRootProject();
           break;
         }
         // TODO: add new task, project

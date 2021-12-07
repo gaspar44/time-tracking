@@ -12,7 +12,7 @@ public class IdGenerator {
   }
 
   private IdGenerator() {
-    actualId = 1;
+    actualId = 0;
   }
 
   public int getNextId() {
@@ -22,5 +22,9 @@ public class IdGenerator {
   public int generateId() {
     actualId = actualId + 1;
     return actualId - 1;
+  }
+
+  public void reset() {
+    actualId = 0;
   }
 }

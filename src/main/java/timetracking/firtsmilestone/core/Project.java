@@ -107,11 +107,15 @@ public class Project extends Component {
 
   @Override
   public Component findComponentById(int id) {
+    logger.info("staring search by ID at component {}", this.getName());
     if (id == this.id) {
+      logger.debug("found component");
+      logger.trace("component with name {}", this.getName());
       return this;
     }
 
     final List<Component> components = this.getComponents();
+    logger.debug("Looking at components");
 
     for (Component component : components) {
       Component isThis = component.findComponentById(id);
@@ -120,7 +124,7 @@ public class Project extends Component {
         return isThis;
       }
     }
-
+    logger.debug("nothing found");
     return null;
   }
 }

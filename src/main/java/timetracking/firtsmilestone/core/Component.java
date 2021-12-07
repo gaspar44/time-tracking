@@ -48,7 +48,7 @@ public abstract class Component {
           componentName, father.getName(), tags);
     }
 
-    logger.info("Generating ID: {}", IdGenerator.getInstance().getNextId());
+    logger.trace("Generating ID: {}", IdGenerator.getInstance().getNextId());
     this.id = IdGenerator.getInstance().generateId();
     this.tags = new ArrayList<>();
   }
