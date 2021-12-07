@@ -4,7 +4,7 @@
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
-final DateFormat _dateFormatter = DateFormat("HH:mm:ss:ns");
+final DateFormat _dateFormatter = DateFormat("HH:mm:ss");
 
 abstract class Component {
   int id;
@@ -66,9 +66,9 @@ class Interval {
   int duration;
 
   Interval.fromJson(Map<String, dynamic> json)
-      : initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time']),
-        finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time']),
-        duration = json['duration'];
+      : initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time'].toString().substring(0,10)),
+        finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time'].toString().substring(0,10)),
+        duration = json['current_duration'];
 }
 
 
