@@ -20,10 +20,12 @@ import timetracking.firtsmilestone.impl.JsonKeys;
 public class Task extends Component {
   private List<TimeInterval> timeIntervalList;
   private TimeInterval timeInterval;
+  private boolean active;
   private final Logger logger = LoggerFactory.getLogger(Task.class);
 
   public Task(String name, Project father, String... tags) {
     super(name, father, tags);
+    this.active = false;
     logger.trace("Project {} created", name);
     init(father);
   }
@@ -56,10 +58,15 @@ public class Task extends Component {
     return timeInterval;
   }
 
+  public boolean isActive() {
+    return this.active;
+  }
+
   public TimeInterval startNewInterval() {
     final int size = timeIntervalList.size();
     logger.info("starting new time interval for task {}", this.getName());
     timeInterval = new TimeInterval(this);
+    this.active = true;
     timeIntervalList.add(timeInterval);
     assert (timeIntervalList.size() == size + 1);
     timeInterval.startTime();
@@ -73,7 +80,7 @@ public class Task extends Component {
     if (timeInterval != null) {
       timeInterval.stopTime();
     }
-
+    this.active = false;
     TimeInterval ret = timeInterval;
     timeInterval = null;
     return ret;
@@ -93,6 +100,7 @@ public class Task extends Component {
     jsonObject.put(JsonKeys.DURATION_KEY, this.getTotalTime());
     jsonObject.put(JsonKeys.TAGS_KEY, this.getTags());
     jsonObject.put(JsonKeys.ID_KEY, this.getId());
+    jsonObject.put(JsonKeys.ACTIVE_KEY, this.isActive());
     JSONArray timeIntervals = new JSONArray();
 
     List<TimeInterval> timeIntervalList = this.getTimeIntervalList();

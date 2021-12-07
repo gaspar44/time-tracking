@@ -23,7 +23,7 @@ public class TaskTest {
     Assertions.assertEquals(0, task.getTimeIntervalList().size());
     Assertions.assertNull(task.getTimeInterval());
     task.startNewInterval();
-
+    Assertions.assertTrue(task.isActive());
     Assertions.assertEquals(1, task.getTimeIntervalList().size());
     Assertions.assertNotNull(task.getTimeInterval());
     Assertions.assertNotNull(task.getTimeInterval().getStartTime());
@@ -33,6 +33,7 @@ public class TaskTest {
     Thread.sleep(initialDuration * timerClock);
 
     task.stopActualInterval();
+    Assertions.assertFalse(task.isActive());
     Assertions.assertEquals(1, task.getTimeIntervalList().size());
     Assertions.assertNull(task.getTimeInterval());
     Assertions.assertEquals(task.getTotalTime(), initialDuration * (timerClock / 1000));
@@ -72,7 +73,7 @@ public class TaskTest {
     Assertions.assertNull(task.getTimeInterval());
     TimeInterval firstTimeInterval = task.startNewInterval();
     Assertions.assertNotNull(firstTimeInterval);
-
+    Assertions.assertTrue(task.isActive());
     Assertions.assertNotNull(firstTimeInterval.getStartTime());
     Assertions.assertNull(firstTimeInterval.getEndTime());
     Thread.sleep(timerClock);
@@ -82,6 +83,7 @@ public class TaskTest {
 
     TimeInterval stoppedFirstTimeInterval = task.stopActualInterval();
 
+    Assertions.assertFalse(task.isActive());
     Assertions.assertNotNull(stoppedFirstTimeInterval);
     Assertions.assertEquals(stoppedFirstTimeInterval.getCurrentDuration(),
         firstTimeInterval.getCurrentDuration());

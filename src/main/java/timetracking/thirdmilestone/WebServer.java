@@ -68,6 +68,7 @@ public class WebServer {
       String resource;
 
       try {
+        logger.info("connection arrived");
         // we read characters from the client via input stream on the socket
         in = new BufferedReader(new InputStreamReader(insocked.getInputStream()));
         // we get character output stream to client

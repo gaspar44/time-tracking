@@ -14,4 +14,5 @@ public class JsonKeys {
   public static final String PROJECT_TYPE = "Project";
   public static final String TASK_TYPE = "Task";
   public static final String TAGS_KEY = "tags";
+  public static final String ACTIVE_KEY = "active";
 }

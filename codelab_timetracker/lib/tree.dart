@@ -4,9 +4,9 @@
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
-final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd HH:mm:ss");
+final DateFormat _dateFormatter = DateFormat("HH:mm:ss:ns");
 
-abstract class Activity {
+abstract class Component {
   int id;
   String name;
   DateTime? initialDate;
@@ -14,27 +14,30 @@ abstract class Activity {
   int duration;
   List<dynamic> children = List<dynamic>.empty(growable: true);
 
+  // JSON's keys
+
+
   // formerly List<dynamic>(); but now because of null safety it has to be
   // initialized like that
 
-  Activity.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+  Component.fromJson(Map<String, dynamic> json)
+      : id = json["ID"],
         name = json['name'],
-        initialDate = json['initialDate'] == null ? null : _dateFormatter.parse(json['initialDate']),
-        finalDate = json['finalDate'] == null ? null : _dateFormatter.parse(json['finalDate']),
+        initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time']),
+        finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time']),
         duration = json['duration'];
 }
 
 
-class Project extends Activity {
+class Project extends Component {
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    if (json.containsKey('activities')) {
+    if (json.containsKey('components')) {
       // json has only 1 level because depth=1 or 0 in time_tracker
-      for (Map<String, dynamic> jsonChild in json['activities']) {
-        if (jsonChild['class'] == "project") {
+      for (Map<String, dynamic> jsonChild in json['components']) {
+        if (jsonChild['type'] == "Project") {
           children.add(Project.fromJson(jsonChild));
           // condition on key avoids infinite recursion
-        } else if (jsonChild['class'] == "task") {
+        } else if (jsonChild['type'] == "Task") {
           children.add(Task.fromJson(jsonChild));
         } else {
           assert(false);
@@ -45,12 +48,12 @@ class Project extends Activity {
 }
 
 
-class Task extends Activity {
+class Task extends Component {
   bool active;
   Task.fromJson(Map<String, dynamic> json) :
         active = json['active'],
         super.fromJson(json) {
-    for (Map<String, dynamic> jsonChild in json['intervals']) {
+    for (Map<String, dynamic> jsonChild in json['time_intervals']) {
       children.add(Interval.fromJson(jsonChild));
     }
   }
@@ -58,30 +61,26 @@ class Task extends Activity {
 
 
 class Interval {
-  int id;
   DateTime? initialDate;
   DateTime? finalDate;
   int duration;
-  bool active;
 
   Interval.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        initialDate = json['initialDate'] == null ? null : _dateFormatter.parse(json['initialDate']),
-        finalDate = json['finalDate'] == null ? null : _dateFormatter.parse(json['finalDate']),
-        duration = json['duration'],
-        active = json['active'];
+      : initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time']),
+        finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time']),
+        duration = json['duration'];
 }
 
 
 class Tree {
-  late Activity root;
+  late Component root;
 
   Tree(Map<String, dynamic> dec) {
     // 1 level tree, root and children only, root is either Project or Task. If Project
     // children are Project or Task, that is, Activity. If root is Task, children are Instance.
-    if (dec['class'] == "project") {
+    if (dec['type'] == "Project") {
       root = Project.fromJson(dec);
-    } else if (dec['class'] == "task") {
+    } else if (dec['type'] == "Task") {
       root = Task.fromJson(dec);
     } else {
       assert(false, "neither project or task");
@@ -108,7 +107,7 @@ Tree getTree() {
 testLoadTree() {
   Tree tree = getTree();
   print("root name ${tree.root.name}, duration ${tree.root.duration}");
-  for (Activity act in tree.root.children) {
+  for (Component act in tree.root.children) {
     print("child name ${act.name}, duration ${act.duration}");
   }
 }
