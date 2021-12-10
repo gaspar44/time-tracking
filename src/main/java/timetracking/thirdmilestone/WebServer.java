@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
 import timetracking.firtsmilestone.impl.DemoTree;
+import timetracking.firtsmilestone.impl.JsonKeys;
 
 
 // Based on
@@ -25,9 +27,15 @@ public class WebServer {
   private final Logger logger = LoggerFactory.getLogger(WebServer.class);
 
   private Component root;
+  private Component active;
+  enum Type {
+    PROJECT,
+    TASK
+  }
 
   public WebServer(Component root) {
     this.root = root;
+    active = root;
     try {
       ServerSocket serverConnect = new ServerSocket(PORT);
       logger.info("Server started.\nListening for connections on port : {} ...\n", PORT);
@@ -153,15 +161,50 @@ public class WebServer {
           logger.debug("reset to demo environment");
           DemoTree demo = new DemoTree();
           root = demo.getRootProject();
+          active = root;
           break;
         }
-        // TODO: add new task, project
-        // TODO: edit task, project properties
+
+        case "create_task": {
+          logger.debug("entry point: create_task");
+          body = createTaskOrComponent(Type.TASK, tokens);
+          break;
+        }
+
+        case "create_project": {
+          logger.debug("entry_point: create_project");
+          body = createTaskOrComponent(Type.PROJECT, tokens);
+          break;
+        }
+
         default:
           assert false;
       }
       logger.trace(body);
       return body;
+    }
+
+    private String createTaskOrComponent(Type type, String[] tokens ) {
+      Component component;
+      String componentName = tokens[2];
+      if (type.equals(Type.TASK)) {
+        component = new Task(componentName, (Project) active);
+      }
+
+      else if (type.equals(Type.PROJECT)) {
+        component = new Project(componentName, (Project) active);
+      }
+
+      else {
+        return null;
+      }
+
+      if (tokens[3] != null && tokens[3].equals("tags") && tokens[4] != null) {
+        List<String> tags = List.of(tokens[4].split(","));
+        component.setTags(tags);
+      }
+
+      return component.toJson().toString();
     }
 
     private String makeHeaderAnswer() {
