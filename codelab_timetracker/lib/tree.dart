@@ -1,6 +1,8 @@
 // see Serializing JSON inside model classes in
 // https://flutter.dev/docs/development/data-and-backend/json
 
+import 'dart:convert';
+
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
@@ -15,6 +17,8 @@ abstract class Component {
   List<dynamic> children = List<dynamic>.empty(growable: true);
 
   // JSON's keys
+
+
 
 
   // formerly List<dynamic>(); but now because of null safety it has to be
@@ -51,6 +55,8 @@ class Project extends Component {
 
 
 class Task extends Component {
+
+
   bool active;
   Task.fromJson(Map<String, dynamic> json) :
         active = json['active'],
@@ -59,6 +65,8 @@ class Task extends Component {
       children.add(Interval.fromJson(jsonChild));
     }
   }
+
+
 }
 
 
@@ -71,6 +79,13 @@ class Interval {
       : initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time'].toString().substring(0,10)),
         finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time'].toString().substring(0,10)),
         duration = json['current_duration'];
+
+
+  @override
+  String toString()
+  {
+    return '${initialDate}';
+  }
 }
 
 

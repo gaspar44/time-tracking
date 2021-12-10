@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:codelab_timetracker/add_projectOrtask.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
@@ -14,6 +16,9 @@ class PageActivities extends StatefulWidget {
   @override
   _PageActivitiesState createState() => _PageActivitiesState();
 
+
+
+
 }
 
 class _PageActivitiesState extends State<PageActivities> {
@@ -21,6 +26,8 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
+
+
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -41,6 +48,7 @@ class _PageActivitiesState extends State<PageActivities> {
     futureTree = getTree(id);
     _activateTimer();
   }
+
 
   @override
   void dispose() {
@@ -137,7 +145,6 @@ class _PageActivitiesState extends State<PageActivities> {
 
   Widget _buildRow(Component activity, int index) {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
-    print(activity.duration);
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
 //SI ACTIVIDAD ES UN PROYECTO
@@ -179,12 +186,14 @@ class _PageActivitiesState extends State<PageActivities> {
       trailing = Text('$strDuration');
       return ListTile(
         title: (
+
             ExpansionTile(
               title: Text('${activity.name}' + ' - Task'),
 
+
                 children: <Widget>
                   [
-                  ListTile(title: Text('${activity.children.s}'))
+                    ListTile(title: Text(('${activity.children}').toString())
                 ]
             )
         ),

@@ -12,6 +12,8 @@ class PageIntervals extends StatefulWidget {
   PageIntervals(this.id);
   @override
   _PageIntervalsState createState() => _PageIntervalsState();
+
+
 }
 
 class _PageIntervalsState extends State<PageIntervals> {
@@ -19,6 +21,8 @@ class _PageIntervalsState extends State<PageIntervals> {
   late Future<Tree.Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
+
+
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -31,6 +35,7 @@ class _PageIntervalsState extends State<PageIntervals> {
   Widget builder(BuildContext context) {
     return Container();
   }
+
 
   late Tree.Tree tree;
 
