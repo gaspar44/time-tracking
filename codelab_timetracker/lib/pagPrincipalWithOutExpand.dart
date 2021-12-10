@@ -1,4 +1,5 @@
 import 'package:codelab_timetracker/add_projectOrtask.dart';
+import 'package:codelab_timetracker/searchByTag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,9 @@ class _PageActivitiesState extends State<PageActivities> {
                         .push(MaterialPageRoute<void>(
                       builder: (context) => RegisterPage(),
                     ));
-                  })
+                  }),
+
+                  IconButton(icon: Icon(Icons.manage_search), onPressed: () {})
                   //TODO other actions
                 ],
               ),
@@ -97,16 +100,23 @@ class _PageActivitiesState extends State<PageActivities> {
                 },
                 child: Icon(Icons.add_circle_outline_sharp),
               ),
+
+
+
+
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
+
+
 
           return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
               child: Center(
                 child: CircularProgressIndicator(),
+
               ));
         }
     );
@@ -139,36 +149,18 @@ class _PageActivitiesState extends State<PageActivities> {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
-
       return ListTile(
-        title: (
-            ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Project.'),
-              children: <Widget>
-              [
-                ListTile(title: Text('${activity.initialDate}')),
-              ],
-            )
-        ),);
-
-
-    }else if (activity is Task) {
+        title: Text('${activity.name}'),
+        trailing: Text('$strDuration'),
+        onTap: () => _navigateDownActivities(activity.id),
+      );
+    } else if (activity is Task) {
       Task task = activity as Task;
       // at the moment is the same, maybe changes in the future
       Widget trailing;
       trailing = Text('$strDuration');
       return ListTile(
-        title: (
-            ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Task.'),
-              children: <Widget>
-              [
-                ListTile(title: Text('${activity.initialDate}')),
-              ],
-            )
-        ),
+        title: Text('${activity.name}'),
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
         onLongPress: () {

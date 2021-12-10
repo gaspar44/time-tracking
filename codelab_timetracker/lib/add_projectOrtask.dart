@@ -1,8 +1,10 @@
 import 'dart:core';
 import 'package:codelab_timetracker/page_activities.dart';
+import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 
@@ -13,304 +15,140 @@ class AddComponent extends StatefulWidget {
 
 class _AddComponentState extends State<AddComponent> {
 
-  GlobalKey<FormState> keyForm = new GlobalKey();
+  final _formKey = GlobalKey<FormState>();
 
   DateTime selectedTimeTo = DateTime.now();
   DateTime selectedTimeFrom = DateTime.now();
 
   List<String> _types = ['Task', 'Project']; // Option 1
   String _selectedType = 'Task';
-
+  late String _nameOfComponent;
+  late String _associatedTags;
   String _nameType = '';
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Add Project or Task'),
-        ),
+      appBar: AppBar(
+        title: Text('Add Project or Task'),
+      ),
 
-        //"{ \"name\":\"software design\",
-        // \"id\":1,
-        // \"initialDate\":\"2020-09-22 16:05:04\",
-        // \"finalDate\":\"2020-09-22 16:05:16\",
-        // \"duration\":16 },"
-        //
-        body: new Container(
+      body: new Container(
 
-            child: new Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-                children: [
+          children: [
 
-                  Row(
-                    children: <Widget> [
+            Row(
+              children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Select type to add:'),
+                Padding(padding: EdgeInsets.all(16.0)),
+                Text('Select the type: '),
 
-                      SizedBox(width: 40.0),  // Espacio entre titulo y opciones
+                SizedBox(width: 40.0),  // Espacio entre titulo y opciones
 
-                      DropdownButton<String>(
-                        value: _selectedType,
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedType = newValue!;
-                          });
-                        },
-                        items: _types.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                      )
-                    ],
-                  ),
-
-
-                  Row(
-                    children: <Widget> [
-
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Name:'),
-
-                      SizedBox(width: 50.0),  // Espacio entre titulo y opciones
-
-                      new TextField(
-                          controller: new TextEditingController(text: _nameType),
-                          decoration: const InputDecoration(
-                              hintText: 'Cuenta / Correo electrónico',
-                              contentPadding: const EdgeInsets.all(10.0),
-                          ),
-                          onChanged: (val) {
-                              this.setState(() {
-                                  _nameType = val;
-                              });
-                          },
-                      ),
-
-                      SizedBox(width: 10.0),  // Espacio entre titulo y opciones
-/*
-                      IconButton(
-                          icon: Icon(Icons.today, color: Colors.blue.shade400),
-                          onPressed: () {
-                            _selectDate(context);
-                            _selectedPeriod = 'Other';
-                          }
-                      )
-*/
-
-                    ],
-                  ),
-
-/*
-                  Row(
-                    children: <Widget> [
-
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('To'),
-
-                      SizedBox(width: 75.0),  // Espacio entre titulo y opciones
-
-                      Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
-
-                      SizedBox(width: 10.0),  // Espacio entre titulo y opciones
-
-                      IconButton(
-                          icon: Icon(Icons.today, color: Colors.blue.shade400),
-                          onPressed: () => _selectFinalDate(context)
-                      )
-                    ],
-                  ),
-*/
-
-                  Row(
-                    children: <Widget> [
-
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Content'),
-
-                      SizedBox(width: 27.0),  // Espacio entre titulo y opciones
-/*
-                      DropdownButton<String>(
-                        //isExpanded: true,
-                        value: _selectedContent,
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedContent = newValue!;
-                          });
-                        },
-                        items: _contents.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                      )
-
- */
-                    ],
-                  ),
-
-
-                  Row(
-                    children: <Widget> [
-
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Format'),
-
-                      SizedBox(width: 35.0),  // Espacio entre titulo y opciones
-/*
-                      DropdownButton<String>(
-                        //isExpanded: true,
-                        value: _selectedFormat,
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedFormat = newValue!;
-                          });
-                        },
-                        items: _formats.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                      )
-
- */
-                    ],
-                  ),
-
-
-                  Row(
-                      children: <Widget> [
-
-                        Padding(padding: EdgeInsets.all(8.0)),
-                        Expanded(
-                            child: FlatButton(
-                                textColor: Colors.blue,
-                                onPressed: () {},
-                                child: Text('Generate')
-                            )
-                        ),
-                      ]
-                  )
-                ]
-            )
-        )
-    );
-  }
-
-  formItemsDesign(icon, item) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 7),
-      child: Card(child: ListTile(leading: Icon(icon), title: item)),
-    );
-  }
-/*
-  Future<void> _uploadCalendar(BuildContext context) async {
-
-    DateTime today = DateTime.now();
-    DateTime yesterday = today.subtract(Duration(days:1));
-
-    DateTime mondayThisWeek = DateTime(today.year, today.month, today.day - today.weekday + 1);
-    DateTime sundayThisWeek = mondayThisWeek.subtract(new Duration(days:-6));
-
-    DateTime mondayLastWeek = mondayThisWeek.subtract(new Duration(days:7));
-    DateTime sundayLastWeek = DateTime(today.year, today.month, today.day - today.weekday);
-
-    switch(_selectedPeriod){
-
-      case 'Today':
-        selectedTimeFrom = today;
-        selectedTimeTo = today;
-        break;
-
-      case 'Yesterday':
-        selectedTimeFrom = yesterday;
-        selectedTimeTo = yesterday;
-        break;
-
-      case 'This week':
-        selectedTimeFrom = mondayThisWeek;
-        selectedTimeTo = sundayThisWeek;
-        break;
-
-      case 'Last week':
-        selectedTimeFrom = mondayLastWeek;
-        selectedTimeTo = sundayLastWeek;
-        break;
-
-    }
-  }
-
- */
-
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime currentDate = DateTime.now();
-
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: currentDate,
-        firstDate: DateTime(currentDate.year -5),
-        lastDate: DateTime(currentDate.year + 5));
-    if (pickedDate != null && pickedDate != currentDate) {
-      setState(() {
-        selectedTimeFrom = pickedDate;
-        get() => selectedTimeFrom;
-      });
-    }
-  }
-
-  Future<void> _selectFinalDate(BuildContext context) async {
-    DateTime currentDate = DateTime.now();
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: currentDate,
-        firstDate: DateTime(currentDate.year -5),
-        lastDate: DateTime(currentDate.year + 5));
-    if (pickedDate != null && pickedDate != currentDate) {
-      setState(() {
-        selectedTimeTo = pickedDate;
-        get() => selectedTimeTo;
-
-        if(pickedDate.difference(selectedTimeFrom) >= Duration(days: 0))
-        {
-          DateTimeRange rangeTimer = DateTimeRange(start: selectedTimeFrom, end: pickedDate);
-        }else{
-          _showAlert();
-        }
-      });
-    }
-  }
-
-  Future<void> _showAlert() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Alert'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('Error with the dates!'),
-                Text('The last date can not be earlier that the beginning date! '),
+                DropdownButton<String>(
+                  value: _selectedType,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedType = newValue!;
+                      print(_selectedType);
+                    });
+                  },
+                  items: _types.map((location) {
+                    return DropdownMenuItem(
+                      child: new Text(location),
+                      value: location,
+                    );
+                  }).toList(),
+                )
               ],
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Change the dates.'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+
+            Row(
+
+              children: <Widget> [
+                Padding(padding: EdgeInsets.all(16.0)),
+                Expanded(
+                    child: Text('Father: '+ 'root')
+                ),
+              ],
             ),
+
+            Row(
+
+              children: <Widget> [
+                Padding(padding: EdgeInsets.all(16.0)),
+                Text('Name: '),
+                Expanded(
+                    child: TextFormField(
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          setState(() {
+                            _nameOfComponent = value;
+                            print(_nameOfComponent);
+                          });
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty)
+                            {
+                              return 'Please enter some name.';
+                            }
+                        }
+                    )
+
+                )
+                ,
+              ],
+            ),
+
+            Row(
+              children: <Widget> [
+                Padding(padding: EdgeInsets.all(16.0)),
+                Text('Associated Tags: '),
+                Expanded(
+
+                    child: TextField(
+
+                      textAlign: TextAlign.center,
+                      decoration: (InputDecoration(
+                          hintText: "Write tags separated by ','"
+                      )),
+                      onChanged: (value) {
+                              setState(() {
+                                _associatedTags = value;
+                            print(_associatedTags);
+                        });
+                      },
+
+                    )
+                ),
+              ],
+            )
+
+
           ],
-        );
-      },
+        ),
+      ),
+      floatingActionButton:FloatingActionButton.extended(
+        onPressed: () {
+          if (_nameOfComponent == null) {
+            print('No data.');
+          }
+
+        },
+        icon: Icon(Icons.save),
+        label: Text("Save"),
+      ),
+
     );
   }
+
+
+
+
+
+
 }

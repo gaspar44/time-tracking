@@ -140,6 +140,9 @@ class _PageActivitiesState extends State<PageActivities> {
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
 
+
+
+
       return ListTile(
         title: (
             ExpansionTile(
@@ -147,7 +150,7 @@ class _PageActivitiesState extends State<PageActivities> {
               subtitle: Text('Project.'),
               children: <Widget>
               [
-                ListTile(title: Text('${activity.initialDate}')),
+                ListTile(title: Text('Prueba')),
               ],
             )
         ),);
@@ -163,10 +166,6 @@ class _PageActivitiesState extends State<PageActivities> {
             ExpansionTile(
               title: Text('${activity.name}'),
               subtitle: Text('Task.'),
-              children: <Widget>
-              [
-                ListTile(title: Text('${activity.initialDate}')),
-              ],
             )
         ),
         trailing: trailing,

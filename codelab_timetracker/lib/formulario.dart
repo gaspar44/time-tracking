@@ -60,10 +60,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 _uploadCalendar(context);
                           });
                         },
-                        items: _periods.map((location) {
+                        items: _periods.map((value) {
                           return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
+                            child: new Text(value),
+                            value: value,
                           );
                         }).toList(),
                       )
@@ -186,13 +186,13 @@ class _RegisterPageState extends State<RegisterPage> {
         )
     );
   }
-
+/*
   formItemsDesign(icon, item) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 7),
       child: Card(child: ListTile(leading: Icon(icon), title: item)),
     );
-  }
+  }*/
 
   Future<void> _uploadCalendar(BuildContext context) async {
 
