@@ -101,6 +101,8 @@ public class Task extends Component {
     jsonObject.put(JsonKeys.TAGS_KEY, this.getTags());
     jsonObject.put(JsonKeys.ID_KEY, this.getId());
     jsonObject.put(JsonKeys.ACTIVE_KEY, this.isActive());
+    jsonObject.put(JsonKeys.START_TIME_KEY,this.getStartedTime());
+    jsonObject.put(JsonKeys.END_TIME_KEY,this.getEndedTime());
     JSONArray timeIntervals = new JSONArray();
 
     List<TimeInterval> timeIntervalList = this.getTimeIntervalList();
