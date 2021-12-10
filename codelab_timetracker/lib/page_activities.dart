@@ -189,11 +189,9 @@ class _PageActivitiesState extends State<PageActivities> {
 
             ExpansionTile(
               title: Text('${activity.name}' + ' - Task'),
-
-
                 children: <Widget>
                   [
-                    ListTile(title: Text(('${activity.children}').toString())
+            ListTile(title: Text(('${activity.children}').toString()))
                 ]
             )
         ),
