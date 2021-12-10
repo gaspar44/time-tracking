@@ -137,21 +137,40 @@ class _PageActivitiesState extends State<PageActivities> {
 
   Widget _buildRow(Component activity, int index) {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
+    print(activity.duration);
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
+//SI ACTIVIDAD ES UN PROYECTO
 
+
+    //SI ESE PROYECTPO TIENE HIJOS: PROYECTOS O TASKS!
+      if(activity.children.isNotEmpty){
       return ListTile(
         title: (
             ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Project.'),
+              title: Text('${activity.name}' + ' - Project'),
               children: <Widget>
               [
-                ListTile(title: Text('${activity.initialDate}')),
+
+
+
               ],
             )
         ),);
-
+      }else
+        //SI NO TIENE PROYECTOS O  HIJOS
+        {
+        return ListTile(
+          title: (
+              ExpansionTile(
+                title: Text('${activity.name}' + ' - Project'),
+                children: <Widget>
+                [
+                    ListTile(title: Text('There are not available projects or tasks.'))
+                ],
+              )
+          ),);
+        }
 
     }else if (activity is Task) {
       Task task = activity as Task;
@@ -161,17 +180,17 @@ class _PageActivitiesState extends State<PageActivities> {
       return ListTile(
         title: (
             ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Task.'),
-              children: <Widget>
-              [
-                ListTile(title: Text('${activity.initialDate}')),
-              ],
+              title: Text('${activity.name}' + ' - Task'),
+
+                children: <Widget>
+                  [
+                  ListTile(title: Text('${activity.children.s}'))
+                ]
             )
         ),
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
-        onLongPress: () {
+          onLongPress: () {
           if ((activity as Task).active) {
             stop(activity.id);
             _refresh();
