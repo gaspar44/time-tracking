@@ -28,6 +28,7 @@ public class WebServer {
 
   private Component root;
   private Component active;
+
   enum Type {
     PROJECT,
     TASK
@@ -111,7 +112,7 @@ public class WebServer {
 
           // Make the answer as a JSON string, to be sent to the Javascript client
           String answer = makeHeaderAnswer() + makeBodyAnswer(tokens);
-          logger.debug("answer\n{}",answer);
+          logger.debug("answer\n{}", answer);
           // Here we send the response to the client
           out.println(answer);
           out.flush(); // flush character output stream buffer
@@ -134,6 +135,16 @@ public class WebServer {
           int id = Integer.parseInt(tokens[1]);
           Component component = findComponentById(id);
           assert (component != null);
+          body = component.toJson(1).toString();
+          break;
+        }
+        
+        case "change_current": {
+          logger.debug("entry point: change_current");
+          int id = Integer.parseInt(tokens[1]);
+          Component component = findComponentById(id);
+          assert (component != null);
+          active = component;
           body = component.toJson(1).toString();
           break;
         }
@@ -184,18 +195,14 @@ public class WebServer {
       return body;
     }
 
-    private String createTaskOrComponent(Type type, String[] tokens ) {
+    private String createTaskOrComponent(Type type, String[] tokens) {
       Component component;
       String componentName = tokens[2];
       if (type.equals(Type.TASK)) {
         component = new Task(componentName, (Project) active);
-      }
-
-      else if (type.equals(Type.PROJECT)) {
+      } else if (type.equals(Type.PROJECT)) {
         component = new Project(componentName, (Project) active);
-      }
-
-      else {
+      } else {
         return null;
       }
 
