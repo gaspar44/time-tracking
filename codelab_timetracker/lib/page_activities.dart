@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:codelab_timetracker/add_projectOrtask.dart';
+import 'package:codelab_timetracker/searchByTag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +15,6 @@ class PageActivities extends StatefulWidget {
   @override
   _PageActivitiesState createState() => _PageActivitiesState();
 
-
-
-
 }
 
 class _PageActivitiesState extends State<PageActivities> {
@@ -26,8 +22,6 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
-
-
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -48,7 +42,6 @@ class _PageActivitiesState extends State<PageActivities> {
     futureTree = getTree(id);
     _activateTimer();
   }
-
 
   @override
   void dispose() {
@@ -81,24 +74,23 @@ class _PageActivitiesState extends State<PageActivities> {
                         .push(MaterialPageRoute<void>(
                       builder: (context) => RegisterPage(),
                     ));
-                  })
+                  }),
+
+                  IconButton(icon: Icon(Icons.manage_search), onPressed: () {})
                   //TODO other actions
                 ],
               ),
 
-
-
               body: ListView.separated(
+                // it's like ListView.builder() but better
                 // because it includes a separator between items
                 padding: const EdgeInsets.all(16.0),
                 itemCount: snapshot.data!.root.children.length,
                 itemBuilder: (BuildContext context, int index) =>
                     _buildRow(snapshot.data!.root.children[index], index),
-
                 separatorBuilder: (BuildContext context, int index)  =>
                 const Divider(),
               ),
-
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context)
@@ -108,15 +100,23 @@ class _PageActivitiesState extends State<PageActivities> {
                 },
                 child: Icon(Icons.add_circle_outline_sharp),
               ),
+
+
+
+
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
+
+
+
           return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
               child: Center(
                 child: CircularProgressIndicator(),
+
               ));
         }
     );
@@ -148,57 +148,30 @@ class _PageActivitiesState extends State<PageActivities> {
   Widget _buildRow(Component activity, int index) {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list removes the microseconds part
+
+
+
+
     if (activity is Project) {
-      //SI ACTIVIDAD ES UN PROYECTO
-      //SI ESE PROYECTPO TIENE HIJOS: PROYECTOS O TASKS!
-      if(('${activity.children}').isNotEmpty){
-        getNextId(activity.id);
-
-        //print((activity.children).toString());
-        return ListTile(
-          title: (
-
-              ExpansionTile(
-                title: Text('${activity.name}' + ' - Project'),
-                children: <Widget>
-                [
-                  //ListTile(title: Text(('${activity.children}').toString()))
-                ],
-              )
-          ),);
-      }else
-        //SI NO TIENE PROYECTOS O  HIJOS
-          {
-        return ListTile(
-
-          title: (
-              ExpansionTile(
-                title: Text('${activity.name}' + ' - Project'),
-                children: <Widget>
-                [
-                  ListTile(title: Text('There are not available projects or tasks.'))
-                ],
-              )
-          ),);
-      }
+      return ListTile(
+        title: Text('${activity.name}'),
+        trailing: Text('$strDuration'),
+        onTap: () => _navigateDownActivities(activity.id),
+      );
 
 
-    }else if (activity is Task) {
+
+
+
+    } else if (activity is Task) {
       Task task = activity as Task;
       // at the moment is the same, maybe changes in the future
       Widget trailing;
       trailing = Text('$strDuration');
-      return ListTile(
-        title: (
 
-            ExpansionTile(
-                title: Text('${activity.name}' + ' - Task'),
-                children: <Widget>
-                [
-                  ListTile(title: Text(('${activity.children}').toString()))
-                ]
-            )
-        ),
+
+      return ListTile(
+        title: Text('${activity.name}'),
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
         onLongPress: () {
