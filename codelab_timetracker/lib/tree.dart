@@ -21,6 +21,8 @@ abstract class Component {
 
 
 
+
+
   // formerly List<dynamic>(); but now because of null safety it has to be
   // initialized like that
 
@@ -34,7 +36,11 @@ abstract class Component {
 
 
 class Project extends Component {
+
+
+
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+
     if (json.containsKey('components')) {
       // json has only 1 level because depth=1 or 0 in time_tracker
       for (Map<String, dynamic> jsonChild in json['components']) {
@@ -50,6 +56,11 @@ class Project extends Component {
     }
   }
 
+  @override
+  String toString()
+  {
+    return '${id}';
+  }
 
 }
 

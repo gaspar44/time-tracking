@@ -57,3 +57,20 @@ Future<void> stop(int id) async {
     throw Exception('Failed to get children');
   }
 }
+
+
+
+Future<void> getNextId(int id) async {
+
+
+
+  var uri = Uri.parse("$baseUrl/change_current?$id");
+  final response = await client.get(uri);
+  if (response.statusCode == 200) {
+    //print(response.body);
+  }
+
+
+
+
+}

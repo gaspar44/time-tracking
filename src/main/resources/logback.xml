@@ -17,17 +17,17 @@
         <file>logs.html</file>
     </appender>
 
-    <logger name="timetracking.firtsmilestone" level="info" additivity="false">
+    <logger name="timetracking.firtsmilestone" level="off" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="timetracking.secondmilestone" level="info" additivity="false">
+    <logger name="timetracking.secondmilestone" level="off" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="timetracking.thirdmilestone" level="info" additivity="false">
+    <logger name="timetracking.thirdmilestone" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>

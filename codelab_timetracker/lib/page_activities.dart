@@ -86,16 +86,19 @@ class _PageActivitiesState extends State<PageActivities> {
                 ],
               ),
 
+
+
               body: ListView.separated(
-                // it's like ListView.builder() but better
                 // because it includes a separator between items
                 padding: const EdgeInsets.all(16.0),
                 itemCount: snapshot.data!.root.children.length,
                 itemBuilder: (BuildContext context, int index) =>
                     _buildRow(snapshot.data!.root.children[index], index),
+
                 separatorBuilder: (BuildContext context, int index)  =>
                 const Divider(),
               ),
+
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context)
@@ -109,7 +112,6 @@ class _PageActivitiesState extends State<PageActivities> {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-
           return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
@@ -147,37 +149,39 @@ class _PageActivitiesState extends State<PageActivities> {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
-//SI ACTIVIDAD ES UN PROYECTO
+      //SI ACTIVIDAD ES UN PROYECTO
+      //SI ESE PROYECTPO TIENE HIJOS: PROYECTOS O TASKS!
+      if(('${activity.children}').isNotEmpty){
+        getNextId(activity.id);
 
+        //print((activity.children).toString());
+        return ListTile(
+          title: (
 
-    //SI ESE PROYECTPO TIENE HIJOS: PROYECTOS O TASKS!
-      if(activity.children.isNotEmpty){
-      return ListTile(
-        title: (
-            ExpansionTile(
-              title: Text('${activity.name}' + ' - Project'),
-              children: <Widget>
-              [
-
-
-
-              ],
-            )
-        ),);
+              ExpansionTile(
+                title: Text('${activity.name}' + ' - Project'),
+                children: <Widget>
+                [
+                  //ListTile(title: Text(('${activity.children}').toString()))
+                ],
+              )
+          ),);
       }else
         //SI NO TIENE PROYECTOS O  HIJOS
-        {
+          {
         return ListTile(
+
           title: (
               ExpansionTile(
                 title: Text('${activity.name}' + ' - Project'),
                 children: <Widget>
                 [
-                    ListTile(title: Text('There are not available projects or tasks.'))
+                  ListTile(title: Text('There are not available projects or tasks.'))
                 ],
               )
           ),);
-        }
+      }
+
 
     }else if (activity is Task) {
       Task task = activity as Task;
@@ -188,16 +192,16 @@ class _PageActivitiesState extends State<PageActivities> {
         title: (
 
             ExpansionTile(
-              title: Text('${activity.name}' + ' - Task'),
+                title: Text('${activity.name}' + ' - Task'),
                 children: <Widget>
-                  [
-            ListTile(title: Text(('${activity.children}').toString()))
+                [
+                  ListTile(title: Text(('${activity.children}').toString()))
                 ]
             )
         ),
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
-          onLongPress: () {
+        onLongPress: () {
           if ((activity as Task).active) {
             stop(activity.id);
             _refresh();
