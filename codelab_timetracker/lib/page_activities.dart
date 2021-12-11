@@ -3,6 +3,8 @@ import 'package:codelab_timetracker/searchByTag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'page_intervals.dart';
@@ -22,6 +24,7 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
+  Icon icono = Icon(Icons.play_arrow);
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -122,6 +125,8 @@ class _PageActivitiesState extends State<PageActivities> {
     );
   }
 
+
+
   void _navigateDownActivities(int childId) {
     _timer.cancel();
     Navigator.of(context)
@@ -150,7 +155,8 @@ class _PageActivitiesState extends State<PageActivities> {
     // split by '.' and taking first element of resulting list removes the microseconds part
 
 
-    IconButton(icon: Icon(Icons.play_arrow), onPressed: () {});
+
+
 
 
 
@@ -180,12 +186,15 @@ class _PageActivitiesState extends State<PageActivities> {
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
 
-        leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {
-          
+        leading: IconButton(icon: icono, onPressed: () {
+
+
           if ((activity as Task).active) {
+            icono = Icon(Icons.play_arrow);
             stop(activity.id);
             _refresh();
           } else {
+            icono = Icon(Icons.stop);
             start(activity.id);
             _refresh();
           }
@@ -199,4 +208,6 @@ class _PageActivitiesState extends State<PageActivities> {
     }
 
 }
+
+
 }
