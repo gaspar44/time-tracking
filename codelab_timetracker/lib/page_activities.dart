@@ -150,17 +150,21 @@ class _PageActivitiesState extends State<PageActivities> {
     // split by '.' and taking first element of resulting list removes the microseconds part
 
 
+    IconButton(icon: Icon(Icons.play_arrow), onPressed: () {});
+
 
 
     if (activity is Project) {
-      return ListTile(
+
+      return (ListTile(
         title: Text('${activity.name}'),
         trailing: Text('$strDuration'),
-        onTap: () => _navigateDownActivities(activity.id),
-      );
+          onTap: () => _navigateDownActivities(activity.id),
 
+          leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {}),
+      ));
 
-
+//
 
 
     } else if (activity is Task) {
@@ -169,12 +173,15 @@ class _PageActivitiesState extends State<PageActivities> {
       Widget trailing;
       trailing = Text('$strDuration');
 
-
       return ListTile(
-        title: Text('${activity.name}'),
+        title: ((Text('${activity.name}'))
+        ),
+
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
-        onLongPress: () {
+
+        leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {
+          
           if ((activity as Task).active) {
             stop(activity.id);
             _refresh();
@@ -182,12 +189,14 @@ class _PageActivitiesState extends State<PageActivities> {
             start(activity.id);
             _refresh();
           }
-        },
-      );
+
+        }),
+              );
     } else {
       throw(Exception("Activity that is neither a Task or a Project"));
       // this solves the problem of return Widget is not nullable because an
       // Exception is also a Widget?
     }
-  }
+
+}
 }

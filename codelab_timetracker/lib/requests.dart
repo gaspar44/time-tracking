@@ -70,7 +70,7 @@ Future<void> getNextId(int id) async {
 
 Future<void> addComponent(String Name, String tags, String type) async {
   final String list_tags = tags.replaceAll(" ", "");
-  
+
   if(type == 'Task')
     {
       var uri = Uri.parse("$baseUrl/create_task?$list_tags&$Name&tags&$list_tags");
