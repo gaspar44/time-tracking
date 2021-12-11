@@ -13,9 +13,7 @@ import org.slf4j.LoggerFactory;
 import timetracking.firtsmilestone.core.Component;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
-import timetracking.firtsmilestone.core.Timer;
 import timetracking.firtsmilestone.impl.DemoTree;
-import timetracking.firtsmilestone.impl.JsonKeys;
 
 
 // Based on
@@ -29,7 +27,7 @@ public class WebServer {
   private Component root;
   private Component active;
 
-  enum Type {
+  enum ComponentType {
     PROJECT,
     TASK
   }
@@ -178,13 +176,13 @@ public class WebServer {
 
         case "create_task": {
           logger.debug("entry point: create_task");
-          body = createTaskOrComponent(Type.TASK, tokens);
+          body = createTaskOrComponent(ComponentType.TASK, tokens);
           break;
         }
 
         case "create_project": {
           logger.debug("entry_point: create_project");
-          body = createTaskOrComponent(Type.PROJECT, tokens);
+          body = createTaskOrComponent(ComponentType.PROJECT, tokens);
           break;
         }
 
@@ -195,12 +193,12 @@ public class WebServer {
       return body;
     }
 
-    private String createTaskOrComponent(Type type, String[] tokens) {
+    private String createTaskOrComponent(ComponentType type, String[] tokens) {
       Component component;
       String componentName = tokens[2];
-      if (type.equals(Type.TASK)) {
+      if (type.equals(ComponentType.TASK)) {
         component = new Task(componentName, (Project) active);
-      } else if (type.equals(Type.PROJECT)) {
+      } else if (type.equals(ComponentType.PROJECT)) {
         component = new Project(componentName, (Project) active);
       } else {
         return null;
