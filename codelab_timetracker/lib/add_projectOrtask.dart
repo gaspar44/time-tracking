@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:codelab_timetracker/page_activities.dart';
+import 'package:codelab_timetracker/requests.dart';
 import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ class _AddComponentState extends State<AddComponent> {
   late String _nameOfComponent;
   late String _associatedTags;
   String _nameType = '';
+
+
 
 
   @override
@@ -134,10 +137,7 @@ class _AddComponentState extends State<AddComponent> {
       ),
       floatingActionButton:FloatingActionButton.extended(
         onPressed: () {
-          if (_nameOfComponent == null) {
-            print('No data.');
-          }
-
+          addComponent( _nameOfComponent,  _associatedTags,  _selectedType);
         },
         icon: Icon(Icons.save),
         label: Text("Save"),
@@ -152,3 +152,4 @@ class _AddComponentState extends State<AddComponent> {
 
 
 }
+
