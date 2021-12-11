@@ -69,20 +69,15 @@ Future<void> getNextId(int id) async {
 }
 
 Future<void> addComponent(String Name, String tags, String type) async {
-
-  final list_tags = tags.replaceAll(" ", "");
-  print(list_tags);
-
+  final String list_tags = tags.replaceAll(" ", "");
+  
   if(type == 'Task')
     {
-      var uri = Uri.parse("$baseUrl/create_task?$list_tags&$Name");
+      var uri = Uri.parse("$baseUrl/create_task?$list_tags&$Name&tags&$list_tags");
       final response = await client.get(uri);
     }else
       {
-        //var uri = Uri.parse("$baseUrl/create_project?$");
+        var uri = Uri.parse("$baseUrl/create_project?$list_tags&$Name&tags&$list_tags");
+        final response = await client.get(uri);
       }
-
-
-
-
 }

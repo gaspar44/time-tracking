@@ -198,6 +198,10 @@ public class WebServer {
     private String createTaskOrComponent(Type type, String[] tokens) {
       Component component;
       String componentName = tokens[2];
+      logger.debug("Imprimiento token 1: " + tokens[1]);
+      logger.debug("Imprimiento token 2: " + tokens[2]);
+
+
       if (type.equals(Type.TASK)) {
         component = new Task(componentName, (Project) active);
       } else if (type.equals(Type.PROJECT)) {
