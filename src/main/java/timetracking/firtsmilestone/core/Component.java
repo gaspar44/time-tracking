@@ -1,6 +1,6 @@
 package timetracking.firtsmilestone.core;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,8 +23,8 @@ import timetracking.firtsmilestone.api.Visitor;
 public abstract class Component {
   protected Component father;
   protected long totalTime;
-  protected LocalTime startTime;
-  protected LocalTime endTime;
+  protected LocalDateTime startTime;
+  protected LocalDateTime endTime;
   protected List<String> tags;
   protected int id;
   private final String name;
@@ -75,15 +75,15 @@ public abstract class Component {
     this.totalTime = totalTime;
   }
 
-  public LocalTime getStartedTime() {
+  public LocalDateTime getStartedTime() {
     return startTime;
   }
 
-  public LocalTime getEndedTime() {
+  public LocalDateTime getEndedTime() {
     return endTime;
   }
 
-  public void setStartTime(LocalTime startTime) {
+  public void setStartTime(LocalDateTime startTime) {
     this.startTime = startTime;
     logger.debug("set start time to component: {}", name);
     logger.trace("time is: {}", startTime);
@@ -93,7 +93,7 @@ public abstract class Component {
     }
   }
 
-  public void setEndTime(LocalTime endTime) {
+  public void setEndTime(LocalDateTime endTime) {
     this.endTime = endTime;
     logger.debug("set end time to component: {}", name);
     logger.trace("time is: {}", endTime);

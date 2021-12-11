@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -213,8 +213,8 @@ public class WebServerTest {
       TimeInterval timeInterval = new TimeInterval(task);
 
       timeInterval.setDuration(currentDuration);
-      timeInterval.setStartTime(LocalTime.parse(startTime));
-      timeInterval.setEndTime(LocalTime.parse(endTime));
+      timeInterval.setStartTime(LocalDateTime.parse(startTime));
+      timeInterval.setEndTime(LocalDateTime.parse(endTime));
       timeIntervalList.add(timeInterval);
     }
 
@@ -232,8 +232,8 @@ public class WebServerTest {
     try {
       String startTime = unparsedObject.getString(JsonKeys.START_TIME_KEY);
       String endTime = unparsedObject.getString(JsonKeys.END_TIME_KEY);
-      project.setStartTime(LocalTime.parse(startTime));
-      project.setEndTime(LocalTime.parse(endTime));
+      project.setStartTime(LocalDateTime.parse(startTime));
+      project.setEndTime(LocalDateTime.parse(endTime));
     } catch (Exception e) {
       e.getMessage();
     }

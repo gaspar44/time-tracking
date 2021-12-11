@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 
-import 'add_projectOrtask.dart';
+import 'add_component.dart';
 
 
 class PageIntervals extends StatefulWidget {
@@ -23,8 +23,7 @@ class _PageIntervalsState extends State<PageIntervals> {
   late Future<Tree.Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
-
-
+  late Tree.Tree tree;
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -37,9 +36,6 @@ class _PageIntervalsState extends State<PageIntervals> {
   Widget builder(BuildContext context) {
     return Container();
   }
-
-
-  late Tree.Tree tree;
 
   @override
   void initState() {
@@ -109,7 +105,7 @@ class _PageIntervalsState extends State<PageIntervals> {
         return Container(
             height: MediaQuery.of(context).size.height,
             color: Colors.white,
-            child: Center(
+            child: const Center(
               child: CircularProgressIndicator(),
             ));
       },
@@ -124,12 +120,8 @@ class _PageIntervalsState extends State<PageIntervals> {
     // this removes the microseconds part
     String strFinalDate = interval.finalDate.toString().split('.')[0];
     return ListTile(
-      title: Text('from  ${strInitialDate} \n to      ${strFinalDate}'),
-      trailing: Text('$strDuration'),
-
+      title: Text('from  ${strInitialDate} \n to      $strFinalDate'),
+      trailing: Text(strDuration),
     );
-
   }
-
-
 }

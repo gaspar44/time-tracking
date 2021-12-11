@@ -1,10 +1,17 @@
 package timetracking.firtsmilestone.core;
 
-import java.time.LocalTime;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Observable;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.text.DateFormatter;
 /* This class gets the execution time of each Component
  * (see "Component" class for further detail), the time
  * it's been started either the end of it, and notifies
@@ -15,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class Timer extends Observable {
   private static final int TIMER_MILLISECONDS_PERIOD = 2000;
   private static Timer instance;
-  private static LocalTime date;
+  private static LocalDateTime date;
   private static java.util.Timer timer;
   private final Logger logger = LoggerFactory.getLogger(Timer.class);
 
@@ -25,7 +32,7 @@ public class Timer extends Observable {
     TimerTask innerTimer = new TimerTask() {
       @Override
       public void run() {
-        date = LocalTime.now();
+        date = LocalDateTime.now();
         logger.trace("clock's time: {}", date);
         setChanged();
         logger.debug("notifying observers ");

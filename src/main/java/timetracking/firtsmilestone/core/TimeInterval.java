@@ -1,6 +1,6 @@
 package timetracking.firtsmilestone.core;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
 import org.slf4j.Logger;
@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
  *  a "Timer" (see "Timer" class).
  */
 public class TimeInterval implements Observer {
-  private LocalTime startTime;
-  private LocalTime endTime;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
   private long duration;
   private final Task fatherTask;
   private final Logger logger = LoggerFactory.getLogger(TimeInterval.class);
@@ -30,7 +30,7 @@ public class TimeInterval implements Observer {
     logger.debug("updating time interval time");
     logger.trace("received value {}", endTime);
 
-    endTime = (LocalTime) obj;
+    endTime = (LocalDateTime) obj;
     assert (endTime != null);
 
     logger.debug("updating father's time");
@@ -41,7 +41,7 @@ public class TimeInterval implements Observer {
   }
 
   public void startTime() {
-    startTime = LocalTime.now();
+    startTime = LocalDateTime.now();
     logger.debug("subscribing to clock");
     logger.trace("Adding observer: {}", fatherTask.getName());
     Timer.getInstance().addObserver(this);
@@ -53,21 +53,21 @@ public class TimeInterval implements Observer {
     Timer.getInstance().deleteObserver(this);
   }
 
-  public LocalTime getEndTime() {
+  public LocalDateTime getEndTime() {
     return endTime;
   }
 
-  public void setEndTime(LocalTime endTime) {
+  public void setEndTime(LocalDateTime endTime) {
     logger.debug("setting endTime");
     assert (endTime != null);
     this.endTime = endTime;
   }
 
-  public LocalTime getStartTime() {
+  public LocalDateTime getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(LocalTime startTime) {
+  public void setStartTime(LocalDateTime startTime) {
     logger.debug("setting new start time");
     assert (startTime != null);
     this.startTime = startTime;

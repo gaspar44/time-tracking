@@ -1,5 +1,5 @@
-import 'package:codelab_timetracker/add_projectOrtask.dart';
-import 'package:codelab_timetracker/searchByTag.dart';
+import 'package:codelab_timetracker/add_component.dart';
+import 'package:codelab_timetracker/search_by_tag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class _PageActivitiesState extends State<PageActivities> {
   Icon icono = Icon(Icons.play_arrow);
 
   void _activateTimer() {
-    _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
+    _timer = Timer.periodic(const Duration(seconds: periodicRefresh), (Timer t) {
       futureTree = getTree(id);
       setState(() {});
     });
@@ -66,7 +66,7 @@ class _PageActivitiesState extends State<PageActivities> {
                 actions: <Widget>[
                   IconButton(icon: Icon(Icons.home),
                       onPressed: () {
-                        while(Navigator.of(context).canPop()) {
+                        while (Navigator.of(context).canPop()) {
                           print("POP");
                           Navigator.popUntil(context, ModalRoute.withName('/'));
                         }
@@ -91,7 +91,7 @@ class _PageActivitiesState extends State<PageActivities> {
                 itemCount: snapshot.data!.root.children.length,
                 itemBuilder: (BuildContext context, int index) =>
                     _buildRow(snapshot.data!.root.children[index], index),
-                separatorBuilder: (BuildContext context, int index)  =>
+                separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
               ),
               floatingActionButton: FloatingActionButton(
@@ -103,31 +103,23 @@ class _PageActivitiesState extends State<PageActivities> {
                 },
                 child: Icon(Icons.add_circle_outline_sharp),
               ),
-
-
-
-
-
-
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-
-
-
           return Container(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
               color: Colors.white,
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
 
               ));
         }
     );
   }
-
-
 
   void _navigateDownActivities(int childId) {
     _timer.cancel();
@@ -148,58 +140,46 @@ class _PageActivitiesState extends State<PageActivities> {
     )).then((var value) {
       _activateTimer();
       _refresh();
-    });;
+    });
   }
 
 
   Widget _buildRow(Component activity, int index) {
-    String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
+    String strDuration = Duration(seconds: activity.duration)
+        .toString()
+        .split('.')
+        .first;
     // split by '.' and taking first element of resulting list removes the microseconds part
-
-
-
-
-
-
-
     if (activity is Project) {
-
       return (ListTile(
-        title: Text('${activity.name}'),
-        trailing: Text('$strDuration'),
+        title: Text(activity.name),
+        trailing: Text(strDuration),
         onTap: () => _navigateDownActivities(activity.id),
 
-        leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {}),
+        leading: IconButton(icon: const Icon(Icons.play_arrow), onPressed: () {}),
       ));
-
-//
-
-
     } else if (activity is Task) {
-      Task task = activity as Task;
+      Task task = activity;
       // at the moment is the same, maybe changes in the future
       Widget trailing;
-      trailing = Text('$strDuration');
-
+      trailing = Text(strDuration);
       return ListTile(
-        title: ((Text('${activity.name}'))
+        title: ((Text(activity.name))
         ),
 
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
 
         leading: IconButton(icon: icono, onPressed: () {
-
-          if ((activity as Task).active) {
-            icono = Icon(Icons.play_arrow);
+          if ((activity).active) {
+            icono = const Icon(Icons.play_arrow);
             stop(activity.id);
             _refresh();
           } else {
-            icono = Icon(Icons.stop);
+            icono = const Icon(Icons.stop);
             start(activity.id);
             _refresh();
           }
-
         }),
       );
     } else {
@@ -207,8 +187,5 @@ class _PageActivitiesState extends State<PageActivities> {
       // this solves the problem of return Widget is not nullable because an
       // Exception is also a Widget?
     }
-
   }
-
-
 }

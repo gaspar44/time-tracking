@@ -19,8 +19,8 @@ abstract class Component {
 
 class TimeInterval implements java.util.Observer {
 
-    - startTime : LocalTime
-    - endTime : LocalTime
+    - startTime : LocalDateTime
+    - endTime : LocalDateTime
     - duration : long
     - fatherTask: Task
     -{final} lock : ReentrantLock
@@ -31,12 +31,12 @@ class TimeInterval implements java.util.Observer {
     + TimeInterval(task : Task)
     + startTime()
     + stopTime()
-    + getEndTime() : LocalTime
-    + getStartTime() : LocalTime
+    + getEndTime() : LocalDateTime
+    + getStartTime() : LocalDateTime
     + getCurrentDuration() : long
     + setDuration(duration : long)
-    + setStartTime(startTime : LocalTime)
-    + setEndTime(endTime : LocalTime)
+    + setStartTime(startTime : LocalDateTime)
+    + setEndTime(endTime : LocalDateTime)
 }
 
 abstract class java.util.Observable{
@@ -78,8 +78,8 @@ class Task {
 
     - timeIntervalList : List<TimeInterval>
     - timeInterval : TimeInterval
-    - startTime : LocalTime
-    - endTime : LocalTime
+    - startTime : LocalDateTime
+    - endTime : LocalDateTime
     - logger : Logger
 
     + Task(name : String, father : Project)
@@ -87,11 +87,11 @@ class Task {
     + getTimeInterval() : TimeInterval
     + startNewInterval() : TimeInterval
     + stopActualInterval(): TimeInterval
-    + setEndTime(endTime : LocalTime)
-    + setTimeInterval(endTime : LocalTime)
+    + setEndTime(endTime : LocalDateTime)
+    + setTimeInterval(endTime : LocalDateTime)
     + setTimeIntervalList(timeIntervalList : List<TimeInterval>)
-    + getStartedTime() : LocalTime
-    + getEndedTime() : LocalTime
+    + getStartedTime() : LocalDateTime
+    + getEndedTime() : LocalDateTime
     + acceptVisitor(visitor : Visitor)
 
 }
@@ -101,7 +101,7 @@ class Task {
 class Timer {
     - logger : Logger
     - {static} instance : Timer
-    - {static} date : LocalTime
+    - {static} date : LocalDateTime
     - {static} timer : java.util.Timer
     - {static} innerTimer : TimerTask
     - {static} timeIntervals : List<Observer>
@@ -111,7 +111,7 @@ class Timer {
     + {static} getInstance() : Timer
     - Timer()
     + notifyObservers()
-    + getDate() : LocalTime
+    + getDate() : LocalDateTime
     + addObserver(ob : Observer)
     + deleteObserver (ob : Observer)
     + stopCounting()

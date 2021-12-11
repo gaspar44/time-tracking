@@ -146,6 +146,7 @@ public class WebServer {
           body = component.toJson(1).toString();
           break;
         }
+
         case "start": {
           logger.debug("entry point: start");
           int id = Integer.parseInt(tokens[1]);
@@ -156,6 +157,7 @@ public class WebServer {
           body = "{}";
           break;
         }
+
         case "stop": {
           logger.debug("entry point: stop");
           int id = Integer.parseInt(tokens[1]);

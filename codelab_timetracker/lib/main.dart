@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'TimeTracker',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
             subtitle1: TextStyle(fontSize: 20.0),
             bodyText2: TextStyle(fontSize: 20.0)),
       ),

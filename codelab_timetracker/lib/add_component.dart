@@ -12,23 +12,20 @@ import 'package:codelab_timetracker/requests.dart';
 
 
 class AddComponent extends StatefulWidget {
+  const AddComponent({Key? key}) : super(key: key);
+
   @override
   _AddComponentState createState() => _AddComponentState();
 }
 
 class _AddComponentState extends State<AddComponent> {
-
-  final _formKey = GlobalKey<FormState>();
-
-  DateTime selectedTimeTo = DateTime.now();
+    DateTime selectedTimeTo = DateTime.now();
   DateTime selectedTimeFrom = DateTime.now();
 
   List<String> _types = ['Task', 'Project']; // Option 1
   String _selectedType = 'Task';
   late String _nameOfComponent;
   late String _associatedTags;
-  String _nameType = '';
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +35,9 @@ class _AddComponentState extends State<AddComponent> {
       ),
 
 
-      body: new Container(
+      body: Container(
 
-        child: new Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
 
           children: [
@@ -72,7 +69,7 @@ class _AddComponentState extends State<AddComponent> {
             ),
             Row(
 
-              children: <Widget> [
+              children: const <Widget> [
                 Padding(padding: EdgeInsets.all(16.0)),
 
                 Expanded(
@@ -119,7 +116,7 @@ class _AddComponentState extends State<AddComponent> {
                     child: TextField(
 
                       textAlign: TextAlign.center,
-                      decoration: (InputDecoration(
+                      decoration: (const InputDecoration(
                           hintText: "Write tags separated by ','"
                       )),
                       onChanged: (value) {
@@ -133,26 +130,22 @@ class _AddComponentState extends State<AddComponent> {
                 ),
               ],
             )
-
-
           ],
         ),
       ),
       floatingActionButton:FloatingActionButton.extended(
         onPressed: () {
-          addComponent( _nameOfComponent,  _associatedTags,  _selectedType);
+          addComponent(_nameOfComponent, _associatedTags, _selectedType);
+
+          while (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
         },
-        icon: Icon(Icons.save),
-        label: Text("Save"),
+
+        icon: const Icon(Icons.save),
+        label: const Text("Save"),
       ),
 
     );
   }
-
-
-
-
-
-
 }
-

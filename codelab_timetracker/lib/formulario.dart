@@ -12,23 +12,23 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  GlobalKey<FormState> keyForm = new GlobalKey();
-  TextEditingController Period = new TextEditingController();
-  TextEditingController From = new TextEditingController();
-  TextEditingController To = new TextEditingController();
-  TextEditingController Content = new TextEditingController();
-  TextEditingController Format = new TextEditingController();
+  GlobalKey<FormState> keyForm = GlobalKey();
+  TextEditingController period = TextEditingController();
+  TextEditingController from = TextEditingController();
+  TextEditingController to = TextEditingController();
+  TextEditingController content = TextEditingController();
+  TextEditingController format = TextEditingController();
 
   DateTime selectedTimeTo = DateTime.now();
   DateTime selectedTimeFrom = DateTime.now();
 
-  List<String> _periods = ['Last week', 'This week', 'Yesterday', 'Today', 'Other']; // Option 1
+  final List<String> _periods = ['Last week', 'This week', 'Yesterday', 'Today', 'Other']; // Option 1
   String _selectedPeriod = 'Last week'; // Option 1
 
-  List<String> _contents = ['Brief', 'Detailed', 'Statistic']; // Option 2
+  final List<String> _contents = ['Brief', 'Detailed', 'Statistic']; // Option 2
   String _selectedContent = 'Brief'; // Option 2
 
-  List<String> _formats= ['Web page', 'PDF', 'Text']; // Option 3
+  final List<String> _formats= ['Web page', 'PDF', 'Text']; // Option 3
   String _selectedFormat = 'Web page'; // Option 3
 
   @override
@@ -37,152 +37,149 @@ class _RegisterPageState extends State<RegisterPage> {
         appBar: AppBar(
           title: Text('Report'),
         ),
-        body: new Container(
+        body: Column(
+           mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-            child: new Column(
-               mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
 
-                children: [
+              Row(
+                children: <Widget> [
 
-                  Row(
-                    children: <Widget> [
+                  Padding(padding: EdgeInsets.all(16.0)),
+                  Text('Period'),
 
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Period'),
+                  SizedBox(width: 40.0),  // Espacio entre titulo y opciones
 
-                      SizedBox(width: 40.0),  // Espacio entre titulo y opciones
+                  DropdownButton<String>(
+                    value: _selectedPeriod,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedPeriod = newValue!;
+                            _uploadCalendar(context);
+                      });
+                    },
+                    items: _periods.map((value) {
+                      return DropdownMenuItem(
+                        child: new Text(value),
+                        value: value,
+                      );
+                    }).toList(),
+                  )
+                ],
+              ),
 
-                      DropdownButton<String>(
-                        value: _selectedPeriod,
+
+              Row(
+                children: <Widget> [
+
+                  Padding(padding: EdgeInsets.all(16.0)),
+                  Text('From'),
+
+                  SizedBox(width: 50.0),  // Espacio entre titulo y opciones
+
+                  Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
+
+                  SizedBox(width: 10.0),  // Espacio entre titulo y opciones
+
+                  IconButton(
+                    icon: Icon(Icons.today, color: Colors.blue.shade400),
+                    onPressed: () {
+                      _selectDate(context);
+                      _selectedPeriod = 'Other';
+                    }
+                  )
+                ],
+              ),
+
+
+              Row(
+                children: <Widget> [
+
+                  Padding(padding: EdgeInsets.all(16.0)),
+                  Text('To'),
+
+                  SizedBox(width: 75.0),  // Espacio entre titulo y opciones
+
+                  Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
+
+                  SizedBox(width: 10.0),  // Espacio entre titulo y opciones
+
+                  IconButton(
+                          icon: Icon(Icons.today, color: Colors.blue.shade400),
+                          onPressed: () => _selectFinalDate(context)
+                  )
+                ],
+              ),
+
+
+              Row(
+                children: <Widget> [
+
+                  Padding(padding: EdgeInsets.all(16.0)),
+                  Text('Content'),
+
+                  SizedBox(width: 27.0),  // Espacio entre titulo y opciones
+
+                  DropdownButton<String>(
+                        //isExpanded: true,
+                        value: _selectedContent,
                         onChanged: (newValue) {
                           setState(() {
-                            _selectedPeriod = newValue!;
-                                _uploadCalendar(context);
+                            _selectedContent = newValue!;
                           });
                         },
-                        items: _periods.map((value) {
+                        items: _contents.map((location) {
                           return DropdownMenuItem(
-                            child: new Text(value),
-                            value: value,
+                            child: new Text(location),
+                            value: location,
                           );
                         }).toList(),
                       )
-                    ],
-                  ),
+                ],
+              ),
 
 
-                  Row(
-                    children: <Widget> [
+              Row(
+                children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('From'),
+                  Padding(padding: EdgeInsets.all(16.0)),
+                  Text('Format'),
 
-                      SizedBox(width: 50.0),  // Espacio entre titulo y opciones
+                  SizedBox(width: 35.0),  // Espacio entre titulo y opciones
 
-                      Text(DateFormat('yyyy-MM-dd').format(selectedTimeFrom)),
-
-                      SizedBox(width: 10.0),  // Espacio entre titulo y opciones
-
-                      IconButton(
-                        icon: Icon(Icons.today, color: Colors.blue.shade400),
-                        onPressed: () {
-                          _selectDate(context);
-                          _selectedPeriod = 'Other';
-                        }
+                  DropdownButton<String>(
+                        //isExpanded: true,
+                        value: _selectedFormat,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedFormat = newValue!;
+                          });
+                        },
+                        items: _formats.map((location) {
+                          return DropdownMenuItem(
+                            child: new Text(location),
+                            value: location,
+                          );
+                        }).toList(),
                       )
-                    ],
-                  ),
+                ],
+              ),
 
 
-                  Row(
-                    children: <Widget> [
+              Row(
+                  children: <Widget> [
 
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('To'),
-
-                      SizedBox(width: 75.0),  // Espacio entre titulo y opciones
-
-                      Text(DateFormat('yyyy-MM-dd').format(selectedTimeTo)),
-
-                      SizedBox(width: 10.0),  // Espacio entre titulo y opciones
-
-                      IconButton(
-                              icon: Icon(Icons.today, color: Colors.blue.shade400),
-                              onPressed: () => _selectFinalDate(context)
-                      )
-                    ],
-                  ),
-
-
-                  Row(
-                    children: <Widget> [
-
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Content'),
-
-                      SizedBox(width: 27.0),  // Espacio entre titulo y opciones
-
-                      DropdownButton<String>(
-                            //isExpanded: true,
-                            value: _selectedContent,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedContent = newValue!;
-                              });
-                            },
-                            items: _contents.map((location) {
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          )
-                    ],
-                  ),
-
-
-                  Row(
-                    children: <Widget> [
-
-                      Padding(padding: EdgeInsets.all(16.0)),
-                      Text('Format'),
-
-                      SizedBox(width: 35.0),  // Espacio entre titulo y opciones
-
-                      DropdownButton<String>(
-                            //isExpanded: true,
-                            value: _selectedFormat,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedFormat = newValue!;
-                              });
-                            },
-                            items: _formats.map((location) {
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          )
-                    ],
-                  ),
-
-
-                  Row(
-                      children: <Widget> [
-
-                        Padding(padding: EdgeInsets.all(8.0)),
-                        Expanded(
-                            child: FlatButton(
-                                textColor: Colors.blue,
-                                onPressed: () {},
-                                child: Text('Generate')
-                            )
-                        ),
-                      ]
-                  )
-                ]
-            )
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    Expanded(
+                        child: FlatButton(
+                            textColor: Colors.blue,
+                            onPressed: () {},
+                            child: Text('Generate')
+                        )
+                    ),
+                  ]
+              )
+            ]
         )
     );
   }

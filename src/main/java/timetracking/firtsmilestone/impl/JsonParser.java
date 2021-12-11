@@ -3,7 +3,7 @@ package timetracking.firtsmilestone.impl;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -99,8 +99,8 @@ public class JsonParser implements Visitor {
       TimeInterval timeInterval = new TimeInterval(task);
 
       timeInterval.setDuration(currentDuration);
-      timeInterval.setStartTime(LocalTime.parse(startTime));
-      timeInterval.setEndTime(LocalTime.parse(endTime));
+      timeInterval.setStartTime(LocalDateTime.parse(startTime));
+      timeInterval.setEndTime(LocalDateTime.parse(endTime));
       timeIntervalList.add(timeInterval);
     }
 
@@ -116,8 +116,8 @@ public class JsonParser implements Visitor {
     try {
       String startTime = unparsedObject.getString(JsonKeys.START_TIME_KEY);
       String endTime = unparsedObject.getString(JsonKeys.END_TIME_KEY);
-      project.setStartTime(LocalTime.parse(startTime));
-      project.setEndTime(LocalTime.parse(endTime));
+      project.setStartTime(LocalDateTime.parse(startTime));
+      project.setEndTime(LocalDateTime.parse(endTime));
     } catch (Exception e) {
       logger.warn("Project without started task {} ", projectName);
     }

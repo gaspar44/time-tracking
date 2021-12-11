@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
-final DateFormat _dateFormatter = DateFormat("HH:mm:ss");
+final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 abstract class Component {
   int id;
@@ -17,11 +17,6 @@ abstract class Component {
   List<dynamic> children = List<dynamic>.empty(growable: true);
 
   // JSON's keys
-
-
-
-
-
   // formerly List<dynamic>(); but now because of null safety it has to be
   // initialized like that
 
@@ -33,14 +28,7 @@ abstract class Component {
         duration = json['duration'];
 }
 
-
-
-
-
 class Project extends Component {
-
-
-
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
 
     if (json.containsKey('components')) {
@@ -59,25 +47,16 @@ class Project extends Component {
   }
 
   @override
-  String toString()
-  {
+  String toString() {
     return '${id}';
   }
-
 
   Future<String> getFather() async {
     return '${name}';
   }
-
-
-
 }
 
-
-
 class Task extends Component {
-
-
   bool active;
   Task.fromJson(Map<String, dynamic> json) :
         active = json['active'],
@@ -86,8 +65,6 @@ class Task extends Component {
       children.add(Interval.fromJson(jsonChild));
     }
   }
-
-
 }
 
 
@@ -97,18 +74,15 @@ class Interval {
   int duration;
 
   Interval.fromJson(Map<String, dynamic> json)
-      : initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time'].toString().substring(0,10)),
-        finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time'].toString().substring(0,10)),
+      : initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time']),
+        finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time']),
         duration = json['current_duration'];
 
-
   @override
-  String toString()
-  {
+  String toString() {
     return '${initialDate}';
   }
 }
-
 
 class Tree {
   late Component root;
@@ -161,8 +135,6 @@ Tree getTreeTask() {
   Tree tree = Tree(decoded);
   return tree;
 }
-
-
 
 void main() {
   testLoadTree();
