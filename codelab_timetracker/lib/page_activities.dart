@@ -107,6 +107,8 @@ class _PageActivitiesState extends State<PageActivities> {
 
 
 
+
+
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
@@ -187,7 +189,6 @@ class _PageActivitiesState extends State<PageActivities> {
         onTap: () => _navigateDownIntervals(activity.id),
 
         leading: IconButton(icon: icono, onPressed: () {
-
 
           if ((activity as Task).active) {
             icono = Icon(Icons.play_arrow);

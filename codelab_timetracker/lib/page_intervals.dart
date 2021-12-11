@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 
+import 'add_projectOrtask.dart';
+
 
 class PageIntervals extends StatefulWidget {
   final int id;
@@ -90,6 +92,15 @@ class _PageIntervalsState extends State<PageIntervals> {
               separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
             ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute<void>(
+                  builder: (context) => AddComponent(),
+                ));
+              },
+              child: Icon(Icons.add_circle_outline_sharp),
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -115,7 +126,9 @@ class _PageIntervalsState extends State<PageIntervals> {
     return ListTile(
       title: Text('from ${strInitialDate} to ${strFinalDate}'),
       trailing: Text('$strDuration'),
+
     );
+
   }
 
 
