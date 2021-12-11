@@ -24,10 +24,7 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
-<<<<<<< HEAD
-=======
   Icon icono = Icon(Icons.play_arrow);
->>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -117,11 +114,8 @@ class _PageActivitiesState extends State<PageActivities> {
             return Text("${snapshot.error}");
           }
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
           return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
@@ -169,31 +163,13 @@ class _PageActivitiesState extends State<PageActivities> {
 
 
     if (activity is Project) {
-<<<<<<< HEAD
-
-
-
-
-      return ListTile(
-        title: (
-            ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Project.'),
-              children: <Widget>
-              [
-                ListTile(title: Text('Prueba')),
-              ],
-            )
-        ),);
-=======
->>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
 
       return (ListTile(
         title: Text('${activity.name}'),
         trailing: Text('$strDuration'),
-          onTap: () => _navigateDownActivities(activity.id),
+        onTap: () => _navigateDownActivities(activity.id),
 
-          leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {}),
+        leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {}),
       ));
 
 //
@@ -206,15 +182,7 @@ class _PageActivitiesState extends State<PageActivities> {
       trailing = Text('$strDuration');
 
       return ListTile(
-<<<<<<< HEAD
-        title: (
-            ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Task.'),
-            )
-=======
         title: ((Text('${activity.name}'))
->>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
         ),
 
         trailing: trailing,
@@ -233,14 +201,14 @@ class _PageActivitiesState extends State<PageActivities> {
           }
 
         }),
-              );
+      );
     } else {
       throw(Exception("Activity that is neither a Task or a Project"));
       // this solves the problem of return Widget is not nullable because an
       // Exception is also a Widget?
     }
 
-}
+  }
 
 
 }

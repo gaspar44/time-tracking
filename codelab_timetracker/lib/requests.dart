@@ -56,8 +56,6 @@ Future<void> stop(int id) async {
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
-<<<<<<< HEAD
-=======
 }
 
 
@@ -74,13 +72,12 @@ Future<void> addComponent(String Name, String tags, String type) async {
   final String list_tags = tags.replaceAll(" ", "");
 
   if(type == 'Task')
-    {
-      var uri = Uri.parse("$baseUrl/create_task?$list_tags&$Name&tags&$list_tags");
-      final response = await client.get(uri);
-    }else
-      {
-        var uri = Uri.parse("$baseUrl/create_project?$list_tags&$Name&tags&$list_tags");
-        final response = await client.get(uri);
-      }
->>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
+  {
+    var uri = Uri.parse("$baseUrl/create_task?$list_tags&$Name&tags&$list_tags");
+    final response = await client.get(uri);
+  }else
+  {
+    var uri = Uri.parse("$baseUrl/create_project?$list_tags&$Name&tags&$list_tags");
+    final response = await client.get(uri);
+  }
 }
