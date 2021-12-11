@@ -1,6 +1,9 @@
 import 'package:codelab_timetracker/add_projectOrtask.dart';
+import 'package:codelab_timetracker/searchByTag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -21,6 +24,10 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
+<<<<<<< HEAD
+=======
+  Icon icono = Icon(Icons.play_arrow);
+>>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -73,7 +80,9 @@ class _PageActivitiesState extends State<PageActivities> {
                         .push(MaterialPageRoute<void>(
                       builder: (context) => RegisterPage(),
                     ));
-                  })
+                  }),
+
+                  IconButton(icon: Icon(Icons.manage_search), onPressed: () {})
                   //TODO other actions
                 ],
               ),
@@ -97,20 +106,34 @@ class _PageActivitiesState extends State<PageActivities> {
                 },
                 child: Icon(Icons.add_circle_outline_sharp),
               ),
+
+
+
+
+
+
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
           return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
               child: Center(
                 child: CircularProgressIndicator(),
+
               ));
         }
     );
   }
+
+
 
   void _navigateDownActivities(int childId) {
     _timer.cancel();
@@ -138,7 +161,15 @@ class _PageActivitiesState extends State<PageActivities> {
   Widget _buildRow(Component activity, int index) {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list removes the microseconds part
+
+
+
+
+
+
+
     if (activity is Project) {
+<<<<<<< HEAD
 
 
 
@@ -154,36 +185,62 @@ class _PageActivitiesState extends State<PageActivities> {
               ],
             )
         ),);
+=======
+>>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
+
+      return (ListTile(
+        title: Text('${activity.name}'),
+        trailing: Text('$strDuration'),
+          onTap: () => _navigateDownActivities(activity.id),
+
+          leading: IconButton(icon: Icon(Icons.play_arrow), onPressed: () {}),
+      ));
+
+//
 
 
-    }else if (activity is Task) {
+    } else if (activity is Task) {
       Task task = activity as Task;
       // at the moment is the same, maybe changes in the future
       Widget trailing;
       trailing = Text('$strDuration');
+
       return ListTile(
+<<<<<<< HEAD
         title: (
             ExpansionTile(
               title: Text('${activity.name}'),
               subtitle: Text('Task.'),
             )
+=======
+        title: ((Text('${activity.name}'))
+>>>>>>> d8df2afc9862183c5b3a9d18c523562223f634f4
         ),
+
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
-        onLongPress: () {
+
+        leading: IconButton(icon: icono, onPressed: () {
+
           if ((activity as Task).active) {
+            icono = Icon(Icons.play_arrow);
             stop(activity.id);
             _refresh();
           } else {
+            icono = Icon(Icons.stop);
             start(activity.id);
             _refresh();
           }
-        },
-      );
+
+        }),
+              );
     } else {
       throw(Exception("Activity that is neither a Task or a Project"));
       // this solves the problem of return Widget is not nullable because an
       // Exception is also a Widget?
     }
-  }
+
+}
+
+
 }

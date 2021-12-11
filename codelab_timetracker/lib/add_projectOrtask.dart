@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:codelab_timetracker/page_activities.dart';
+import 'package:codelab_timetracker/requests.dart';
 import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:codelab_timetracker/requests.dart';
 
 
 class AddComponent extends StatefulWidget {
@@ -33,6 +36,7 @@ class _AddComponentState extends State<AddComponent> {
       appBar: AppBar(
         title: Text('Add Project or Task'),
       ),
+
 
       body: new Container(
 
@@ -66,12 +70,14 @@ class _AddComponentState extends State<AddComponent> {
                 )
               ],
             ),
-
             Row(
 
               children: <Widget> [
                 Padding(padding: EdgeInsets.all(16.0)),
+
                 Expanded(
+
+
                     child: Text('Father: '+ 'root')
                 ),
               ],
@@ -134,10 +140,7 @@ class _AddComponentState extends State<AddComponent> {
       ),
       floatingActionButton:FloatingActionButton.extended(
         onPressed: () {
-          if (_nameOfComponent == null) {
-            print('No data.');
-          }
-
+          addComponent( _nameOfComponent,  _associatedTags,  _selectedType);
         },
         icon: Icon(Icons.save),
         label: Text("Save"),
@@ -152,3 +155,4 @@ class _AddComponentState extends State<AddComponent> {
 
 
 }
+

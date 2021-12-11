@@ -22,7 +22,6 @@ abstract class Component {
 
 
 
-
   // formerly List<dynamic>(); but now because of null safety it has to be
   // initialized like that
 
@@ -33,6 +32,9 @@ abstract class Component {
         finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time']),
         duration = json['duration'];
 }
+
+
+
 
 
 class Project extends Component {
@@ -62,7 +64,15 @@ class Project extends Component {
     return '${id}';
   }
 
+
+  Future<String> getFather() async {
+    return '${name}';
+  }
+
+
+
 }
+
 
 
 class Task extends Component {
@@ -151,6 +161,7 @@ Tree getTreeTask() {
   Tree tree = Tree(decoded);
   return tree;
 }
+
 
 
 void main() {

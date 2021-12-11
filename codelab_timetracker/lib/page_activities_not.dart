@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:codelab_timetracker/add_projectOrtask.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
@@ -14,6 +16,9 @@ class PageActivities extends StatefulWidget {
   @override
   _PageActivitiesState createState() => _PageActivitiesState();
 
+
+
+
 }
 
 class _PageActivitiesState extends State<PageActivities> {
@@ -21,6 +26,8 @@ class _PageActivitiesState extends State<PageActivities> {
   late Future<Tree> futureTree;
   late Timer _timer;
   static const int periodicRefresh = 2;
+
+
 
   void _activateTimer() {
     _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
@@ -41,6 +48,7 @@ class _PageActivitiesState extends State<PageActivities> {
     futureTree = getTree(id);
     _activateTimer();
   }
+
 
   @override
   void dispose() {
@@ -78,16 +86,19 @@ class _PageActivitiesState extends State<PageActivities> {
                 ],
               ),
 
+
+
               body: ListView.separated(
-                // it's like ListView.builder() but better
                 // because it includes a separator between items
                 padding: const EdgeInsets.all(16.0),
                 itemCount: snapshot.data!.root.children.length,
                 itemBuilder: (BuildContext context, int index) =>
                     _buildRow(snapshot.data!.root.children[index], index),
+
                 separatorBuilder: (BuildContext context, int index)  =>
                 const Divider(),
               ),
+
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context)
@@ -101,7 +112,6 @@ class _PageActivitiesState extends State<PageActivities> {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-
           return Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
@@ -139,21 +149,38 @@ class _PageActivitiesState extends State<PageActivities> {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
+      //SI ACTIVIDAD ES UN PROYECTO
+      //SI ESE PROYECTPO TIENE HIJOS: PROYECTOS O TASKS!
+      if(('${activity.children}').isNotEmpty){
+        getNextId(activity.id);
 
+        //print((activity.children).toString());
+        return ListTile(
+          title: (
 
+              ExpansionTile(
+                title: Text('${activity.name}' + ' - Project'),
+                children: <Widget>
+                [
+                  //ListTile(title: Text(('${activity.children}').toString()))
+                ],
+              )
+          ),);
+      }else
+        //SI NO TIENE PROYECTOS O  HIJOS
+          {
+        return ListTile(
 
-
-      return ListTile(
-        title: (
-            ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Project.'),
-              children: <Widget>
-              [
-                ListTile(title: Text('Prueba')),
-              ],
-            )
-        ),);
+          title: (
+              ExpansionTile(
+                title: Text('${activity.name}' + ' - Project'),
+                children: <Widget>
+                [
+                  ListTile(title: Text('There are not available projects or tasks.'))
+                ],
+              )
+          ),);
+      }
 
 
     }else if (activity is Task) {
@@ -163,9 +190,13 @@ class _PageActivitiesState extends State<PageActivities> {
       trailing = Text('$strDuration');
       return ListTile(
         title: (
+
             ExpansionTile(
-              title: Text('${activity.name}'),
-              subtitle: Text('Task.'),
+                title: Text('${activity.name}' + ' - Task'),
+                children: <Widget>
+                [
+                  ListTile(title: Text(('${activity.children}').toString()))
+                ]
             )
         ),
         trailing: trailing,

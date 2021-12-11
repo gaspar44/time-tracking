@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 
+import 'add_projectOrtask.dart';
+
 
 class PageIntervals extends StatefulWidget {
   final int id;
@@ -66,7 +68,7 @@ class _PageIntervalsState extends State<PageIntervals> {
           int numChildren = snapshot.data!.root.children.length;
           return Scaffold(
             appBar: AppBar(
-              title: Text(snapshot.data!.root.name),
+              title: Text('Time interfals of ' + snapshot.data!.root.name),
               actions: <Widget>[
                 IconButton(icon: Icon(Icons.home),
                     onPressed: () {
@@ -89,6 +91,15 @@ class _PageIntervalsState extends State<PageIntervals> {
                   _buildRow(snapshot.data!.root.children[index], index),
               separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute<void>(
+                  builder: (context) => AddComponent(),
+                ));
+              },
+              child: Icon(Icons.add_circle_outline_sharp),
             ),
           );
         } else if (snapshot.hasError) {
@@ -113,9 +124,11 @@ class _PageIntervalsState extends State<PageIntervals> {
     // this removes the microseconds part
     String strFinalDate = interval.finalDate.toString().split('.')[0];
     return ListTile(
-      title: Text('from ${strInitialDate} to ${strFinalDate}'),
+      title: Text('from  ${strInitialDate} \n to      ${strFinalDate}'),
       trailing: Text('$strDuration'),
+
     );
+
   }
 
 
