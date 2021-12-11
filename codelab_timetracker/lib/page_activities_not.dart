@@ -90,7 +90,7 @@ class _PageActivitiesState extends State<PageActivities> {
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute<void>(
-                    builder: (context) => AddComponent(),
+                    builder: (context) => AddComponent(id),
                   ));
                 },
                 child: const Icon(Icons.add_circle_outline_sharp),

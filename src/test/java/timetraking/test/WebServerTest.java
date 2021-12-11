@@ -12,7 +12,10 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import timetracking.firtsmilestone.core.*;
+import timetracking.firtsmilestone.core.Component;
+import timetracking.firtsmilestone.core.Project;
+import timetracking.firtsmilestone.core.Task;
+import timetracking.firtsmilestone.core.TimeInterval;
 import timetracking.firtsmilestone.impl.DemoTree;
 import timetracking.firtsmilestone.impl.JsonKeys;
 
@@ -30,20 +33,16 @@ public class WebServerTest {
 
   @AfterEach
   public void reset() throws Exception {
-    HttpRequest request = templateRequest(resetDemo, "0");
-    HttpClient client = HttpClient.newHttpClient();
-    client.send(request, HttpResponse.BodyHandlers.ofString());
+    templateRequest(resetDemo, "0");
   }
 
   @Test
   public void getRootElementTest() throws Exception {
     String idToSearch = "0";
 
-    HttpRequest httpRequest = templateRequest(getTree, idToSearch);
-
-    HttpClient client = HttpClient.newHttpClient();
-    HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-    Component foundComponent = demoTree.getRootProject().findComponentById(Integer.parseInt(idToSearch));
+    HttpResponse<String> response = templateRequest(getTree, idToSearch);
+    Component foundComponent = demoTree.getRootProject()
+        .findComponentById(Integer.parseInt(idToSearch));
     String foundComponentJsonString = foundComponent.toJson(1).toString();
     foundComponentJsonString = foundComponentJsonString + "\n"; // due to HTTP empty line
 
@@ -54,10 +53,7 @@ public class WebServerTest {
   @Test
   public void startTaskTest() throws Exception {
     String idToSearch = String.valueOf(demoTree.getTransPortation().getId());
-    HttpRequest httpRequest = templateRequest(getTree, idToSearch);
-
-    HttpClient client = HttpClient.newHttpClient();
-    HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = templateRequest(getTree, idToSearch);
 
     Assertions.assertNotNull(response.body());
     Assertions.assertEquals(200, response.statusCode());
@@ -69,16 +65,13 @@ public class WebServerTest {
     Assertions.assertNull(taskBeforeStart.getStartedTime());
     Assertions.assertEquals(0, taskBeforeStart.getTotalTime());
     Assertions.assertNull(taskBeforeStart.getTimeInterval());
-
-    httpRequest = templateRequest(start, idToSearch);
-    response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    response = templateRequest(start, idToSearch);
 
     Assertions.assertEquals(200, response.statusCode());
 
     Thread.sleep(clock * 2L);
 
-    httpRequest = templateRequest(getTree, idToSearch);
-    response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    response = templateRequest(getTree, idToSearch);
 
     Assertions.assertNotNull(response.body());
     Assertions.assertEquals(200, response.statusCode());
@@ -92,36 +85,34 @@ public class WebServerTest {
     Assertions.assertNotNull(taskAfterStart.getEndedTime());
     Assertions.assertEquals(1, taskAfterStart.getTimeIntervalList().size());
 
-    httpRequest = templateRequest(stop, idToSearch);
-    client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    templateRequest(stop, idToSearch);
   }
 
   @Test
-  public void createTaskWithTagsTest() throws Exception {
+  public void createTaskWithTagsAndDifferentFatherTest() throws Exception {
     String taskName = "taskWithTags";
+    Project fatherOfTask = demoTree.getDataBase();
 
-    HttpRequest httpRequest = templateRequest(createTask, "task_name="+ taskName +"&tags=hola,como");
-    HttpClient client = HttpClient.newHttpClient();
-    HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = templateRequest(createTask, "component_name="
+        + taskName + "&tags=hola,como" + "&father_id=" + fatherOfTask.getId());
 
-    Assertions.assertEquals(200,response.statusCode());
+    Assertions.assertEquals(200, response.statusCode());
     Assertions.assertNotNull(response.body());
 
     Task task = (Task) jsonParser(response.body());
     Assertions.assertNotNull(task);
+
     Assertions.assertEquals(taskName, task.getName());
-    Assertions.assertEquals(List.of("hola","como"), task.getTags());
+    Assertions.assertEquals(List.of("hola", "como"), task.getTags());
   }
 
   @Test
   public void createTaskTest() throws Exception {
     String taskName = "taskWithoutTags";
 
-    HttpRequest httpRequest = templateRequest(createTask, "task_name="+ taskName);
-    HttpClient client = HttpClient.newHttpClient();
-    HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = templateRequest(createTask, "component_name=" + taskName);
 
-    Assertions.assertEquals(200,response.statusCode());
+    Assertions.assertEquals(200, response.statusCode());
     Assertions.assertNotNull(response.body());
 
     Task task = (Task) jsonParser(response.body());
@@ -134,28 +125,24 @@ public class WebServerTest {
   public void createProjectWithTagsTest() throws Exception {
     String taskName = "ProjectWithTags";
 
-    HttpRequest httpRequest = templateRequest(createProject, "project_name="+ taskName +"&tags=hola,como");
-    HttpClient client = HttpClient.newHttpClient();
-    HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-    Assertions.assertEquals(200,response.statusCode());
+    HttpResponse<String> response = templateRequest(createProject, "component_name="
+        + taskName + "&tags=hola,como");
+    Assertions.assertEquals(200, response.statusCode());
     Assertions.assertNotNull(response.body());
 
     Component project = jsonParser(response.body());
     Assertions.assertNotNull(project);
     Assertions.assertEquals(taskName, project.getName());
-    Assertions.assertEquals(List.of("hola","como"), project.getTags());
+    Assertions.assertEquals(List.of("hola", "como"), project.getTags());
   }
 
   @Test
   public void createProjectTest() throws Exception {
     String taskName = "projectWithoutTags";
 
-    HttpRequest httpRequest = templateRequest(createTask, "project_name="+ taskName);
-    HttpClient client = HttpClient.newHttpClient();
-    HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = templateRequest(createTask, "component_name=" + taskName);
 
-    Assertions.assertEquals(200,response.statusCode());
+    Assertions.assertEquals(200, response.statusCode());
     Assertions.assertNotNull(response.body());
 
     Task task = (Task) jsonParser(response.body());
@@ -164,11 +151,15 @@ public class WebServerTest {
     Assertions.assertEquals(0, task.getTags().size());
   }
 
-  private HttpRequest templateRequest(String endPoint, String parameters) throws Exception {
-    return  HttpRequest.newBuilder()
+  private HttpResponse<String> templateRequest(String endPoint, String parameters)
+      throws Exception {
+    HttpRequest httpRequest = HttpRequest.newBuilder()
         .uri(new URI("http://" + host + ":" + port + "/" + endPoint + "?" + parameters))
         .GET()
         .build();
+
+    HttpClient client = HttpClient.newHttpClient();
+    return client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
   }
 
   private Component jsonParser(String jsonToParse) throws Exception {
@@ -184,7 +175,7 @@ public class WebServerTest {
   private Task parseJsonElementAsTask(JSONObject unparsedJsonObject) {
     Task task;
     String taskName = unparsedJsonObject.getString(JsonKeys.NAME_KEY);
-    Project mockFather = new Project("mock",null);
+    Project mockFather = new Project("mock", null);
     task = new Task(taskName, mockFather);
     task.setTotalTime(unparsedJsonObject.getLong(JsonKeys.DURATION_KEY));
     JSONArray jsonArrayTimeIntervalList;

@@ -1,29 +1,22 @@
-import 'dart:convert';
 import 'dart:core';
-import 'package:codelab_timetracker/page_activities.dart';
 import 'package:codelab_timetracker/requests.dart';
-import 'package:codelab_timetracker/tree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
-import 'package:codelab_timetracker/requests.dart';
-
 
 class AddComponent extends StatefulWidget {
-  const AddComponent({Key? key}) : super(key: key);
+  final int fatherId;
+  AddComponent(this.fatherId);
 
   @override
   _AddComponentState createState() => _AddComponentState();
 }
 
 class _AddComponentState extends State<AddComponent> {
-    DateTime selectedTimeTo = DateTime.now();
-  DateTime selectedTimeFrom = DateTime.now();
-
-  List<String> _types = ['Task', 'Project']; // Option 1
+  final List<String> _types = ['Task', 'Project']; // Option 1
   String _selectedType = 'Task';
+
   late String _nameOfComponent;
   late String _associatedTags;
 
@@ -33,15 +26,11 @@ class _AddComponentState extends State<AddComponent> {
       appBar: AppBar(
         title: Text('Add Project or Task'),
       ),
-
-
       body: Container(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-
           children: [
-
             Row(
               children: <Widget> [
 
@@ -68,20 +57,6 @@ class _AddComponentState extends State<AddComponent> {
               ],
             ),
             Row(
-
-              children: const <Widget> [
-                Padding(padding: EdgeInsets.all(16.0)),
-
-                Expanded(
-
-
-                    child: Text('Father: '+ 'root')
-                ),
-              ],
-            ),
-
-            Row(
-
               children: <Widget> [
                 Padding(padding: EdgeInsets.all(16.0)),
                 Text('Name: '),
@@ -135,17 +110,15 @@ class _AddComponentState extends State<AddComponent> {
       ),
       floatingActionButton:FloatingActionButton.extended(
         onPressed: () {
-          addComponent(_nameOfComponent, _associatedTags, _selectedType);
-
+          addComponent(_nameOfComponent, _associatedTags, _selectedType, widget.fatherId);
           while (Navigator.of(context).canPop()) {
             Navigator.of(context).pop();
           }
         },
 
         icon: const Icon(Icons.save),
-        label: const Text("Save"),
+        label: const Text("create"),
       ),
-
     );
   }
 }

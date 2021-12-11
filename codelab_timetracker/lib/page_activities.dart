@@ -1,9 +1,6 @@
 import 'package:codelab_timetracker/add_component.dart';
-import 'package:codelab_timetracker/search_by_tag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -64,7 +61,7 @@ class _PageActivitiesState extends State<PageActivities> {
               appBar: AppBar(
                 title: Text('Inicio'), //Cambiado tree.root.name
                 actions: <Widget>[
-                  IconButton(icon: Icon(Icons.home),
+                  IconButton(icon: const Icon(Icons.home),
                       onPressed: () {
                         while (Navigator.of(context).canPop()) {
                           print("POP");
@@ -72,14 +69,14 @@ class _PageActivitiesState extends State<PageActivities> {
                         }
                         PageActivities(0);
                       }),
-                  IconButton(icon: Icon(Icons.document_scanner), onPressed: () {
+                  IconButton(icon: const Icon(Icons.document_scanner), onPressed: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute<void>(
                       builder: (context) => RegisterPage(),
                     ));
                   }),
 
-                  IconButton(icon: Icon(Icons.manage_search), onPressed: () {})
+                  IconButton(icon: const Icon(Icons.manage_search), onPressed: () {})
                   //TODO other actions
                 ],
               ),
@@ -98,7 +95,7 @@ class _PageActivitiesState extends State<PageActivities> {
                 onPressed: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute<void>(
-                    builder: (context) => AddComponent(),
+                    builder: (context) => AddComponent(id),
                   ));
                 },
                 child: Icon(Icons.add_circle_outline_sharp),
@@ -159,7 +156,6 @@ class _PageActivitiesState extends State<PageActivities> {
         leading: IconButton(icon: const Icon(Icons.play_arrow), onPressed: () {}),
       ));
     } else if (activity is Task) {
-      Task task = activity;
       // at the moment is the same, maybe changes in the future
       Widget trailing;
       trailing = Text(strDuration);

@@ -1,5 +1,8 @@
 package timetraking.test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import timetracking.firtsmilestone.api.Visitor;
@@ -9,10 +12,6 @@ import timetracking.firtsmilestone.core.Timer;
 import timetracking.firtsmilestone.impl.DemoTree;
 import timetracking.firtsmilestone.impl.JsonParser;
 import timetracking.firtsmilestone.impl.TreePrinter;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 
 public class FirstMilestoneTest {
   private final long timerClock = Timer.getInstance().getTimerMillisecondsPeriod();

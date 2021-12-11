@@ -38,10 +38,10 @@ Future<void> getNextId(int id) async {
   final response = await client.get(uri);
 }
 
-Future<void> addComponent(String Name, String tags, String type) async {
+Future<void> addComponent(String Name, String tags, String type, int fatherId) async {
   final String list_tags = tags.replaceAll(" ", "");
   var uri;
-  uri = type == "Task" ? uri = Uri.parse("$baseUrl/create_task?$list_tags&$Name&tags&$list_tags")
-      : uri = Uri.parse("$baseUrl/create_project?$list_tags&$Name&tags&$list_tags");
+  uri = type == "Task" ? uri = Uri.parse("$baseUrl/create_task?component_name=$Name&father_id=$fatherId&tags&$list_tags")
+      : uri = Uri.parse("$baseUrl/create_project?component_name=$Name&father_id=$fatherId&tags&$list_tags");
   final response = await client.get(uri);
 }

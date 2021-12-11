@@ -1,17 +1,12 @@
 package timetracking.firtsmilestone.core;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Observable;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.text.DateFormatter;
 /* This class gets the execution time of each Component
  * (see "Component" class for further detail), the time
  * it's been started either the end of it, and notifies

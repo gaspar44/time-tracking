@@ -7,7 +7,11 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.core.Timer;
@@ -156,7 +160,7 @@ public class JsonParserTest {
     JSONObject rootJsonProject = root.toJson(1);
     JSONArray jsonComponents = rootJsonProject.getJSONArray(JsonKeys.COMPONENT_KEY);
 
-    for (int i = 0; i < jsonComponents.length(); i ++) {
+    for (int i = 0; i < jsonComponents.length(); i++) {
       JSONObject component = jsonComponents.getJSONObject(i);
       try {
         JSONArray subComponents = component.getJSONArray(JsonKeys.COMPONENT_KEY);

@@ -92,7 +92,7 @@ class _PageIntervalsState extends State<PageIntervals> {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute<void>(
-                  builder: (context) => AddComponent(),
+                  builder: (context) => AddComponent(id),
                 ));
               },
               child: Icon(Icons.add_circle_outline_sharp),

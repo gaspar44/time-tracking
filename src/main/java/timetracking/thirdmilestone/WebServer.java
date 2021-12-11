@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import org.slf4j.Logger;
@@ -136,16 +137,6 @@ public class WebServer {
           body = component.toJson(1).toString();
           break;
         }
-        
-        case "change_current": {
-          logger.debug("entry point: change_current");
-          int id = Integer.parseInt(tokens[1]);
-          Component component = findComponentById(id);
-          assert (component != null);
-          active = component;
-          body = component.toJson(1).toString();
-          break;
-        }
 
         case "start": {
           logger.debug("entry point: start");
@@ -178,13 +169,13 @@ public class WebServer {
 
         case "create_task": {
           logger.debug("entry point: create_task");
-          body = createTaskOrComponent(ComponentType.TASK, tokens);
+          body = createComponent(ComponentType.TASK, tokens);
           break;
         }
 
         case "create_project": {
           logger.debug("entry_point: create_project");
-          body = createTaskOrComponent(ComponentType.PROJECT, tokens);
+          body = createComponent(ComponentType.PROJECT, tokens);
           break;
         }
 
@@ -195,22 +186,59 @@ public class WebServer {
       return body;
     }
 
-    private String createTaskOrComponent(ComponentType type, String[] tokens) {
+    private String createComponent(ComponentType type, String[] tokens) {
+      String componentName = null;
+      int fatherId = 0;
+      List<String> tags = null;
+      // Parsing HTTP parameters
+      for (int i = 1; i < tokens.length; i++) {
+        if (tokens[i] != null) {
+          switch (tokens[i]) {
+            case "component_name": {
+              componentName = tokens[i + 1];
+              logger.trace("component_name {}", componentName);
+              i++;
+              break;
+            }
+
+            case "father_id": {
+              fatherId = Integer.parseInt(tokens [i + 1]);
+              logger.trace("father_id: {}", fatherId);
+              i++;
+              break;
+            }
+
+            case "tags": {
+              tags = List.of(tokens[i + 1].split(","));
+              logger.debug("tags found");
+              i++;
+              break;
+            }
+
+            default:
+              break;
+          }
+        }
+      }
+
       Component component;
-      String componentName = tokens[2];
+      Project father = (Project) root.findComponentById(fatherId);
+
       if (type.equals(ComponentType.TASK)) {
-        component = new Task(componentName, (Project) active);
+        logger.debug("creating Task");
+        component = new Task(componentName, father);
       } else if (type.equals(ComponentType.PROJECT)) {
-        component = new Project(componentName, (Project) active);
+        logger.debug("creating project");
+        component = new Project(componentName, father);
       } else {
         return null;
       }
 
-      if (tokens[3] != null && tokens[3].equals("tags") && tokens[4] != null) {
-        List<String> tags = List.of(tokens[4].split(","));
-        component.setTags(tags);
+      if (tags == null) {
+        tags = new ArrayList<>();
       }
 
+      component.setTags(tags);
       return component.toJson().toString();
     }
 
