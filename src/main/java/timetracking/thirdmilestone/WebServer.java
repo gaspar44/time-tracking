@@ -7,14 +7,19 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import timetracking.firtsmilestone.core.Component;
 import timetracking.firtsmilestone.core.Project;
 import timetracking.firtsmilestone.core.Task;
 import timetracking.firtsmilestone.impl.DemoTree;
+import timetracking.secondmilestone.impl.TagSearcher;
 
 
 // Based on
@@ -176,6 +181,31 @@ public class WebServer {
         case "create_project": {
           logger.debug("entry_point: create_project");
           body = createComponent(ComponentType.PROJECT, tokens);
+          break;
+        }
+
+        case "search_by_tag": {
+          logger.debug("entry_point: search_by_tag");
+
+          List<String> tagsToSearch = Arrays.asList(tokens[1]);
+          TagSearcher searcher = new TagSearcher(tagsToSearch);
+
+          root.acceptVisitor(searcher);
+          List<Component> obtainedResults = searcher.getMatchedComponents();
+
+          JSONObject json = new JSONObject();
+          JSONArray array = new JSONArray();
+
+          for (Component obtainedResult : obtainedResults) {
+            array.put(obtainedResult.toJson());
+          }
+
+          json.put("results", array);
+          body = json.toString();
+
+          logger.debug("BODY: "+ body );
+
+
           break;
         }
 

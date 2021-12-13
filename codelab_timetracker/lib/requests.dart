@@ -45,3 +45,14 @@ Future<void> addComponent(String Name, String tags, String type, int fatherId) a
       : uri = Uri.parse("$baseUrl/create_project?component_name=$Name&father_id=$fatherId&tags&$list_tags");
   final response = await client.get(uri);
 }
+
+Future<void> searchTags(String tag) async {
+
+  var uri = Uri.parse("$baseUrl/search_by_tag?$tag");
+  final response = await client.get(uri);
+
+
+
+
+
+}

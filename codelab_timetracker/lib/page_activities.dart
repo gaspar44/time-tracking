@@ -1,4 +1,5 @@
 import 'package:codelab_timetracker/add_component.dart';
+import 'package:codelab_timetracker/search_by_tag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +77,14 @@ class _PageActivitiesState extends State<PageActivities> {
                     ));
                   }),
 
-                  IconButton(icon: const Icon(Icons.manage_search), onPressed: () {})
-                  //TODO other actions
+                  IconButton(icon: const Icon(Icons.manage_search), onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute<void>(
+                      builder: (context) => searchByTag(),
+                    ));
+                  }
+                  )
+
                 ],
               ),
 
@@ -149,7 +156,7 @@ class _PageActivitiesState extends State<PageActivities> {
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
       return (ListTile(
-        title: Text(activity.name),
+        title: Text(activity.name + ' - Project'),
         trailing: Text(strDuration),
         onTap: () => _navigateDownActivities(activity.id),
 
@@ -160,7 +167,7 @@ class _PageActivitiesState extends State<PageActivities> {
       Widget trailing;
       trailing = Text(strDuration);
       return ListTile(
-        title: ((Text(activity.name))
+        title: ((Text(activity.name  + ' - Task'))
         ),
 
         trailing: trailing,

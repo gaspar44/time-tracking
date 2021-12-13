@@ -66,7 +66,6 @@ class _AddComponentState extends State<AddComponent> {
                         onChanged: (value) {
                           setState(() {
                             _nameOfComponent = value;
-                            print(_nameOfComponent);
                           });
                         },
                         validator: (value) {
@@ -97,7 +96,6 @@ class _AddComponentState extends State<AddComponent> {
                       onChanged: (value) {
                               setState(() {
                                 _associatedTags = value;
-                            print(_associatedTags);
                         });
                       },
 
