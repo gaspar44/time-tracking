@@ -11,7 +11,7 @@ public class DemoTree {
   private final Project softwareDesign;
   private final Project softwareTesting;
   private final Project dataBase;
-  private final Task transPortation;
+  private final Task transportation;
   private final Project problems;
   private final Project projectTimeTracke;
 
@@ -27,8 +27,8 @@ public class DemoTree {
     rootProject = new Project("root", null);
     softwareDesign = new Project("software design", rootProject, "java", "flutter");
     softwareTesting = new Project("software testing", rootProject, "c++", "Java", "python");
-    dataBase = new Project("dataBasse", rootProject, "SQL", "python", "C++");
-    transPortation = new Task("task transportation", rootProject);
+    dataBase = new Project("dataBase", rootProject, "SQL", "python", "C++");
+    transportation = new Task("transportation", rootProject);
 
     problems = new Project("problems", softwareDesign);
     projectTimeTracke = new Project("time tracker", softwareDesign);
@@ -56,8 +56,8 @@ public class DemoTree {
     return dataBase;
   }
 
-  public Task getTransPortation() {
-    return transPortation;
+  public Task getTransportation() {
+    return transportation;
   }
 
   public Project getProblems() {

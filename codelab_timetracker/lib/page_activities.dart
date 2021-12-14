@@ -1,4 +1,5 @@
 import 'package:codelab_timetracker/add_component.dart';
+import 'package:codelab_timetracker/project_intervals.dart';
 import 'package:codelab_timetracker/search_by_tag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
@@ -60,7 +61,7 @@ class _PageActivitiesState extends State<PageActivities> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Inicio'), //Cambiado tree.root.name
+                title: Text('Home'), //Cambiado tree.root.name
                 actions: <Widget>[
                   IconButton(icon: const Icon(Icons.home),
                       onPressed: () {
@@ -147,6 +148,17 @@ class _PageActivitiesState extends State<PageActivities> {
     });
   }
 
+  void _navigateDownProjectIntervals(int projectID) {
+    //_timer.cancel();
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(
+      builder: (context) => ProjectIntervals(projectID),
+    ));/*.then((var value) {
+      _activateTimer();
+      _refresh();
+    });*/
+  }
+
 
   Widget _buildRow(Component activity, int index) {
     String strDuration = Duration(seconds: activity.duration)
@@ -159,6 +171,12 @@ class _PageActivitiesState extends State<PageActivities> {
         title: Text(activity.name + ' - Project'),
         trailing: Text(strDuration),
         onTap: () => _navigateDownActivities(activity.id),
+        leading: IconButton(
+          icon: const Icon(Icons.info),
+          onPressed: () {
+            _navigateDownProjectIntervals(activity.id);
+            },
+        ),
       ));
     } else if (activity is Task) {
       // at the moment is the same, maybe changes in the future
@@ -170,7 +188,6 @@ class _PageActivitiesState extends State<PageActivities> {
 
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
-//() => activity.active = !(activity).active
         leading: IconButton(
             icon: Icon((activity).active ? Icons.pause : Icons.play_arrow),
             onPressed: () {

@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:codelab_timetracker/page_activities.dart';
@@ -5,20 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 
-import 'add_component.dart';
-
-
-class PageIntervals extends StatefulWidget {
+class ProjectIntervals extends StatefulWidget {
   final int id;
 
-  PageIntervals(this.id);
+  ProjectIntervals(this.id);
+
+
   @override
-  _PageIntervalsState createState() => _PageIntervalsState();
-
-
+  _ProjectIntervalsState createState() => _ProjectIntervalsState();
 }
 
-class _PageIntervalsState extends State<PageIntervals> {
+class _ProjectIntervalsState extends State<ProjectIntervals> {
   late int id;
   late Future<Tree.Tree> futureTree;
   late Timer _timer;
@@ -66,7 +64,7 @@ class _PageIntervalsState extends State<PageIntervals> {
             appBar: AppBar(
               title: Text('Time intervals of ' + snapshot.data!.root.name),
               actions: <Widget>[
-                IconButton(icon: Icon(Icons.home),
+                IconButton(icon: const Icon(Icons.home),
                     onPressed: () {
                       while(Navigator.of(context).canPop()) {
                         print("pop");
@@ -84,18 +82,9 @@ class _PageIntervalsState extends State<PageIntervals> {
               padding: const EdgeInsets.all(16.0),
               itemCount: numChildren,
               itemBuilder: (BuildContext context, int index) =>
-                  _buildRow(snapshot.data!.root.children[index], index),
+                  _buildRow(snapshot.data!.root),
               separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute<void>(
-                  builder: (context) => AddComponent(id),
-                ));
-              },
-              child: Icon(Icons.add_circle_outline_sharp),
             ),
           );
         } else if (snapshot.hasError) {
@@ -111,14 +100,17 @@ class _PageIntervalsState extends State<PageIntervals> {
       },
     );
   }
-  Widget _buildRow(Tree.Interval interval, int index) {
-    String strDuration = Duration(seconds: interval.duration)
+  Widget _buildRow(Tree.Component component) {
+    if (component.duration == 0) {
+      return ListTile();
+    }
+    String strDuration = Duration(seconds: component.duration)
         .toString()
         .split('.')
         .first;
-    String strInitialDate = interval.initialDate.toString().split('.')[0];
+    String strInitialDate = component.initialDate.toString().split('.')[0];
     // this removes the microseconds part
-    String strFinalDate = interval.finalDate.toString().split('.')[0];
+    String strFinalDate = component.finalDate.toString().split('.')[0];
     return ListTile(
       title: Text('from  $strInitialDate \n to      $strFinalDate'),
       trailing: Text(strDuration),

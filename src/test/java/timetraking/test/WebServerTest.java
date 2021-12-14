@@ -52,7 +52,7 @@ public class WebServerTest {
 
   @Test
   public void startTaskTest() throws Exception {
-    String idToSearch = String.valueOf(demoTree.getTransPortation().getId());
+    String idToSearch = String.valueOf(demoTree.getTransportation().getId());
     HttpResponse<String> response = templateRequest(getTree, idToSearch);
 
     Assertions.assertNotNull(response.body());

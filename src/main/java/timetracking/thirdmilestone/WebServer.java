@@ -187,7 +187,7 @@ public class WebServer {
         case "search_by_tag": {
           logger.debug("entry_point: search_by_tag");
 
-          List<String> tagsToSearch = Arrays.asList(tokens[1]);
+          List<String> tagsToSearch = List.of(tokens[1]);
           TagSearcher searcher = new TagSearcher(tagsToSearch);
 
           root.acceptVisitor(searcher);
@@ -203,7 +203,7 @@ public class WebServer {
           json.put("results", array);
           body = json.toString();
 
-          logger.debug("BODY: "+ body );
+          logger.debug("BODY: " + body);
 
 
           break;
@@ -212,6 +212,7 @@ public class WebServer {
         default:
           assert false;
       }
+
       logger.trace(body);
       return body;
     }

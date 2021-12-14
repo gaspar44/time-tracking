@@ -49,7 +49,7 @@ public class IdSearcherTest {
 
   @Test
   public void searchForTaskTest() {
-    Task transPortation = demoTree.getTransPortation();
+    Task transPortation = demoTree.getTransportation();
     int expectedId = transPortation.getId();
     Component foundComponent = demoTree.getRootProject().findComponentById(expectedId);
     Assertions.assertEquals(foundComponent, transPortation);

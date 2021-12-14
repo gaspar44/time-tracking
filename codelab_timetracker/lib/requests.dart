@@ -60,12 +60,9 @@ Future<void> searchTags(String tag) async {
 
   print(decoded['results']);
 
-
   for( var i = 0; i < decoded['results']; i ++)
   {
     print(decoded['results'][i]['name']);
   }
-
-
 
 }

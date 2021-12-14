@@ -34,7 +34,7 @@ public class TagSearcherTest {
     softwareDesign = demoTree.getSoftwareDesign();
     softwareTesting = demoTree.getSoftwareTesting();
     dataBase = demoTree.getDataBase();
-    transPortation = demoTree.getTransPortation();
+    transPortation = demoTree.getTransportation();
 
     problems = demoTree.getProblems();
     projectTimeTracke = demoTree.getProjectTimeTracke();

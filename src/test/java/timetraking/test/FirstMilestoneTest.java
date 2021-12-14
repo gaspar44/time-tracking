@@ -28,7 +28,7 @@ public class FirstMilestoneTest {
 
     // make a small tree of projects and tasks
     DemoTree demoTree = new DemoTree();
-    Task transportation = demoTree.getTransPortation();
+    Task transportation = demoTree.getTransportation();
 
     final Task firtslist = demoTree.getFirtslist();
     final Task secondList = demoTree.getSecondList();
