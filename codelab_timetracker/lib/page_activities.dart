@@ -159,8 +159,6 @@ class _PageActivitiesState extends State<PageActivities> {
         title: Text(activity.name + ' - Project'),
         trailing: Text(strDuration),
         onTap: () => _navigateDownActivities(activity.id),
-
-        leading: IconButton(icon: const Icon(Icons.play_arrow), onPressed: () {}),
       ));
     } else if (activity is Task) {
       // at the moment is the same, maybe changes in the future
@@ -172,19 +170,21 @@ class _PageActivitiesState extends State<PageActivities> {
 
         trailing: trailing,
         onTap: () => _navigateDownIntervals(activity.id),
+//() => activity.active = !(activity).active
+        leading: IconButton(
+            icon: Icon((activity).active ? Icons.pause : Icons.play_arrow),
+            onPressed: () {
+              if ((activity).active) {
+                stop(activity.id);
+                _refresh();
+              }else{
+                start(activity.id);
+                _refresh();
+              }
+            }
+            ),
+            );
 
-        leading: IconButton(icon: icono, onPressed: () {
-          if ((activity).active) {
-            icono = const Icon(Icons.play_arrow);
-            stop(activity.id);
-            _refresh();
-          } else {
-            icono = const Icon(Icons.stop);
-            start(activity.id);
-            _refresh();
-          }
-        }),
-      );
     } else {
       throw(Exception("Activity that is neither a Task or a Project"));
       // this solves the problem of return Widget is not nullable because an

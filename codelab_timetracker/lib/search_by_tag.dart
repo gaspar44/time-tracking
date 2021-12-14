@@ -46,6 +46,7 @@ class _searchByTagState extends State<searchByTag> {
                       onChanged: (value) {
                         setState(() {
                           _tagToSearch = value;
+                          searchTags(_tagToSearch);
                         });
                       },
 
@@ -54,8 +55,6 @@ class _searchByTagState extends State<searchByTag> {
               ],
             ),
 
-
-           // Text(searchTags(_tagToSearch));
 
 
 
@@ -68,8 +67,7 @@ class _searchByTagState extends State<searchByTag> {
       ),
 
 
-
-      floatingActionButton:FloatingActionButton.extended(
+        floatingActionButton:FloatingActionButton.extended(
         onPressed: () {
           searchTags(_tagToSearch);
         },
@@ -80,19 +78,5 @@ class _searchByTagState extends State<searchByTag> {
     );
   }
 
-  Widget _buildRow(Component activity){ //podria faltar index
-    String strDuration = Duration(seconds: activity.duration)
-        .toString()
-        .split('.')
-        .first;
-    // split by '.' and taking first element of resulting list removes the microseconds part
-      return (ListTile(
-        title: Text(activity.name + ' - Project'),
-        trailing: Text(strDuration),
-        onTap: () => {},
 
-        leading: IconButton(
-            icon: const Icon(Icons.play_arrow), onPressed: () {}),
-      ));
-  }
 }

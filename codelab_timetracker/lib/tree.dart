@@ -66,6 +66,9 @@ class Task extends Component {
       children.add(Interval.fromJson(jsonChild));
     }
   }
+
+
+
 }
 
 
@@ -84,6 +87,8 @@ class Interval {
     return '${initialDate}';
   }
 }
+
+
 
 class Tree {
   late Component root;
