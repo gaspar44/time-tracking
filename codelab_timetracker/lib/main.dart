@@ -1,7 +1,10 @@
+import 'package:codelab_timetracker/locale_changer.dart';
 import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'page_intervals.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -17,8 +20,19 @@ class MyApp extends StatelessWidget {
             subtitle1: TextStyle(fontSize: 20.0),
             bodyText2: TextStyle(fontSize: 20.0)),
       ),
-
       home: PageActivities(0),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        LocaleChanger(),
+      ],
+      supportedLocales: const [
+        Locale("es",""),
+        Locale("en","")
+      ],
+
     );
   }
 }

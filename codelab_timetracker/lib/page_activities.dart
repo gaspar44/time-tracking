@@ -5,6 +5,9 @@ import 'package:codelab_timetracker/tree.dart' hide getTree;
 import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'page_intervals.dart';
 import 'formulario.dart';
@@ -61,7 +64,7 @@ class _PageActivitiesState extends State<PageActivities> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Home'), //Cambiado tree.root.name
+                title: Text(AppLocalizations.of(context).helloWorld), //Cambiado tree.root.name
                 actions: <Widget>[
                   IconButton(icon: const Icon(Icons.home),
                       onPressed: () {
@@ -77,6 +80,8 @@ class _PageActivitiesState extends State<PageActivities> {
                       builder: (context) => RegisterPage(),
                     ));
                   }),
+                  IconButton(icon: const Icon(Icons.language),
+                    onPressed: locale,),
 
                   IconButton(icon: const Icon(Icons.manage_search), onPressed: () {
                     Navigator.of(context)
