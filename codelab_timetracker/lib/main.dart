@@ -6,6 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'generated/l10n.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -22,17 +24,14 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 20.0)),
       ),
       home: PageActivities(0),
-      locale: LocaleChanger().getLocale(),
+      locale: Locale("es"),
       localizationsDelegates: const [
-        AppLocalizations.delegate,
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale("es",""),
-        Locale("en","")
-      ],
+      supportedLocales: S.delegate.supportedLocales,
     );
   }
 }
