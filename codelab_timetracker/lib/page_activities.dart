@@ -1,17 +1,17 @@
+import 'dart:async';
+
 import 'package:codelab_timetracker/add_component.dart';
-import 'package:codelab_timetracker/locale_changer.dart';
 import 'package:codelab_timetracker/project_intervals.dart';
+import 'package:codelab_timetracker/requests.dart';
 import 'package:codelab_timetracker/search_by_tag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
-import 'package:codelab_timetracker/requests.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/src/provider.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'page_intervals.dart';
 import 'formulario.dart';
+import 'generated/l10n.dart';
+import 'locale_changer.dart';
+import 'page_intervals.dart';
 
 class PageActivities extends StatefulWidget {
   final int id;
@@ -26,7 +26,8 @@ class _PageActivitiesState extends State<PageActivities> {
   late int id;
   late Future<Tree> futureTree;
   late Timer _timer;
-  LocaleChanger localeChanger = new LocaleChanger();
+  final _LocaleController = TextEditingController();
+  Locale _userLocale = Locale("es");
   static const int periodicRefresh = 2;
   Icon icono = Icon(Icons.play_arrow);
 
@@ -35,6 +36,16 @@ class _PageActivitiesState extends State<PageActivities> {
       futureTree = getTree(id);
       setState(() {});
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    final newLocale = Localizations.localeOf(context);
+
+    if (newLocale != _userLocale) {
+      _LocaleController.clear();
+
+    }
   }
 
   void _refresh() async {
@@ -66,7 +77,7 @@ class _PageActivitiesState extends State<PageActivities> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(AppLocalizations.of(context).helloWorld), //Cambiado tree.root.name
+                title: Text(S.of(context).helloWorld), //Cambiado tree.root.name
                 actions: <Widget>[
                   IconButton(icon: const Icon(Icons.home),
                       onPressed: () {
@@ -83,7 +94,7 @@ class _PageActivitiesState extends State<PageActivities> {
                     ));
                   }),
                   IconButton(icon: const Icon(Icons.language), onPressed: () {
-                    localeChanger.changeLanguage(context);
+                    context.read<LocaleChanger>().changeLocale();
                   },),
 
                   IconButton(icon: const Icon(Icons.manage_search), onPressed: () {

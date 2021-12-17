@@ -1,15 +1,13 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-class LocaleChanger {
-  Locale _actualLocale = Locale("es");
 
-  void changeLanguage(BuildContext context) {
-    String actual = Localizations.localeOf(context).toString();
+class LocaleChanger with ChangeNotifier {
+  Locale _currentLocale = new Locale("es");
+  Locale get locale => _currentLocale;
 
-    _actualLocale = Locale("en");
-  }
+  void changeLocale() {
+    _currentLocale = _currentLocale.languageCode.toString() == "es"
+        ? Locale("en") : Locale("es");
 
-  Locale getLocale(){
-    return _actualLocale;
+    notifyListeners();
   }
 }
