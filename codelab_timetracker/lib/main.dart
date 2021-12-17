@@ -1,3 +1,4 @@
+//import 'package:codelab_timetracker/locale_changer.txt';
 import 'package:codelab_timetracker/locale_changer.dart';
 import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
@@ -21,18 +22,17 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(fontSize: 20.0)),
       ),
       home: PageActivities(0),
+      locale: LocaleChanger().getLocale(),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        LocaleChanger(),
       ],
       supportedLocales: const [
         Locale("es",""),
         Locale("en","")
       ],
-
     );
   }
 }

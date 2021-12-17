@@ -1,4 +1,5 @@
 import 'package:codelab_timetracker/add_component.dart';
+import 'package:codelab_timetracker/locale_changer.dart';
 import 'package:codelab_timetracker/project_intervals.dart';
 import 'package:codelab_timetracker/search_by_tag.dart';
 import 'package:codelab_timetracker/tree.dart' hide getTree;
@@ -25,6 +26,7 @@ class _PageActivitiesState extends State<PageActivities> {
   late int id;
   late Future<Tree> futureTree;
   late Timer _timer;
+  LocaleChanger localeChanger = new LocaleChanger();
   static const int periodicRefresh = 2;
   Icon icono = Icon(Icons.play_arrow);
 
@@ -80,8 +82,9 @@ class _PageActivitiesState extends State<PageActivities> {
                       builder: (context) => RegisterPage(),
                     ));
                   }),
-                  IconButton(icon: const Icon(Icons.language),
-                    onPressed: locale,),
+                  IconButton(icon: const Icon(Icons.language), onPressed: () {
+                    localeChanger.changeLanguage(context);
+                  },),
 
                   IconButton(icon: const Icon(Icons.manage_search), onPressed: () {
                     Navigator.of(context)

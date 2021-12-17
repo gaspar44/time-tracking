@@ -1,22 +1,15 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+class LocaleChanger {
+  Locale _actualLocale = Locale("es");
 
-class LocaleChanger  {
-  static Future<LocaleChanger> load(Locale locale) {
-    final String name = locale.countryCode!.isEmpty
-        ? locale.languageCode
-        : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
+  void changeLanguage(BuildContext context) {
+    String actual = Localizations.localeOf(context).toString();
 
-    return initializeMessages(localeName).then((b) {
-      Intl.defaultLocale = localeName;
-      return new MyLocalizations();
-    });
+    _actualLocale = Locale("en");
   }
 
-  static MyLocalizations of(BuildContext context) {
-    return Localizations.of<MyLocalizations>(context, MyLocalizations);
+  Locale getLocale(){
+    return _actualLocale;
   }
-
-  static initializeMessages(String localeName) {}
 }
