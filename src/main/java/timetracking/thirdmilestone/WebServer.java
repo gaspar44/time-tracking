@@ -7,10 +7,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -164,6 +162,7 @@ public class WebServer {
           body = "{}";
           break;
         }
+
         case "reset_demo": {
           logger.debug("reset to demo environment");
           DemoTree demo = new DemoTree();
@@ -204,8 +203,6 @@ public class WebServer {
           body = json.toString();
 
           logger.debug("BODY: " + body);
-
-
           break;
         }
 

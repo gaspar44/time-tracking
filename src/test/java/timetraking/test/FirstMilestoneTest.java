@@ -22,7 +22,6 @@ public class FirstMilestoneTest {
     Files.deleteIfExists(file.toPath());
   }
 
-
   @Test
   public void appendixB() throws Exception {
 
