@@ -1,10 +1,8 @@
-//import 'package:codelab_timetracker/locale_changer.txt';
 import 'package:codelab_timetracker/locale_changer.dart';
 import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return MaterialApp(
-            title: 'TimeTracker',
+            title: 'Time Tracker',
             theme: ThemeData(
               primarySwatch: Colors.blue,
               textTheme: const TextTheme(

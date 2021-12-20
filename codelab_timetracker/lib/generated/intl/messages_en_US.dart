@@ -22,6 +22,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "helloWorld": MessageLookupByLibrary.simpleMessage("Hello!")
+        "add_component_create": MessageLookupByLibrary.simpleMessage("create"),
+        "add_component_hint_text": MessageLookupByLibrary.simpleMessage(
+            "Write tags separated by \',\'"),
+        "add_component_invalid_value_message":
+            MessageLookupByLibrary.simpleMessage("Please enter some name."),
+        "add_component_name": MessageLookupByLibrary.simpleMessage("Name: "),
+        "add_component_select_type":
+            MessageLookupByLibrary.simpleMessage("Select the type: \'"),
+        "add_component_tags":
+            MessageLookupByLibrary.simpleMessage("Associated Tags: "),
+        "add_component_title":
+            MessageLookupByLibrary.simpleMessage("Add Project or Task"),
+        "home_title": MessageLookupByLibrary.simpleMessage("Home"),
+        "page_intervals_from": MessageLookupByLibrary.simpleMessage("from "),
+        "page_intervals_time_intervals":
+            MessageLookupByLibrary.simpleMessage("Time intervals of "),
+        "page_intervals_to": MessageLookupByLibrary.simpleMessage("to "),
+        "search_by_tag_app_text":
+            MessageLookupByLibrary.simpleMessage("Searcher by tag"),
+        "search_by_tag_hint_text": MessageLookupByLibrary.simpleMessage("Tag"),
+        "search_by_tag_search_button_text":
+            MessageLookupByLibrary.simpleMessage("Search"),
+        "search_by_tag_write_text":
+            MessageLookupByLibrary.simpleMessage("Write a tag: ")
       };
 }

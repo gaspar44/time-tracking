@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

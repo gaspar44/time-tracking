@@ -50,11 +50,151 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `¡Hola Mundo!`
-  String get helloWorld {
+  /// `Inicio`
+  String get home_title {
     return Intl.message(
-      '¡Hola Mundo!',
-      name: 'helloWorld',
+      'Inicio',
+      name: 'home_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `crear`
+  String get add_component_create {
+    return Intl.message(
+      'crear',
+      name: 'add_component_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Agregar Proyecto o Tarea`
+  String get add_component_title {
+    return Intl.message(
+      ' Agregar Proyecto o Tarea',
+      name: 'add_component_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seleccionar tipo`
+  String get add_component_select_type {
+    return Intl.message(
+      'Seleccionar tipo',
+      name: 'add_component_select_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nombre : `
+  String get add_component_name {
+    return Intl.message(
+      'Nombre : ',
+      name: 'add_component_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Por favor, ingrese un nombre.`
+  String get add_component_invalid_value_message {
+    return Intl.message(
+      'Por favor, ingrese un nombre.',
+      name: 'add_component_invalid_value_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Etiquetas asociadas`
+  String get add_component_tags {
+    return Intl.message(
+      'Etiquetas asociadas',
+      name: 'add_component_tags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Etiquetas separadas por ,`
+  String get add_component_hint_text {
+    return Intl.message(
+      'Etiquetas separadas por ,',
+      name: 'add_component_hint_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Intervalos de  `
+  String get page_intervals_time_intervals {
+    return Intl.message(
+      'Intervalos de  ',
+      name: 'page_intervals_time_intervals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `desde `
+  String get page_intervals_from {
+    return Intl.message(
+      'desde ',
+      name: 'page_intervals_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hasta `
+  String get page_intervals_to {
+    return Intl.message(
+      'hasta ',
+      name: 'page_intervals_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Búsqueda por etiqueta`
+  String get search_by_tag_app_text {
+    return Intl.message(
+      'Búsqueda por etiqueta',
+      name: 'search_by_tag_app_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Escriba una etiqueta: `
+  String get search_by_tag_write_text {
+    return Intl.message(
+      'Escriba una etiqueta: ',
+      name: 'search_by_tag_write_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Etiqueta`
+  String get search_by_tag_hint_text {
+    return Intl.message(
+      'Etiqueta',
+      name: 'search_by_tag_hint_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buscar`
+  String get search_by_tag_search_button_text {
+    return Intl.message(
+      'Buscar',
+      name: 'search_by_tag_search_button_text',
       desc: '',
       args: [],
     );

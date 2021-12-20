@@ -1,3 +1,17 @@
 {
-    "helloWorld": "¡Hola Mundo!"
+    "home_title": "Inicio",
+    "add_component_create": "crear",
+    "add_component_title" :" Agregar Proyecto o Tarea",
+    "add_component_select_type" : "Seleccionar tipo",
+    "add_component_name" : "Nombre : ",
+    "add_component_invalid_value_message" : "Por favor, ingrese un nombre.",
+    "add_component_tags" : "Etiquetas asociadas",
+    "add_component_hint_text" : "Etiquetas separadas por ,",
+    "page_intervals_time_intervals" : "Intervalos de  ",
+    "page_intervals_from": "desde ",
+    "page_intervals_to": "hasta ",
+    "search_by_tag_app_text" : "Búsqueda por etiqueta",
+    "search_by_tag_write_text" : "Escriba una etiqueta: ",
+    "search_by_tag_hint_text": "Etiqueta",
+    "search_by_tag_search_button_text" : "Buscar"
 }

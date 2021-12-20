@@ -5,12 +5,12 @@ import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
+import 'generated/l10n.dart';
 
 class ProjectIntervals extends StatefulWidget {
   final int id;
 
   ProjectIntervals(this.id);
-
 
   @override
   _ProjectIntervalsState createState() => _ProjectIntervalsState();
@@ -62,7 +62,7 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
           int numChildren = snapshot.data!.root.children.length;
           return Scaffold(
             appBar: AppBar(
-              title: Text('Time intervals of ' + snapshot.data!.root.name),
+              title: Text(S.of(context).page_intervals_time_intervals + snapshot.data!.root.name),
               actions: <Widget>[
                 IconButton(icon: const Icon(Icons.home),
                     onPressed: () {
@@ -112,7 +112,10 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
     // this removes the microseconds part
     String strFinalDate = component.finalDate.toString().split('.')[0];
     return ListTile(
-      title: Text('from  $strInitialDate \n to      $strFinalDate'),
+      title: Text(
+          S.of(context).page_intervals_from + strInitialDate + "\n" +
+              S.of(context).page_intervals_to + strFinalDate
+      ),
       trailing: Text(strDuration),
     );
   }

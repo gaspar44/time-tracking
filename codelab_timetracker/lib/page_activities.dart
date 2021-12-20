@@ -77,7 +77,7 @@ class _PageActivitiesState extends State<PageActivities> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(S.of(context).helloWorld), //Cambiado tree.root.name
+                title: Text(S.of(context).home_title), //Cambiado tree.root.name
                 actions: <Widget>[
                   IconButton(icon: const Icon(Icons.home),
                       onPressed: () {

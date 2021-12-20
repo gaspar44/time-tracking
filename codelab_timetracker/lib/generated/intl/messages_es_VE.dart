@@ -22,6 +22,31 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "helloWorld": MessageLookupByLibrary.simpleMessage("¡Hola Mundo!")
+        "add_component_create": MessageLookupByLibrary.simpleMessage("crear"),
+        "add_component_hint_text":
+            MessageLookupByLibrary.simpleMessage("Etiquetas separadas por ,"),
+        "add_component_invalid_value_message":
+            MessageLookupByLibrary.simpleMessage(
+                "Por favor, ingrese un nombre."),
+        "add_component_name": MessageLookupByLibrary.simpleMessage("Nombre : "),
+        "add_component_select_type":
+            MessageLookupByLibrary.simpleMessage("Seleccionar tipo"),
+        "add_component_tags":
+            MessageLookupByLibrary.simpleMessage("Etiquetas asociadas"),
+        "add_component_title":
+            MessageLookupByLibrary.simpleMessage(" Agregar Proyecto o Tarea"),
+        "home_title": MessageLookupByLibrary.simpleMessage("Inicio"),
+        "page_intervals_from": MessageLookupByLibrary.simpleMessage("desde "),
+        "page_intervals_time_intervals":
+            MessageLookupByLibrary.simpleMessage("Intervalos de  "),
+        "page_intervals_to": MessageLookupByLibrary.simpleMessage("hasta "),
+        "search_by_tag_app_text":
+            MessageLookupByLibrary.simpleMessage("Búsqueda por etiqueta"),
+        "search_by_tag_hint_text":
+            MessageLookupByLibrary.simpleMessage("Etiqueta"),
+        "search_by_tag_search_button_text":
+            MessageLookupByLibrary.simpleMessage("Buscar"),
+        "search_by_tag_write_text":
+            MessageLookupByLibrary.simpleMessage("Escriba una etiqueta: ")
       };
 }

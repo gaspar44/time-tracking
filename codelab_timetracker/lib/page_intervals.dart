@@ -4,6 +4,7 @@ import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
+import 'generated/l10n.dart';
 
 import 'add_component.dart';
 
@@ -26,7 +27,7 @@ class _PageIntervalsState extends State<PageIntervals> {
   late Tree.Tree tree;
 
   void _activateTimer() {
-    _timer = Timer.periodic(Duration(seconds: periodicRefresh), (Timer t) {
+    _timer = Timer.periodic(const Duration(seconds: periodicRefresh), (Timer t) {
       futureTree = getTree(id);
       setState(() {});
     });
@@ -64,7 +65,7 @@ class _PageIntervalsState extends State<PageIntervals> {
           int numChildren = snapshot.data!.root.children.length;
           return Scaffold(
             appBar: AppBar(
-              title: Text('Time intervals of ' + snapshot.data!.root.name),
+              title: Text(S.of(context).page_intervals_time_intervals + snapshot.data!.root.name),
               actions: <Widget>[
                 IconButton(icon: Icon(Icons.home),
                     onPressed: () {
@@ -120,7 +121,10 @@ class _PageIntervalsState extends State<PageIntervals> {
     // this removes the microseconds part
     String strFinalDate = interval.finalDate.toString().split('.')[0];
     return ListTile(
-      title: Text('from  $strInitialDate \n to      $strFinalDate'),
+      title: Text(
+          S.of(context).page_intervals_from + strInitialDate + "\n" +
+              S.of(context).page_intervals_to + strFinalDate
+  ),
       trailing: Text(strDuration),
     );
   }
