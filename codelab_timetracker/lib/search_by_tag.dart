@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'found_tags.dart';
 import 'generated/l10n.dart';
 
 class searchByTag extends StatefulWidget {
@@ -53,10 +54,15 @@ class _searchByTagState extends State<searchByTag> {
 
         floatingActionButton:FloatingActionButton.extended(
         onPressed: () {
-          searchTags(_tagToSearch);
+          Navigator.of(context)
+              .push(MaterialPageRoute<void>(
+            builder: (context) => TagsFounded(idFinal), //Meter ID DEL DECODED[RESULTS][0][ID]
+
+          )
+          );
         },
-        icon: const Icon(Icons.saved_search),
-        label: Text(S.of(context).search_by_tag_search_button_text),
+          icon: const Icon(Icons.saved_search),
+           label: Text(S.of(context).search_by_tag_search_button_text),
       ),
     );
   }

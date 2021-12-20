@@ -1,10 +1,11 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'tree.dart';
+import 'found_tags.dart';
 
 final http.Client client = http.Client();
 const String baseUrl = "http://10.0.2.2:8080";
-
+late int idFinal;
 
 Future<Tree> getTree(int id) async {
   var uri = Uri.parse("$baseUrl/get_tree?$id");
@@ -47,13 +48,15 @@ Future<void> addComponent(String Name, String tags, String type, int fatherId) a
   final response = await client.get(uri);
 }
 
-Future<void> searchTags(String tag) async {
+Future<Tree> searchTags(String tag) async {
   var uri = Uri.parse("$baseUrl/search_by_tag?$tag");
   final response = await client.get(uri);
-  Map<String, dynamic> decoded = convert.jsonDecode(response.body);
-  print(decoded['results']);
 
-  for( var i = 0; i < decoded['results']; i ++) {
-    print(decoded['results'][i]['name']);
-  }
+
+  Map<String, dynamic> decoded = convert.jsonDecode(response.body);
+
+  idFinal = decoded['results'][0]['ID'];
+
+  return Tree(decoded['results']);
+
 }

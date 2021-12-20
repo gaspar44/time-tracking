@@ -81,7 +81,7 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
             body: ListView.separated(
               // it's like ListView.builder() but better because it includes a separator between items
               padding: const EdgeInsets.all(16.0),
-              itemCount: numChildren,
+              itemCount: -1, //Revisar bien!
               itemBuilder: (BuildContext context, int index) =>
                   _buildRow(snapshot.data!.root),
               separatorBuilder: (BuildContext context, int index) =>
