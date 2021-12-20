@@ -4,6 +4,7 @@ import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
 import 'package:codelab_timetracker/tree.dart' as Tree hide getTree;
 import 'package:codelab_timetracker/requests.dart';
+import 'package:intl/intl.dart';
 import 'generated/l10n.dart';
 
 import 'add_component.dart';
@@ -117,9 +118,9 @@ class _PageIntervalsState extends State<PageIntervals> {
         .toString()
         .split('.')
         .first;
-    String strInitialDate = interval.initialDate.toString().split('.')[0];
-    // this removes the microseconds part
-    String strFinalDate = interval.finalDate.toString().split('.')[0];
+    String strInitialDate = parseTime(interval.initialDate);
+    String strFinalDate = parseTime(interval.finalDate);
+    
     return ListTile(
       title: Text(
           S.of(context).page_intervals_from + strInitialDate + "\n" +
@@ -127,5 +128,14 @@ class _PageIntervalsState extends State<PageIntervals> {
   ),
       trailing: Text(strDuration),
     );
+  }
+
+  String parseTime(DateTime? time) {
+    // All this unnecessary and ridiculous stuff is because the not nullable that is at bottom of the dart libraries.
+    DateFormat formatter = DateFormat.yMMMd();
+    String strInitialDateNullable = time.toString();
+    DateTime initialDate = DateTime.parse(strInitialDateNullable);
+    String strInitialDate = formatter.format(initialDate);
+    return strInitialDate;
   }
 }

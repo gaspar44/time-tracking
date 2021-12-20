@@ -48,19 +48,12 @@ Future<void> addComponent(String Name, String tags, String type, int fatherId) a
 }
 
 Future<void> searchTags(String tag) async {
-
-
   var uri = Uri.parse("$baseUrl/search_by_tag?$tag");
   final response = await client.get(uri);
-
-
   Map<String, dynamic> decoded = convert.jsonDecode(response.body);
-
   print(decoded['results']);
 
-  for( var i = 0; i < decoded['results']; i ++)
-  {
+  for( var i = 0; i < decoded['results']; i ++) {
     print(decoded['results'][i]['name']);
   }
-
 }
