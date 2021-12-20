@@ -1,8 +1,5 @@
 // see Serializing JSON inside model classes in
 // https://flutter.dev/docs/development/data-and-backend/json
-
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
 import 'dart:convert' as convert;
 
@@ -50,7 +47,6 @@ class Project extends Component {
   String toString() {
     return '${id}';
   }
-
 
   Future<String> getFather() async {
     return '${name}';

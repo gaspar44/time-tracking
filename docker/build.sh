@@ -3,10 +3,11 @@
 SCRIPT_DIR="$PWD/.."
 disable_compilation=false
 image_name="time_tracker"
+gradle_image=gradle:7.2.0-jdk11
 
 function print_usage() {
     echo "--disable-compilation         Stops from generating new binary"
-    echo "--help, -h                    Show this help and exits "
+    echo "--help, -h              docker run --rm -u gradle -v      Show this help and exits "
 }
 
 for arg in "$@"
@@ -29,7 +30,7 @@ done
 
 if ! ${disable_compilation} ; then
     echo "- Compiling"
-    docker run --rm -u gradle -v "${SCRIPT_DIR}":/home/gradle/project -w /home/gradle/project -ti gradle:7.2.0 gradle clean installDist
+    docker run --rm -u gradle -v "${SCRIPT_DIR}":/home/gradle/project -w /home/gradle/project -ti ${gradle_image} gradle clean installDist
 fi  
 
 ## Execution

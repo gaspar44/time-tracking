@@ -1,0 +1,17 @@
+{
+    "home_title": "Home",
+    "add_component_create": "create",
+    "add_component_title" : "Add Project or Task",
+    "add_component_select_type" : "Select the type: '",
+    "add_component_name" : "Name: ",
+    "add_component_invalid_value_message" : "Please enter some name.",
+    "add_component_tags" : "Associated Tags: ",
+    "add_component_hint_text" : "Write tags separated by ','",
+    "page_intervals_time_intervals" : "Time intervals of ",
+    "page_intervals_from": "from ",
+    "page_intervals_to": "to ",
+    "search_by_tag_app_text" : "Searcher by tag",
+    "search_by_tag_write_text" : "Write a tag: ",
+    "search_by_tag_hint_text" : "Tag",
+    "search_by_tag_search_button_text" : "Search"
+}

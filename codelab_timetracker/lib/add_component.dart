@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'generated/l10n.dart';
 
 class AddComponent extends StatefulWidget {
   final int fatherId;
@@ -24,7 +25,7 @@ class _AddComponentState extends State<AddComponent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Project or Task'),
+        title: Text(S.of(context).add_component_title),
       ),
       body: Container(
 
@@ -35,7 +36,7 @@ class _AddComponentState extends State<AddComponent> {
               children: <Widget> [
 
                 Padding(padding: EdgeInsets.all(16.0)),
-                Text('Select the type: '),
+                Text(S.of(context).add_component_select_type),
 
                 SizedBox(width: 40.0),  // Espacio entre titulo y opciones
 
@@ -59,7 +60,7 @@ class _AddComponentState extends State<AddComponent> {
             Row(
               children: <Widget> [
                 Padding(padding: EdgeInsets.all(16.0)),
-                Text('Name: '),
+                Text(S.of(context).add_component_name),
                 Expanded(
                     child: TextFormField(
                         textAlign: TextAlign.center,
@@ -71,7 +72,7 @@ class _AddComponentState extends State<AddComponent> {
                         validator: (value) {
                           if (value!.isEmpty)
                             {
-                              return 'Please enter some name.';
+                              return S.of(context).add_component_invalid_value_message;
                             }
                         }
                     )
@@ -84,14 +85,14 @@ class _AddComponentState extends State<AddComponent> {
             Row(
               children: <Widget> [
                 Padding(padding: EdgeInsets.all(16.0)),
-                Text('Associated Tags: '),
+                Text(S.of(context).add_component_tags),
                 Expanded(
 
                     child: TextField(
 
                       textAlign: TextAlign.center,
-                      decoration: (const InputDecoration(
-                          hintText: "Write tags separated by ','"
+                      decoration: (InputDecoration(
+                          hintText: S.of(context).add_component_hint_text
                       )),
                       onChanged: (value) {
                               setState(() {
@@ -115,7 +116,7 @@ class _AddComponentState extends State<AddComponent> {
         },
 
         icon: const Icon(Icons.save),
-        label: const Text("create"),
+        label: Text(S.of(context).add_component_create),
       ),
     );
   }
