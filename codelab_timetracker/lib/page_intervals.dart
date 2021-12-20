@@ -120,7 +120,7 @@ class _PageIntervalsState extends State<PageIntervals> {
         .first;
     String strInitialDate = parseTime(interval.initialDate);
     String strFinalDate = parseTime(interval.finalDate);
-    
+
     return ListTile(
       title: Text(
           S.of(context).page_intervals_from + strInitialDate + "\n" +
@@ -133,9 +133,9 @@ class _PageIntervalsState extends State<PageIntervals> {
   String parseTime(DateTime? time) {
     // All this unnecessary and ridiculous stuff is because the not nullable that is at bottom of the dart libraries.
     DateFormat formatter = DateFormat.yMMMd();
-    String strInitialDateNullable = time.toString();
-    DateTime initialDate = DateTime.parse(strInitialDateNullable);
-    String strInitialDate = formatter.format(initialDate);
-    return strInitialDate;
+    DateFormat hourFormatter = DateFormat.Hms();
+    String strDate = time.toString();
+    DateTime date = DateTime.parse(strDate);
+    return formatter.format(date) + " " + hourFormatter.format(date);
   }
 }
