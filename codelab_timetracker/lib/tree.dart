@@ -6,16 +6,18 @@ import 'dart:convert' as convert;
 final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 abstract class Component {
-  int id;
-  String name;
+  late final int id;
+  late final String name;
   DateTime? initialDate;
   DateTime? finalDate;
-  int duration;
+  late final int duration;
   List<dynamic> children = List<dynamic>.empty(growable: true);
 
-  // JSON's keys
-  // formerly List<dynamic>(); but now because of null safety it has to be
-  // initialized like that
+  Component(String componentName) {
+    name = componentName;
+    id = 0;
+    duration = 0;
+  }
 
   Component.fromJson(Map<String, dynamic> json)
       : id = json["ID"],
@@ -26,6 +28,8 @@ abstract class Component {
 }
 
 class Project extends Component {
+  Project() : super("root");
+
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
 
     if (json.containsKey('components')) {
@@ -62,9 +66,6 @@ class Task extends Component {
       children.add(Interval.fromJson(jsonChild));
     }
   }
-
-
-
 }
 
 
@@ -98,6 +99,15 @@ class Tree {
       root = Task.fromJson(dec);
     } else {
       assert(false, "neither project or task");
+    }
+  }
+
+  Tree.fromList(List<dynamic> searchResultsList) {
+    root = Project();
+    root.children = searchResultsList;
+
+    for (var i = 0; i < searchResultsList.length ; i ++){
+      searchResultsList[i]["father_name"] == "root";
     }
   }
 }
