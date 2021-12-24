@@ -5,7 +5,8 @@ import 'found_tags.dart';
 
 final http.Client client = http.Client();
 const String baseUrl = "http://10.0.2.2:8080";
-late int idFinal;
+late  String finalTag;
+late List<dynamic> searchedResults;
 
 Future<Tree> getTree(int id) async {
   var uri = Uri.parse("$baseUrl/get_tree?$id");
@@ -17,12 +18,17 @@ Future<Tree> getTree(int id) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response, then parse the JSON.
     Map<String, dynamic> decoded = convert.jsonDecode(response.body);
+
     return Tree(decoded);
   } else {
     // If the server did not return a 200 OK response, then throw an exception.
     print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
+}
+Future<Tree> getTreeSearch() async{
+
+  return Tree.fromList(searchedResults);
 }
 
 Future<void> start(int id) async {
@@ -53,6 +59,11 @@ Future<Tree> searchTags(String tag) async {
   final response = await client.get(uri);
   Map<String, dynamic> decoded = convert.jsonDecode(response.body);
 
-  idFinal = decoded['results'][0]['ID'];
+  //idFinal = decoded['results'][0]['ID'];
+  finalTag = tag;
+  searchedResults = decoded["results"];
+
+  print(decoded["results"]);
+
   return Tree.fromList(decoded["results"]);
 }

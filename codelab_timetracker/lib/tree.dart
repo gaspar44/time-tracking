@@ -104,11 +104,21 @@ class Tree {
 
   Tree.fromList(List<dynamic> searchResultsList) {
     root = Project();
-    root.children = searchResultsList;
+    root; //.children = searchResultsList;
 
     for (var i = 0; i < searchResultsList.length ; i ++){
       searchResultsList[i]["father_name"] == "root";
+
+      if (searchResultsList[i]['type'] == "Project") {
+        root.children.add(Project.fromJson(searchResultsList[i]));
+        // condition on key avoids infinite recursion
+      } else if (searchResultsList[i]['type'] == "Task") {
+        root.children.add(Task.fromJson(searchResultsList[i]));
+      } else {
+        assert(false);
+      }
     }
+    //print(searchResultsList);
   }
 }
 

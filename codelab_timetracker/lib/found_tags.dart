@@ -34,7 +34,7 @@ class _TagsFoundedState extends State<TagsFounded> {
 
   void _activateTimer() {
     _timer = Timer.periodic(const Duration(seconds: periodicRefresh), (Timer t) {
-      futureTree = getTree(id);
+      futureTree = getTreeSearch();
       setState(() {});
     });
   }
@@ -50,7 +50,7 @@ class _TagsFoundedState extends State<TagsFounded> {
   }
 
   void _refresh() async {
-    futureTree = getTree(id); // to be used in build()
+    futureTree = getTreeSearch(); // to be used in build()
     setState(() {});
   }
 
@@ -58,7 +58,7 @@ class _TagsFoundedState extends State<TagsFounded> {
   void initState() {
     super.initState();
     id = widget.id;
-    futureTree = getTree(id);
+    futureTree = getTreeSearch();
     _activateTimer();
   }
 
@@ -83,7 +83,7 @@ class _TagsFoundedState extends State<TagsFounded> {
                   IconButton(icon: const Icon(Icons.home),
                       onPressed: () {
                         while (Navigator.of(context).canPop()) {
-                          print("POP");
+                          //print(snapshot.data!.root.children[1]/*"POP"*/);
                           Navigator.popUntil(context, ModalRoute.withName('/'));
                         }
                         PageActivities(0);

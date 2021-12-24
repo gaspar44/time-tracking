@@ -56,7 +56,7 @@ class _searchByTagState extends State<searchByTag> {
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute<void>(
-            builder: (context) => TagsFounded(idFinal), //Meter ID DEL DECODED[RESULTS][0][ID]
+            builder: (context) => TagsFounded(0), //Meter ID DEL DECODED[RESULTS][0][ID]
 
           )
           );
