@@ -104,7 +104,6 @@ class _PageActivitiesState extends State<PageActivities> {
                     ));
                   }
                   )
-
                 ],
               ),
 
@@ -117,6 +116,7 @@ class _PageActivitiesState extends State<PageActivities> {
                     _buildRow(snapshot.data!.root.children[index], index),
                 separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
+
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
@@ -125,7 +125,7 @@ class _PageActivitiesState extends State<PageActivities> {
                     builder: (context) => AddComponent(id),
                   ));
                 },
-                child: Icon(Icons.add_circle_outline_sharp),
+                child: const Icon(Icons.add_circle_outline_sharp),
               ),
             );
           } else if (snapshot.hasError) {
@@ -192,6 +192,7 @@ class _PageActivitiesState extends State<PageActivities> {
         onTap: () => _navigateDownActivities(activity.id),
         leading: IconButton(
           icon: const Icon(Icons.info),
+          //trailing: "gola",
           onPressed: () {
             _navigateDownProjectIntervals(activity.id);
             },

@@ -81,7 +81,7 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
             body: ListView.separated(
               // it's like ListView.builder() but better because it includes a separator between items
               padding: const EdgeInsets.all(16.0),
-              itemCount: -1, //Revisar bien!
+              itemCount: 1,
               itemBuilder: (BuildContext context, int index) =>
                   _buildRow(snapshot.data!.root),
               separatorBuilder: (BuildContext context, int index) =>
@@ -105,18 +105,27 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
     if (component.duration == 0) {
       return ListTile();
     }
+
     String strDuration = Duration(seconds: component.duration)
         .toString()
         .split('.')
         .first;
     String strInitialDate = parseTime(component.initialDate);
     String strFinalDate = parseTime(component.finalDate);
-    return ListTile(
-      title: Text(
-          S.of(context).page_intervals_from + strInitialDate + "\n" +
+    return Card(
+      //child: ,
+      child: Column (
+        children: <Widget> [
+          ListTile(
+            title: Text(
+              S.of(context).page_intervals_from + strInitialDate + "\n" +
               S.of(context).page_intervals_to + strFinalDate
-      ),
-      trailing: Text(strDuration),
+              ),
+            trailing: Text(strDuration),
+          ),
+          Text(S.of(context).search_by_tag_hint_text + "\n" + component.tags.toString())
+        ],
+      )
     );
   }
 

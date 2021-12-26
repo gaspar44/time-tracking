@@ -8,6 +8,7 @@ final DateFormat _dateFormatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
 abstract class Component {
   late final int id;
   late final String name;
+  late final List<dynamic> tags;
   DateTime? initialDate;
   DateTime? finalDate;
   late final int duration;
@@ -24,6 +25,7 @@ abstract class Component {
         name = json['name'],
         initialDate = json['start_time'] == null ? null : _dateFormatter.parse(json['start_time']),
         finalDate = json['end_time'] == null ? null : _dateFormatter.parse(json['end_time']),
+        tags = json['tags'],
         duration = json['duration'];
 }
 

@@ -74,9 +74,6 @@ class _PageIntervalsState extends State<PageIntervals> {
                         print("pop");
                         Navigator.of(context).pop();
                       }
-                      /* this works also:
-    Navigator.popUntil(context, ModalRoute.withName('/'));
-  */
                       PageActivities(0);
                     }),
               ],
