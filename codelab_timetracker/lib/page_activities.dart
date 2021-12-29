@@ -107,15 +107,18 @@ class _PageActivitiesState extends State<PageActivities> {
                 ],
               ),
 
-              body: ListView.separated(
+              body: GridView.builder(
                 // it's like ListView.builder() but better
                 // because it includes a separator between items
                 padding: const EdgeInsets.all(16.0),
                 itemCount: snapshot.data!.root.children.length,
+                
                 itemBuilder: (BuildContext context, int index) =>
                     _buildRow(snapshot.data!.root.children[index], index),
-                separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
+                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1,
+                   childAspectRatio: 4, mainAxisSpacing: 16,
+
+                 ),
 
               ),
               floatingActionButton: FloatingActionButton(
@@ -180,6 +183,9 @@ class _PageActivitiesState extends State<PageActivities> {
 
 
   Widget _buildRow(Component activity, int index) {
+
+    final Color colorProject = Colors.lightBlueAccent.withOpacity(0.5);
+    final Color colorTask = Colors.lightGreenAccent.withOpacity(0.5);
     String strDuration = Duration(seconds: activity.duration)
         .toString()
         .split('.')
@@ -187,10 +193,17 @@ class _PageActivitiesState extends State<PageActivities> {
     // split by '.' and taking first element of resulting list removes the microseconds part
     if (activity is Project) {
       return (ListTile(
-        title: Text(activity.name + ' - Project'),
-        trailing: Text(strDuration),
+
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+        title: Text('\n' + activity.name + '\n  Project',
+        style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,),
+        trailing: Text('\n'+strDuration),
+        
+        tileColor: colorProject,
         onTap: () => _navigateDownActivities(activity.id),
         leading: IconButton(
+          alignment: Alignment.center,
           icon: const Icon(Icons.info),
           //trailing: "gola",
           onPressed: () {
@@ -201,14 +214,21 @@ class _PageActivitiesState extends State<PageActivities> {
     } else if (activity is Task) {
       // at the moment is the same, maybe changes in the future
       Widget trailing;
-      trailing = Text(strDuration);
+      trailing = Text('\n'+strDuration);
       return ListTile(
-        title: ((Text(activity.name  + ' - Task'))
+
+
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+        title: Text('\n' + activity.name + '\n  Task',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
 
         trailing: trailing,
+        tileColor: colorTask,
         onTap: () => _navigateDownIntervals(activity.id),
         leading: IconButton(
+            alignment: Alignment.center,
             icon: Icon((activity).active ? Icons.pause : Icons.play_arrow),
             onPressed: () {
               if ((activity).active) {
