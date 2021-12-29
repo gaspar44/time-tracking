@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_intervals_time_intervals":
             MessageLookupByLibrary.simpleMessage("Intervalos de  "),
         "page_intervals_to": MessageLookupByLibrary.simpleMessage("hasta "),
+        "project_name": MessageLookupByLibrary.simpleMessage("Proyecto"),
         "search_by_tag_app_text":
             MessageLookupByLibrary.simpleMessage("Búsqueda por etiqueta"),
         "search_by_tag_hint_text":
@@ -47,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "search_by_tag_search_button_text":
             MessageLookupByLibrary.simpleMessage("Buscar"),
         "search_by_tag_write_text":
-            MessageLookupByLibrary.simpleMessage("Escriba una etiqueta: ")
+            MessageLookupByLibrary.simpleMessage("Escriba una etiqueta: "),
+        "task_name": MessageLookupByLibrary.simpleMessage("Tarea")
       };
 }

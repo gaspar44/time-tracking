@@ -195,7 +195,7 @@ class _PageActivitiesState extends State<PageActivities> {
       return (ListTile(
 
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
-        title: Text('\n' + activity.name + '\n  Project',
+        title: Text('\n' + activity.name + '\n' + S.of(context).project_name,
         style: TextStyle(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,),
         trailing: Text('\n'+strDuration),
@@ -219,7 +219,7 @@ class _PageActivitiesState extends State<PageActivities> {
 
 
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
-        title: Text('\n' + activity.name + '\n  Task',
+        title: Text('\n' + activity.name + '\n' + S.of(context).task_name,
           style: TextStyle(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),

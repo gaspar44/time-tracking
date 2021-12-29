@@ -199,6 +199,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Proyecto`
+  String get project_name {
+    return Intl.message(
+      'Proyecto',
+      name: 'project_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tarea`
+  String get task_name {
+    return Intl.message(
+      'Tarea',
+      name: 'task_name',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

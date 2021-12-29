@@ -39,12 +39,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "page_intervals_time_intervals":
             MessageLookupByLibrary.simpleMessage("Time intervals of "),
         "page_intervals_to": MessageLookupByLibrary.simpleMessage("to "),
+        "project_name": MessageLookupByLibrary.simpleMessage("Project"),
         "search_by_tag_app_text":
             MessageLookupByLibrary.simpleMessage("Searcher by tag"),
         "search_by_tag_hint_text": MessageLookupByLibrary.simpleMessage("Tag"),
         "search_by_tag_search_button_text":
             MessageLookupByLibrary.simpleMessage("Search"),
         "search_by_tag_write_text":
-            MessageLookupByLibrary.simpleMessage("Write a tag: ")
+            MessageLookupByLibrary.simpleMessage("Write a tag: "),
+        "task_name": MessageLookupByLibrary.simpleMessage("Task")
       };
 }

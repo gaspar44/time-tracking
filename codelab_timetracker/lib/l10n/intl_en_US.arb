@@ -13,5 +13,7 @@
     "search_by_tag_app_text" : "Searcher by tag",
     "search_by_tag_write_text" : "Write a tag: ",
     "search_by_tag_hint_text" : "Tag",
-    "search_by_tag_search_button_text" : "Search"
+    "search_by_tag_search_button_text" : "Search",
+    "project_name" : "Project",
+    "task_name" : "Task"
 }

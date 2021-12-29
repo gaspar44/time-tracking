@@ -13,5 +13,7 @@
     "search_by_tag_app_text" : "Búsqueda por etiqueta",
     "search_by_tag_write_text" : "Escriba una etiqueta: ",
     "search_by_tag_hint_text": "Etiqueta",
-    "search_by_tag_search_button_text" : "Buscar"
+    "search_by_tag_search_button_text" : "Buscar",
+    "project_name" : "Proyecto",
+    "task_name" : "Tarea"
 }
