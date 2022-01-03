@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_component_title":
             MessageLookupByLibrary.simpleMessage(" Agregar Proyecto o Tarea"),
         "home_title": MessageLookupByLibrary.simpleMessage("Inicio"),
+        "locale_name": MessageLookupByLibrary.simpleMessage("es_VE"),
         "page_intervals_from": MessageLookupByLibrary.simpleMessage("desde "),
         "page_intervals_time_intervals":
             MessageLookupByLibrary.simpleMessage("Intervalos de  "),

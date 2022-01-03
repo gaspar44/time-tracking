@@ -83,7 +83,7 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
               padding: const EdgeInsets.all(16.0),
               itemCount: 1,
               itemBuilder: (BuildContext context, int index) =>
-                  _buildRow(snapshot.data!.root),
+                  _buildRow(snapshot.data!.root,S.of(context).locale_name),
               separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
             ),
@@ -101,7 +101,7 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
       },
     );
   }
-  Widget _buildRow(Tree.Component component) {
+  Widget _buildRow(Tree.Component component,String localeName) {
     if (component.duration == 0) {
       return ListTile();
     }
@@ -110,8 +110,8 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
         .toString()
         .split('.')
         .first;
-    String strInitialDate = parseTime(component.initialDate);
-    String strFinalDate = parseTime(component.finalDate);
+    String strInitialDate = parseTime(component.initialDate, localeName);
+    String strFinalDate = parseTime(component.finalDate, localeName);
     return Card(
       //child: ,
       child: Column (
@@ -129,10 +129,10 @@ class _ProjectIntervalsState extends State<ProjectIntervals> {
     );
   }
 
-  String parseTime(DateTime? time) {
+  String parseTime(DateTime? time,String localeName) {
     // All this unnecessary and ridiculous stuff is because the not nullable that is at bottom of the dart libraries.
     DateFormat formatter = DateFormat.yMMMd();
-    DateFormat hourFormatter = DateFormat.Hms();
+    DateFormat hourFormatter = localeName == "en_US" ? DateFormat("hh:mm a") : DateFormat.Hms();
     String strDate = time.toString();
     DateTime date = DateTime.parse(strDate);
     return formatter.format(date) + " " + hourFormatter.format(date);

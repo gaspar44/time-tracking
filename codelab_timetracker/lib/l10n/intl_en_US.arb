@@ -1,4 +1,5 @@
 {
+    "locale_name" : "en_US",
     "home_title": "Home",
     "add_component_create": "create",
     "add_component_title" : "Add Project or Task",

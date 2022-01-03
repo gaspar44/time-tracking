@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_component_title":
             MessageLookupByLibrary.simpleMessage("Add Project or Task"),
         "home_title": MessageLookupByLibrary.simpleMessage("Home"),
+        "locale_name": MessageLookupByLibrary.simpleMessage("en_US"),
         "page_intervals_from": MessageLookupByLibrary.simpleMessage("from "),
         "page_intervals_time_intervals":
             MessageLookupByLibrary.simpleMessage("Time intervals of "),

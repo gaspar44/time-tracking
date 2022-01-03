@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:codelab_timetracker/page_activities.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,7 @@ class _PageIntervalsState extends State<PageIntervals> {
               padding: const EdgeInsets.all(16.0),
               itemCount: numChildren,
               itemBuilder: (BuildContext context, int index) =>
-                  _buildRow(snapshot.data!.root.children[index], index),
+                  _buildRow(snapshot.data!.root.children[index], index, S.of(context).locale_name),
               separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
             ),
@@ -110,13 +111,13 @@ class _PageIntervalsState extends State<PageIntervals> {
       },
     );
   }
-  Widget _buildRow(Tree.Interval interval, int index) {
+  Widget _buildRow(Tree.Interval interval, int index, String localeName) {
     String strDuration = Duration(seconds: interval.duration)
         .toString()
         .split('.')
         .first;
-    String strInitialDate = parseTime(interval.initialDate);
-    String strFinalDate = parseTime(interval.finalDate);
+    String strInitialDate = parseTime(interval.initialDate, localeName);
+    String strFinalDate = parseTime(interval.finalDate, localeName);
 
     return ListTile(
       title: Text(
@@ -127,10 +128,10 @@ class _PageIntervalsState extends State<PageIntervals> {
     );
   }
 
-  String parseTime(DateTime? time) {
+  String parseTime(DateTime? time,String localeName) {
     // All this unnecessary and ridiculous stuff is because the not nullable that is at bottom of the dart libraries.
     DateFormat formatter = DateFormat.yMMMd();
-    DateFormat hourFormatter = DateFormat.Hms();
+    DateFormat hourFormatter = localeName == "en_US" ? DateFormat("hh:mm a") : DateFormat.Hms();
     String strDate = time.toString();
     DateTime date = DateTime.parse(strDate);
     return formatter.format(date) + " " + hourFormatter.format(date);

@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `es_VE`
+  String get locale_name {
+    return Intl.message(
+      'es_VE',
+      name: 'locale_name',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Inicio`
   String get home_title {
     return Intl.message(
